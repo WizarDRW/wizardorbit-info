@@ -1,28 +1,58 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+  <v-app>
+    <router-view name="header"></router-view>
+    <v-main>
+      <div class="content">
+        <router-view></router-view>
+      </div>
+    </v-main>
+    <router-view name="footer"></router-view>
+  </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
+import ApiService from "@/core/services/api.service.js";
 export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
-}
+  components: {},
+  data() {
+    return {
+      option: {},
+      loading: true,
+    };
+  },
+  beforeCreate() {
+    ApiService.get("/options").then((x) => {
+      localStorage.setItem("option", JSON.stringify(x.data));
+      this.loading = false;
+    });
+  },
+  metaInfo() {
+    return {
+      title: "Sihirbaz Forum",
+      meta: [
+        {
+          name: "description",
+          content:
+            "En yeni teknoloji haberleri, Bilgi öğrenmek için yazılar ve sorunlarınıza çözüm için soru cevaplar. ",
+        },
+        {
+          property: "og:title",
+          content: "Sihirbaz Forum",
+        },
+        { property: "og:sihirbazforum.com", content: "Sihirbaz" },
+        { property: "og:type", content: "website" },
+        { name: "robots", content: "index,follow" },
+      ],
+    };
+  },
+};
 </script>
-
 <style>
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;1,100;1,200;1,300;1,400;1,500&display=swap");
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  font-family: "Montserrat", sans-serif;
+}
+.content {
+  margin-top: 30px;
 }
 </style>
