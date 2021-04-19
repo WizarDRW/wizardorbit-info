@@ -11,12 +11,7 @@
         <span></span>
       </div>
     </section>
-    <section v-if="loading" id="loading-content">
-      <div class="center-content">
-        <loader color="#6570E2"></loader>
-      </div>
-    </section>
-    <section v-else class="section section-skew">
+    <section class="section section-skew">
       <div class="container">
         <card shadow class="card-profile mt--400" no-body>
           <div class="px-4">
@@ -75,8 +70,8 @@
           </div>
           <div class="order-lg-2">
             <img
-              v-if="user.image_path"
-              :src="user.image_path"
+              v-if="blog.user_data.image_path"
+              :src="blog.user_data.image_path"
               width="10%"
               class="rounded-circle"
             />
@@ -89,10 +84,10 @@
           <div class="user-info">
             <div class="h6 font-weight-300">
               <i class="ni location_pin"></i
-              >{{ `${user.first_name}  ${user.last_name}` }}
+              >{{ `${blog.user_data.first_name}  ${blog.user_data.last_name}` }}
             </div>
             <div class="h6 mt-1">
-              <i class="ni business_briefcase-24"></i>{{ user.title }}
+              <i class="ni business_briefcase-24"></i>{{ blog.user_data.title }}
             </div>
           </div>
         </card>
@@ -125,10 +120,6 @@ export default {
   mounted() {
     ApiService.get(`/blogs/id/${this.$route.params.id}`).then((x) => {
       this.blog = x.data;
-      ApiService.get(`/users/id/${x.data.user_id}`).then((u) => {
-        this.user = u.data;
-        this.loading = false;
-      });
       fetch("https://api.ipify.org?format=json")
         .then((response) => response.json())
         .then((response) => {

@@ -1,24 +1,30 @@
 <template>
   <div class="position-relative">
-    <v-row>
-      <v-col md="6">
-        <carousel :_news="JSON.stringify(news)"></carousel>
-      </v-col>
-      <v-col md="6">
-        <top :_news="JSON.stringify(news)"></top>
-      </v-col>
-    </v-row>
     <v-container>
+      <v-row>
+        <v-col md="6">
+          <carousel :_news="JSON.stringify(news)"></carousel>
+        </v-col>
+        <v-col md="6">
+          <top :_news="JSON.stringify(news)"></top>
+        </v-col>
+      </v-row>
       <v-row>
         <v-col sm="12" md="8">
           <time-line :_news="JSON.stringify(news)"></time-line>
         </v-col>
         <v-col md="4">
           <impression :_news="JSON.stringify(news)"></impression>
-          <br>
-          <impression :_news="JSON.stringify(news)" :_ly="'monthly'"></impression>
-          <br>
-          <impression :_news="JSON.stringify(news)" :_ly="'yearly'"></impression>
+          <br />
+          <impression
+            :_news="JSON.stringify(news)"
+            :_ly="'monthly'"
+          ></impression>
+          <br />
+          <impression
+            :_news="JSON.stringify(news)"
+            :_ly="'yearly'"
+          ></impression>
         </v-col>
       </v-row>
     </v-container>
@@ -49,16 +55,9 @@ export default {
     };
   },
   mounted() {
-    ApiService.get("/news").then((x) => {
-        var arr = [];
+    ApiService.get("news").then((x) => {
       this.loading = false;
-      x.data.forEach((element) => {
-        ApiService.get(`/users/id/${element.user_id}`).then((u) => {
-          arr.push({...element, user_data: u.data})
-          this.loading = false;
-        });
-      });
-      this.news = arr;
+      this.news = x.data;
     });
   },
   methods: {
@@ -68,7 +67,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.position-relative{
+.position-relative {
   margin-top: 30px;
 }
 </style>

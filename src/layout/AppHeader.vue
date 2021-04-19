@@ -1,24 +1,13 @@
 <template>
   <div class="overflow-hidden" style="height: 90px">
     <v-app-bar
-      color="#43a047"
       dark
       dense
-      shrink-on-scroll
-      prominent
-      src="https://picsum.photos/1920/1080?random"
-      fade-img-on-scroll
-      scroll-target="#scrolling-techniques-5"
-      :class="`${headerStyle}`"
+      app
     >
-      <template v-slot:img="{ props }">
-        <v-img
-          v-bind="props"
-          gradient="to top right, rgba(55,236,186,.8), rgba(25,32,72,1)"
-        ></v-img>
-      </template>
-
-      <img :src="logo" width="200px" alt="sihirbaz" />
+    <router-link to="/">
+      <img src="@/assets/sihirbazforum.png" width="150px" alt="sihirbaz" />
+      </router-link>
       <v-spacer></v-spacer>
       <div class="nav-close">
         <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
@@ -65,8 +54,7 @@
         ></v-text-field>
       </div>
     </v-app-bar>
-    <app-sub-header></app-sub-header>
-    <v-navigation-drawer v-model="drawer" absolute temporary>
+    <v-navigation-drawer v-model="drawer" absolute temporary app>
       <v-list nav dense>
         <div v-for="item in categories" :key="item._id">
           <h3>{{ item.name }}</h3>
@@ -90,7 +78,6 @@ import ApiService from "@/core/services/api.service.js";
 
 export default {
   components: {
-    AppSubHeader: () => import("./AppSubHeader"),
   },
   data() {
     return {
@@ -150,14 +137,13 @@ export default {
 
 <style scoped>
 .navbar-nav {
-  display: flex;
-  padding: 12px;
 }
 .nav-close {
   padding: 5px;
 }
 .search {
   padding: 10px;
+  margin: 25px 0 0 0;
 }
 a {
   color: #fff !important;
@@ -181,7 +167,7 @@ a span {
   display: block;
 }
 .v-list-item:hover {
-  background-color: #383838;
+  background-color: #252525;
 }
 @media only screen and (max-width: 960px) {
   .navbar-nav {
@@ -194,39 +180,5 @@ a span {
 ul li {
   list-style-type: none;
   padding: 5px 0 0 0;
-}
-.pos-rel {
-  height: 65px !important;
-  position: relative;
-  transition: all .5s;
-}
-.pos-fix {
-  height: 65px !important;
-  position: fixed;
-  top: 0;
-  z-index: 999;
-  animation: smoothScroll 0.5s forwards;
-}
-.pos-fix-hidden {
-  height: 65px !important;
-  position: fixed;
-  z-index: 999;
-  animation: smoothScrollHidden 0.5s forwards;
-}
-@keyframes smoothScroll {
-  0% {
-    transform: translateY(-65px);
-  }
-  100% {
-    transform: translateY(0px);
-  }
-}
-@keyframes smoothScrollHidden {
-  0% {
-    top: 0px;
-  }
-  100% {
-    top: -65px;
-  }
 }
 </style>

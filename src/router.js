@@ -2,9 +2,8 @@ import Vue from "vue";
 import Router from "vue-router";
 import AppHeader from "./layout/AppHeader";
 import AppFooter from "./layout/AppFooter";
-import Components from "./views/Components.vue";
-import Blog from "./views/components/blogs/Blog.vue";
-import About from "./views/components/abouts/About.vue";
+import Blog from "./views/blogs/Blog.vue";
+import About from "./views/abouts/About.vue";
 
 Vue.use(Router);
 var currentRouteName = "Home";
@@ -15,13 +14,14 @@ export default new Router({
     {
       path: "/",
       name: "Home",
+      redirect: "/news",
       beforeEnter: (to, from, next) => {
         currentRouteName = "Home";
         next();
       },
       components: {
         header: AppHeader,
-        default: Components,
+        default: { render(c) { return c('router-view') } },
         footer: AppFooter
       }
     },
@@ -35,14 +35,14 @@ export default new Router({
       },
       components: {
         header: AppHeader,
-        default: () => import("./views/components/news/News.vue"),
+        default: () => import("./views/news/News.vue"),
         footer: AppFooter
       },
       children: [
         {
           path: "/news/showcase",
           name: "n_showcase",
-          component: () => import("./views/components/news/components/Showcase.vue")
+          component: () => import("./views/news/components/Showcase.vue")
         }
       ]
     },
@@ -55,7 +55,7 @@ export default new Router({
       },
       components: {
         header: AppHeader,
-        default: () => import("./views/components/news/components/Content.vue"),
+        default: () => import("./views/news/components/Content.vue"),
         footer: AppFooter
       }
     },
@@ -72,21 +72,21 @@ export default new Router({
         default: Blog,
         footer: AppFooter
       },
-      children:[
+      children: [
         {
           path: "/blog/showcase",
           name: "showcase",
-          component: () => import("./views/components/blogs/components/Showcase.vue")
+          component: () => import("./views/blogs/components/Showcase.vue")
         },
         {
           path: "/blog/category",
           name: "category",
-          component: () => import("./views/components/blogs/components/Category.vue")
+          component: () => import("./views/blogs/components/Category.vue")
         },
         {
           path: "/blog/new-post",
           name: "newpost",
-          component: () => import("./views/components/blogs/components/NewPost.vue")
+          component: () => import("./views/blogs/components/NewPost.vue")
         }
       ]
     },
@@ -99,7 +99,7 @@ export default new Router({
       },
       components: {
         header: AppHeader,
-        default: () => import("./views/components/blogs/components/Content.vue"),
+        default: () => import("./views/blogs/components/Content.vue"),
         footer: AppFooter
       }
     },
@@ -112,7 +112,7 @@ export default new Router({
       },
       components: {
         header: AppHeader,
-        default: () => import("./views/components/Find.vue"),
+        default: () => import("./views/Find.vue"),
         footer: AppFooter
       }
     },
@@ -135,7 +135,7 @@ export default new Router({
           currentRouteName = "ourhistory";
           next();
         },
-        component: () => import("./views/components/abouts/components/OurHistory.vue")
+        component: () => import("./views/abouts/components/OurHistory.vue")
       }]
     },
     {

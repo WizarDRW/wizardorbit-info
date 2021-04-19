@@ -27,8 +27,8 @@
           </div>
           <div class="order-lg-2">
             <img
-              v-if="user.image_path"
-              :src="user.image_path"
+              v-if="news.user_data.image_path"
+              :src="news.user_data.image_path"
               width="10%"
               class="rounded-circle"
             />
@@ -42,10 +42,10 @@
           <div class="user-info">
             <div class="h6 font-weight-300">
               <i class="ni location_pin"></i
-              >{{ `${user.first_name}  ${user.last_name}` }}
+              >{{ `${news.user_data.first_name}  ${news.user_data.last_name}` }}
             </div>
             <div class="h6 mt-1">
-              <i class="ni business_briefcase-24"></i>{{ user.title }}
+              <i class="ni business_briefcase-24"></i>{{ news.user_data.title }}
             </div>
           </div>
         </card>
@@ -72,18 +72,14 @@ export default {
   },
   data() {
     return {
-      user: {},
       news: {},
       loading: true,
     };
   },
   mounted() {
-    ApiService.get(`/news/id/${this.$route.params.id}`).then((x) => {
+    ApiService.get(`news/id/${this.$route.params.id}`).then((x) => {
       this.news = x.data;
-      ApiService.get(`/users/id/${x.data.user_id}`).then((u) => {
-        this.user = u.data;
-        this.loading = false;
-      });
+      this.loading = false;
       fetch("https://api.ipify.org?format=json")
         .then((response) => response.json())
         .then((response) => {

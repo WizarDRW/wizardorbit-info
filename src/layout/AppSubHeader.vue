@@ -1,6 +1,6 @@
 <template>
     <div class="sub-header">
-Favori Kategorilerin listeleneceği yer
+        <slot name="categories"></slot>
     </div>
 </template>
 
