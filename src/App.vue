@@ -12,6 +12,7 @@
 
 <script>
 import ApiService from "@/core/services/api.service.js";
+import { CURRENT_USER } from "@/core/services/store/auth.module";
 export default {
   components: {},
   data() {
@@ -20,7 +21,8 @@ export default {
       loading: true,
     };
   },
-  beforeCreate() {
+  async beforeCreate() {
+    await this.$store.dispatch(CURRENT_USER)
     ApiService.get("/options").then((x) => {
       localStorage.setItem("option", JSON.stringify(x.data));
       this.loading = false;

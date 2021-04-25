@@ -3,12 +3,14 @@ import JwtService from "@/core/services/jwt.service";
 
 // action types
 export const VERIFY_AUTH = "verifyAuth";
+export const CURRENT_USER = "currentUser";
 export const LOGIN = "login";
 export const LOGOUT = "logout";
 export const REGISTER = "register";
 export const UPDATE_USER = "updateUser";
 
 // mutation types
+export const SET_CURRENT_USER = "setCurrentUser";
 export const PURGE_AUTH = "logOut";
 export const SET_AUTH = "setUser";
 export const SET_ERROR = "setError";
@@ -39,6 +41,7 @@ const actions = {
         .then(({ data }) => {
           context.commit(SET_AUTH, data);
           resolve(data);
+          context.commit(CURRENT_USER)
         })
         .catch(({ response }) => {
           context.commit(SET_ERROR, response.data.errors);
@@ -50,7 +53,7 @@ const actions = {
   },
   [REGISTER](context, credentials) {
     return new Promise((resolve, reject) => {
-      ApiService.post("users", { user: credentials })
+      ApiService.post("users", credentials)
         .then(({ data }) => {
           context.commit(SET_AUTH, data);
           resolve(data);
@@ -89,10 +92,29 @@ const actions = {
       context.commit(SET_AUTH, data);
       return data;
     });
+  },
+  [CURRENT_USER](context) {
+    if (JwtService.getToken()) {
+      return new Promise((resolve, reject) => {
+        ApiService.setHeader();
+        ApiService.get("users/whoami")
+          .then(({ data }) => {
+            context.commit(SET_CURRENT_USER, data);
+            resolve(data);
+          })
+          .catch((response) => {
+            context.commit(PURGE_AUTH);
+            reject(response);
+          });
+      })
+    }
   }
 };
 
 const mutations = {
+  [SET_CURRENT_USER](state, data) {
+    state.user = data;
+  },
   [SET_ERROR](state, error) {
     state.errors = error;
   },

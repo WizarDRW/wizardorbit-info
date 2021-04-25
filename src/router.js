@@ -43,21 +43,55 @@ export default new Router({
           path: "/news/showcase",
           name: "n_showcase",
           component: () => import("./views/news/components/Showcase.vue")
-        }
+        },
+        {
+          path: "/news/:id",
+          name: "newscontent",
+          beforeEnter: (to, from, next) => {
+            currentRouteName = "newscontent";
+            next();
+          },
+          components: {
+            header: AppHeader,
+            default: () => import("./views/news/components/Content.vue"),
+            footer: AppFooter
+          }
+        },
       ]
     },
     {
-      path: "/news/:id",
-      name: "newscontent",
+      path: "/forms",
+      redirect: "/forms/showcase",
+      name: "forms",
       beforeEnter: (to, from, next) => {
-        currentRouteName = "newscontent";
+        currentRouteName = "forms";
         next();
       },
       components: {
         header: AppHeader,
-        default: () => import("./views/news/components/Content.vue"),
+        default: () => import("./views/forms/Form.vue"),
         footer: AppFooter
-      }
+      },
+      children: [
+        {
+          path: "/forms/showcase",
+          name: "f_showcase",
+          component: () => import("./views/forms/components/Showcase.vue")
+        },
+        {
+          path: "/forms/:id",
+          name: "formcontent",
+          beforeEnter: (to, from, next) => {
+            currentRouteName = "formcontent";
+            next();
+          },
+          components: {
+            header: AppHeader,
+            default: () => import("./views/forms/components/Content.vue"),
+            footer: AppFooter
+          }
+        },
+      ]
     },
     {
       path: "/blog",

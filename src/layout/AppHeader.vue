@@ -1,12 +1,8 @@
 <template>
   <div class="overflow-hidden" style="height: 90px">
-    <v-app-bar
-      dark
-      dense
-      app
-    >
-    <router-link to="/">
-      <img src="@/assets/sihirbazforum.png" width="150px" alt="sihirbaz" />
+    <v-app-bar dark dense app>
+      <router-link to="/">
+        <img src="@/assets/sihirbazforum.png" width="150px" alt="sihirbaz" />
       </router-link>
       <v-spacer></v-spacer>
       <div class="nav-close">
@@ -53,6 +49,98 @@
           prepend-inner-icon="mdi-magnify"
         ></v-text-field>
       </div>
+      <div v-if="$store.getters.isAuthenticated">
+        <v-menu left bottom offset-y>
+          <template v-slot:activator="{ on, attrs }">
+            <v-avatar
+              v-if="$store.getters.currentUser.image_path"
+              v-bind="attrs"
+              v-on="on"
+            >
+              <img
+                :src="$store.getters.currentUser.image_path"
+                :alt="$store.getters.currentUser.first_name"
+              />
+            </v-avatar>
+            <v-avatar v-else v-bind="attrs" v-on="on">
+              <span class="white--text headline">{{
+                firstChar(
+                  $store.getters.currentUser.first_name ? $store.getters.currentUser.first_name:'',
+                  $store.getters.currentUser.last_name ? $store.getters.currentUser.last_name:''
+                )
+              }}</span>
+            </v-avatar>
+          </template>
+          <v-list>
+            <v-list-item @click="open()">
+              <v-list-item-title
+                ><v-icon>mdi-solar-panel</v-icon>&nbsp;Panele
+                Git</v-list-item-title
+              >
+            </v-list-item>
+            <v-list-item @click="() => {}">
+              <v-list-item-title
+                ><v-icon>mdi-message</v-icon>&nbsp; Mesajlar</v-list-item-title
+              >
+            </v-list-item>
+            <v-list-item
+              @click="
+                () => {
+                  resetDialog = true;
+                }
+              "
+            >
+              <v-list-item-title
+                ><v-icon>mdi-lock-reset</v-icon>&nbsp; Şifre
+                Değiştir</v-list-item-title
+              >
+            </v-list-item>
+            <v-divider></v-divider>
+            <v-list-item @click="logout()">
+              <v-list-item-title
+                ><v-icon>mdi-lock</v-icon>&nbsp;Çıkış</v-list-item-title
+              >
+            </v-list-item>
+          </v-list>
+        </v-menu>
+      </div>
+      <div class="auth" v-else>
+        <v-menu
+          v-model="menu"
+          :close-on-content-click="false"
+          :nudge-width="200"
+          offset-y
+        >
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn color="success" text dark v-bind="attrs" v-on="on">
+              Giriş
+            </v-btn>
+          </template>
+          <v-card>
+            <v-tabs
+              v-model="tab"
+              background-color="primary accent-4"
+              align-with-title
+            >
+              <v-tabs-slider color="yellow"></v-tabs-slider>
+              <v-tab href="#login"> Kullanıcı Girişi </v-tab>
+              <v-tab href="#register"> Kayıt Ol </v-tab>
+            </v-tabs>
+            <v-tabs-items v-model="tab">
+              <v-tab-item value="login">
+                <v-card flat>
+                  <login v-on:login="login"></login>
+                </v-card>
+              </v-tab-item>
+              <v-tab-item value="register">
+                <v-card flat>
+                  <register></register>
+                </v-card>
+              </v-tab-item>
+            </v-tabs-items>
+          </v-card>
+        </v-menu>
+      </div>
     </v-app-bar>
     <v-navigation-drawer v-model="drawer" absolute temporary app>
       <v-list nav dense>
@@ -75,21 +163,26 @@
 
 <script>
 import ApiService from "@/core/services/api.service.js";
+import { LOGOUT } from "@/core/services/store/auth.module";
 
 export default {
   components: {
+    Login: () => import("@/views/auth/Login.vue"),
+    Register: () => import("@/views/auth/Register.vue"),
   },
   data() {
     return {
       logo: "",
       categories: [],
       socials: [],
-      user: null,
       find: "",
       drawer: false,
       group: null,
       windowTop: 0,
       headerStyle: "pos-rel",
+      menu: false,
+      tab: "login",
+      isLogin: false,
     };
   },
   created() {
@@ -106,29 +199,45 @@ export default {
     document.title = json.title;
   },
   methods: {
-    isLogin() {
-      var u = localStorage.getItem("USER_INFO");
-      if (u) {
-        this.user = u;
-        return true;
-      } else return false;
+    /**
+     * User Logout
+     */
+    async logout() {
+      await this.$store.dispatch(LOGOUT);
     },
-    logout() {
-      localStorage.removeItem("USER_INFO");
-      this.$router.push({ name: "Home" });
+    /**
+     * Return user's full name with user's data
+     * @param {String} first_name
+     * @param {String} last_name
+     */
+    firstChar(first_name, last_name) {
+      let first_char = first_name.split("")[0] + "" + last_name.split("")[0];
+      return first_char;
     },
+    /**
+     * Search objects
+     */
     search() {
       if (this.find != "") this.$router.push("/find/" + this.find);
     },
-    onScroll() {
-      this.windowTop = window.top.scrollY;
+    /**
+     * Admin panel open
+     */
+    open() {
+      window.open(
+        `https://panel.sihirbazforum.com/auth/${localStorage.getItem(
+          "id_token"
+        )}`
+      );
     },
   },
   watch: {
     windowTop(newValue, oldValue) {
       if (newValue == 0) this.headerStyle = "pos-rel";
-      else if (newValue < oldValue && newValue > 65) this.headerStyle = "pos-fix";
-      else if (newValue > oldValue && newValue >= 65) this.headerStyle = "pos-fix-hidden";
+      else if (newValue < oldValue && newValue > 65)
+        this.headerStyle = "pos-fix";
+      else if (newValue > oldValue && newValue >= 65)
+        this.headerStyle = "pos-fix-hidden";
     },
   },
 };
@@ -136,8 +245,6 @@ export default {
 
 
 <style scoped>
-.navbar-nav {
-}
 .nav-close {
   padding: 5px;
 }

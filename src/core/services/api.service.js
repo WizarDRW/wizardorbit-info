@@ -35,8 +35,8 @@ const ApiService = {
    * @param slug
    * @returns {*}
    */
-  get(resource, slug = "") {
-    return Vue.axios.get(`${resource}/${slug}`, this.setHeader()).catch(error => {
+  async get(resource, slug = "") {
+    return await Vue.axios.get(`${resource}/${slug}`, this.setHeader()).catch(error => {
       // console.log(error);
       throw new Error(`ApiService ${error}`);
     });
@@ -48,12 +48,12 @@ const ApiService = {
    * @param params
    * @returns {*}
    */
-  post(resource, params) {
-    return Vue.axios.post(`${resource}`, params);
+  async post(resource, params) {
+    return await Vue.axios.post(`${resource}`, params);
   },
 
-  postImage(resource, params) {
-    return Vue.axios.post(`${resource}`, params, { "Authorization": `Bearer ${JwtService.getToken()}`, "Content-Type": "multipart/form-data" });
+  async postImage(resource, params) {
+    return await Vue.axios.post(`${resource}`, params, { "Authorization": `Bearer ${JwtService.getToken()}`, "Content-Type": "multipart/form-data" });
   },
   /**
    * Send the UPDATE HTTP request
@@ -62,8 +62,8 @@ const ApiService = {
    * @param params
    * @returns {IDBRequest<IDBValidKey> | Promise<void>}
    */
-  update(resource, slug, params) {
-    return Vue.axios.put(`${resource}/${slug}`, params);
+  async update(resource, slug, params) {
+    return await Vue.axios.put(`${resource}/${slug}`, params);
   },
 
   /**
@@ -72,8 +72,8 @@ const ApiService = {
    * @param params
    * @returns {IDBRequest<IDBValidKey> | Promise<void>}
    */
-  put(resource, params) {
-    return Vue.axios.put(`${resource}`, params);
+  async put(resource, params) {
+    return await Vue.axios.put(`${resource}`, params);
   },
 
   /**
@@ -81,8 +81,8 @@ const ApiService = {
    * @param resource
    * @returns {*}
    */
-  delete(resource) {
-    return Vue.axios.delete(resource).catch(error => {
+  async delete(resource) {
+    return await Vue.axios.delete(resource).catch(error => {
       // console.log(error);
       throw new Error(`ApiService ${error}`);
     });
