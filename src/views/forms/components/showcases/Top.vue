@@ -3,6 +3,7 @@
     <v-card>
       <v-card-title>
         <v-spacer></v-spacer>
+        <v-spacer></v-spacer>
         <v-text-field
           v-model="search"
           append-icon="mdi-magnify"
@@ -13,26 +14,24 @@
           dense
         ></v-text-field>
       </v-card-title>
-      <v-data-table
-        dense
-        :headers="headers"
-        :items="get()"
-        :page.sync="page"
-        :items-per-page="10"
-        @page-count="pageCount = $event"
-        hide-default-header
-        hide-default-footer
-        class="elevation-1"
-        :search="search"
-      >
-        <template #[`item.create_date`]="{ item }">
-          <div>
-            {{ item.create_date | moment("DD-MM-YYYY HH:mm") }}
-          </div>
-        </template>
-      </v-data-table>
 
-      <v-pagination v-model="page" :length="pageCount"></v-pagination>
+      <div class="table">
+        <table width="100%">
+          <tbody v-for="(item, index) in listPag()" :key="index">
+            <tr @click="$router.push({ path: `/forms/${item._id}` })">
+              <td width="20px">
+                <v-avatar
+                  ><v-img :src="item.user_data.image_path"></v-img
+                ></v-avatar>
+              </td>
+              <td>{{ item.user_data.email }}</td>
+              <td>{{ item.name }}</td>
+              <td>{{ item.create_date | moment("DD MMMM YYYY HH:mm") }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <v-pagination v-model="page" :length="pages"></v-pagination>
     </v-card>
   </div>
 </template>
@@ -41,8 +40,8 @@
 export default {
   props: {
     _forms: {
-      type: String,
-      default: "",
+      type: Array,
+      default: () => [],
     },
   },
   data() {
@@ -63,18 +62,49 @@ export default {
           value: "description",
         },
       ],
+      datas: [],
       page: 1,
-      pageCount: 0,
+      pages: 0,
+      pagPage: 3,
       search: "",
     };
   },
   methods: {
-    get() {
-      return JSON.parse(this._forms)
-    }
+    /** Saylafalama */
+    pagination() {
+      var arr = this.datas.filter((x) => x.name.includes(this.search));
+      this.pages = Math.ceil(arr.length / this.pagPage);
+      var arrPages = [];
+      let count = 0;
+      for (let i = 0; i < this.pages; i++) {
+        var a = [];
+        for (let j = 0; j < this.pagPage; j++) {
+          if (arr[count]) {
+            a.push({ ...arr[count] });
+            count++;
+          }
+        }
+        arrPages.push(a);
+      }
+      return arrPages;
+    },
+    /** Seçilen Sayfalama */
+    listPag() {
+      this.datas = this._forms;
+      return this.pagination()[this.page - 1];
+    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
+table tbody tr td {
+  padding: 10px;
+  margin-right: 10px;
+  cursor: pointer;
+  border: none;
+}
+table tbody tr:hover {
+  background-color: #494949;
+}
 </style>

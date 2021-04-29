@@ -15,9 +15,9 @@
               }}</strong>
             </v-col>
             <v-col>
-              <div @click="$router.push(`/forms/${item._id}`)" class="click">
+              <router-link :to="`/forms/${item._id}`">
                 <strong>{{ item.name }}</strong>
-              </div>
+              </router-link>
               <div class="caption">
                 <ul>
                   <li v-for="category in item.categories" :key="category.id">
@@ -96,5 +96,9 @@ ul li {
   display: inline;
   list-style: none;
   padding-right: 10px;
+}
+a {
+  text-decoration: none;
+  color: #fff;
 }
 </style>

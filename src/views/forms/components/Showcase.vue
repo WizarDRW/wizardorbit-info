@@ -2,7 +2,7 @@
   <v-container>
     <v-row>
       <v-col>
-        <top :_forms="JSON.stringify(filterForms)"></top>
+        <top :_forms="filterForms"></top>
       </v-col>
     </v-row>
     <v-row>
