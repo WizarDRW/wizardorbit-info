@@ -163,10 +163,6 @@ export default {
 .back i:hover {
   color: black;
 }
-#content img {
-  width: 100%;
-  height: 100%;
-}
 #loading-content {
   width: 100%;
   text-align: center;
@@ -207,5 +203,8 @@ export default {
 }
 .theme--dark.v-application code {
   background-color: transparent;
+}
+.token.property, .token.function{
+  color: #ffed00;
 }
 </style>

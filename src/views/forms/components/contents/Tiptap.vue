@@ -3,7 +3,11 @@
     v-model="_content.description"
     placeholder="Yazınız…"
     :extensions="extensions"
-    :toolbar-attributes="{ color: 'black' }"
+    :toolbar-attributes="{
+      color: this.$store.getters.getTheme.dark
+        ? $vuetify.theme.themes.dark.tiptaptoolbar
+        : $vuetify.theme.themes.light.tiptaptoolbar,
+    }"
   >
   </tiptap-vuetify>
 </template>
@@ -34,7 +38,7 @@ export default {
   },
   props: {
     _content: {
-      type: Object
+      type: Object,
     },
   },
   data() {
@@ -66,8 +70,7 @@ export default {
       ],
     };
   },
-  watch: {
-  },
+  watch: {},
 };
 </script>
 

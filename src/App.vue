@@ -21,8 +21,8 @@ export default {
       loading: true,
     };
   },
-  async beforeCreate() {
-    await this.$store.dispatch(CURRENT_USER)
+  beforeCreate() {
+    this.$store.dispatch(CURRENT_USER)
     ApiService.get("/options").then((x) => {
       localStorage.setItem("option", JSON.stringify(x.data));
       this.loading = false;
@@ -35,7 +35,7 @@ export default {
         {
           name: "description",
           content:
-            "En yeni teknoloji haberleri, Bilgi öğrenmek için yazılar ve sorunlarınıza çözüm için soru cevaplar. ",
+            "En yeni teknoloji haberleri, Bilgi öğrenmek için yazılar ve sorunlarınıza çözüm bulur. ",
         },
         {
           property: "og:title",
@@ -53,6 +53,7 @@ export default {
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;1,100;1,200;1,300;1,400;1,500&display=swap");
 #app {
   font-family: "Montserrat", sans-serif;
+  background-color: var(--v-background-base);
 }
 .content {
   margin-top: 30px;

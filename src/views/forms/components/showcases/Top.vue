@@ -16,7 +16,7 @@
       </v-card-title>
 
       <div class="table">
-        <table width="100%">
+        <table border="0" cellspacing="0" cellpadding="0" width="100%">
           <tbody v-for="(item, index) in listPag()" :key="index">
             <tr @click="$router.push({ path: `/forms/${item._id}` })">
               <td width="20px">
@@ -105,6 +105,17 @@ table tbody tr td {
   border: none;
 }
 table tbody tr:hover {
-  background-color: #494949;
+  background-color: var(--v-form_showcase_top_table_hover_background-base);
+}
+@media only screen and (max-width: 760px),
+  (min-device-width: 768px) and (max-device-width: 1024px) {
+  table,
+  thead,
+  tbody,
+  th,
+  td,
+  tr {
+    display: block;
+  }
 }
 </style>

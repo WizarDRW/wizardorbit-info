@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import { LOGIN, LOGOUT, CURRENT_USER } from "@/core/services/store/auth.module";
+import { LOGIN, CURRENT_USER } from "@/core/services/store/auth.module";
 export default {
   name: "Login",
   components: {},
@@ -61,11 +61,9 @@ export default {
     login() {
       const email = this.user.email;
       const password = this.user.password;
-      this.$store.dispatch(LOGOUT);
       this.loading = true;
       this.$store.dispatch(LOGIN, { email, password }).then((x) => {
         if (x.token) {
-          this.$emit("login");
           this.$store.dispatch(CURRENT_USER)
           this.loading = false;
         } else {

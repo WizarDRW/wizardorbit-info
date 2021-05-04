@@ -2,153 +2,166 @@
   <v-container>
     <v-card>
       <v-card-title>
-        {{ data.name }}
+        <h2>{{ data.name }}</h2>
       </v-card-title>
       <v-container>
         <v-row>
-          <v-col md="1" xs="1">
-            <v-card>
-              <v-img :src="data.user_data.image_path"></v-img>
-              <v-card-subtitle>{{ data.user_data.first_name }}</v-card-subtitle>
-            </v-card>
+          <v-col sm="2" md="1" lg="1">
+            <v-img
+              v-if="data.user_data.image_path"
+              :src="data.user_data.image_path"
+              width="100%"
+            ></v-img>
+            <v-img
+              v-else
+              width="100%"
+              src="@/assets/vendor/img/null_profile.png"
+            ></v-img>
+            <div class="w-100 text-center">
+              <p>{{ data.user_data.first_name }}</p>
+            </div>
           </v-col>
-          <v-col md="11" xs="11">
-            <v-card>
-              <v-card-actions>
-                <v-list-item class="grow">
-                  {{ data.create_date | moment("DD MMMM YYYY HH:mm") }}
+          <v-col sm="10" md="11" lg="11">
+            <v-card-actions>
+              <v-list-item class="grow">
+                {{ data.create_date | moment("DD MMMM YYYY HH:mm") }}
 
-                  <v-row align="center" justify="end">
-                    <i class="mr-2">
-                      <a
-                        :href="`mailTo:${data.user_data.email}`"
-                        target="_blank"
-                        >{{ data.user_data.email }}</a
-                      ></i
-                    >
-                    <div v-if="$store.getters.isAuthenticated">
-                      <span class="mr-1">·</span>
-                      <span class="mr-1">·</span>
-                      <span class="mr-1">·</span>
-                      <v-tooltip color="orange" top>
-                        <template v-slot:activator="{ on, attrs }">
-                          <v-btn icon v-bind="attrs" v-on="on">
-                            <v-icon class="mr-1"> mdi-share-variant </v-icon>
-                          </v-btn>
-                        </template>
-                        <span>Paylaş</span>
-                      </v-tooltip>
-                      <span class="mr-1">·</span>
-                      <v-tooltip color="blue" top>
-                        <template v-slot:activator="{ on, attrs }">
-                          <v-btn icon v-bind="attrs" v-on="on">
-                            <v-icon class="mr-1"> mdi-cogs </v-icon>
-                          </v-btn>
-                        </template>
-                        <span>Seçenekler</span>
-                      </v-tooltip>
-                    </div>
-                  </v-row>
-                </v-list-item>
-              </v-card-actions>
-              <v-card-text>
-                <div v-html="data.description"></div>
-              </v-card-text>
-            </v-card>
+                <v-row align="center" justify="end">
+                  <i class="mr-2">
+                    <a
+                      :href="`mailTo:${data.user_data.email}`"
+                      target="_blank"
+                      >{{ data.user_data.email }}</a
+                    ></i
+                  >
+                  <div v-if="$store.getters.isAuthenticated">
+                    <span class="mr-1">·</span>
+                    <span class="mr-1">·</span>
+                    <span class="mr-1">·</span>
+                    <v-tooltip color="orange" top>
+                      <template v-slot:activator="{ on, attrs }">
+                        <v-btn icon v-bind="attrs" v-on="on">
+                          <v-icon class="mr-1"> mdi-share-variant </v-icon>
+                        </v-btn>
+                      </template>
+                      <span>Paylaş</span>
+                    </v-tooltip>
+                    <span class="mr-1">·</span>
+                    <v-tooltip color="blue" top>
+                      <template v-slot:activator="{ on, attrs }">
+                        <v-btn icon v-bind="attrs" v-on="on">
+                          <v-icon class="mr-1"> mdi-cogs </v-icon>
+                        </v-btn>
+                      </template>
+                      <span>Seçenekler</span>
+                    </v-tooltip>
+                  </div>
+                </v-row>
+              </v-list-item>
+            </v-card-actions>
+            <v-card-text>
+              <div v-html="data.description"></div>
+            </v-card-text>
           </v-col>
         </v-row>
       </v-container>
     </v-card>
     <br />
+    <v-divider></v-divider>
+    <v-card-subtitle>
+      <h4>Yorumlar</h4>
+    </v-card-subtitle>
     <v-row>
       <v-col>
         <v-container>
           <v-card v-for="item in listPag()" :key="item.id">
-            <v-row>
-              <v-col md="1">
-                <v-card>
+            <v-container>
+              <v-row>
+                <v-col xs="12" sm="2" md="1">
                   <v-img
                     v-if="item.user_data.image_path"
                     :src="item.user_data.image_path"
+                    width="100%"
                   ></v-img>
                   <v-img
                     v-else
+                    width="100%"
                     src="@/assets/vendor/img/null_profile.png"
                   ></v-img>
-                  <v-card-subtitle>{{
-                    item.user_data.first_name
-                  }}</v-card-subtitle>
-                </v-card>
-              </v-col>
-              <v-col>
-                <v-card-actions>
-                  <v-list-item class="grow">
-                    {{ item.create_date | moment("DD MMMM YYYY HH:mm") }}
+                  <div class="w-100 text-center">
+                    <p>{{ item.user_data.first_name }}</p>
+                  </div>
+                </v-col>
+                <v-col xs="12" sm="10" md="11">
+                  <v-card-actions>
+                    <v-list-item class="grow">
+                      {{ item.create_date | moment("DD MMMM YYYY HH:mm") }}
 
-                    <v-row align="center" justify="end">
-                      <i class="mr-2">
-                        <a
-                          :href="`mailTo:${item.user_data.email}`"
-                          target="_blank"
-                          >{{ item.user_data.email }}</a
-                        ></i
-                      >
-                      <div v-if="$store.getters.isAuthenticated">
-                        <span class="mr-1">·</span>
-                        <span class="mr-1">·</span>
-                        <span class="mr-1">·</span>
-                        <v-tooltip color="orange" top>
-                          <template v-slot:activator="{ on, attrs }">
-                            <v-btn
-                              :color="
-                                comment.comment_id == item.id ? 'warning' : ''
-                              "
-                              v-bind="attrs"
-                              v-on="on"
-                              icon
-                              @click="reply(item.id)"
-                            >
-                              <v-icon class="mr-1"> mdi-reply </v-icon>
-                            </v-btn>
-                          </template>
-                          <span>Cevap</span>
-                        </v-tooltip>
-                        <span class="mr-1">·</span>
-                        <v-tooltip color="blue" top>
-                          <template v-slot:activator="{ on, attrs }">
-                            <v-btn icon v-bind="attrs" v-on="on">
-                              <v-icon class="mr-1"> mdi-cogs </v-icon>
-                            </v-btn>
-                          </template>
-                          <span>Seçenekler</span>
-                        </v-tooltip>
+                      <v-row align="center" justify="end">
+                        <i class="mr-2">
+                          <a
+                            :href="`mailTo:${item.user_data.email}`"
+                            target="_blank"
+                            >{{ item.user_data.email }}</a
+                          ></i
+                        >
+                        <div v-if="$store.getters.isAuthenticated">
+                          <span class="mr-1">·</span>
+                          <span class="mr-1">·</span>
+                          <span class="mr-1">·</span>
+                          <v-tooltip color="orange" top>
+                            <template v-slot:activator="{ on, attrs }">
+                              <v-btn
+                                :color="
+                                  comment.comment_id == item.id ? 'warning' : ''
+                                "
+                                v-bind="attrs"
+                                v-on="on"
+                                icon
+                                @click="reply(item.id)"
+                              >
+                                <v-icon class="mr-1"> mdi-reply </v-icon>
+                              </v-btn>
+                            </template>
+                            <span>Cevap</span>
+                          </v-tooltip>
+                          <span class="mr-1">·</span>
+                          <v-tooltip color="blue" top>
+                            <template v-slot:activator="{ on, attrs }">
+                              <v-btn icon v-bind="attrs" v-on="on">
+                                <v-icon class="mr-1"> mdi-cogs </v-icon>
+                              </v-btn>
+                            </template>
+                            <span>Seçenekler</span>
+                          </v-tooltip>
+                        </div>
+                      </v-row>
+                    </v-list-item>
+                  </v-card-actions>
+                  <v-card-text>
+                    <v-card>
+                      <div v-if="nested(item.comment_id)" class="nested">
+                        <div
+                          v-html="
+                            nested(item.comment_id)
+                              ? nested(item.comment_id).description
+                              : ''
+                          "
+                        ></div>
+                        <div class="email">
+                          {{
+                            nested(item.comment_id)
+                              ? nested(item.comment_id).user_data.email
+                              : ""
+                          }}
+                        </div>
                       </div>
-                    </v-row>
-                  </v-list-item>
-                </v-card-actions>
-                <v-card-text>
-                  <v-card>
-                    <div v-if="nested(item.comment_id)" class="nested">
-                      <div
-                        v-html="
-                          nested(item.comment_id)
-                            ? nested(item.comment_id).description
-                            : ''
-                        "
-                      ></div>
-                      <div class="email">
-                        {{
-                          nested(item.comment_id)
-                            ? nested(item.comment_id).user_data.email
-                            : ""
-                        }}
-                      </div>
-                    </div>
-                  </v-card>
-                  <div v-html="item.description"></div>
-                </v-card-text>
-              </v-col>
-            </v-row>
+                    </v-card>
+                    <div v-html="item.description"></div>
+                  </v-card-text>
+                </v-col>
+              </v-row>
+            </v-container>
           </v-card>
           <v-container class="max-width">
             <v-row>
@@ -161,6 +174,7 @@
               <v-col>
                 <v-pagination
                   v-model="page"
+                  color="secondary"
                   class="my-4"
                   :length="pages"
                 ></v-pagination>
@@ -171,19 +185,19 @@
             <v-container>
               <v-row>
                 <v-col md="1">
-                  <v-card>
-                    <v-img
-                      v-if="$store.getters.currentUser.image_path"
-                      :src="$store.getters.currentUser.image_path"
-                    ></v-img>
-                    <v-img
-                      v-else
-                      src="@/assets/vendor/img/null_profile.png"
-                    ></v-img>
-                    <v-card-subtitle>{{
-                      $store.getters.currentUser.first_name
-                    }}</v-card-subtitle>
-                  </v-card>
+                  <v-img
+                    v-if="$store.getters.currentUser.image_path"
+                    :src="$store.getters.currentUser.image_path"
+                    width="100%"
+                  ></v-img>
+                  <v-img
+                    v-else
+                    width="100%"
+                    src="@/assets/vendor/img/null_profile.png"
+                  ></v-img>
+                  <div class="w-100 text-center">
+                    <p>{{ $store.getters.currentUser.first_name }}</p>
+                  </div>
                 </v-col>
                 <v-col>
                   <div v-if="nested(comment.comment_id)" class="nested">
@@ -255,16 +269,10 @@ export default {
     /** Get Comments in Comment */
     getComments() {
       var arr = this.data.comments.map((el) => {
-        var a = {
+        return {
           ...el,
-          user_data: {
-            image_path: "",
-          },
+          user_data: this.data.comments_user_data.find(x=> x._id == el.user_id)
         };
-        ApiService.get(`users/id/${el.user_id}`).then((x) => {
-          a.user_data = x.data;
-        });
-        return a;
       });
       this.comments = arr;
     },

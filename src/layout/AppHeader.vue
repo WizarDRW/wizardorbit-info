@@ -1,6 +1,6 @@
 <template>
   <div class="overflow-hidden" style="height: 90px">
-    <v-app-bar dark dense app>
+    <v-app-bar color="header" dense app>
       <router-link to="/">
         <img src="@/assets/sihirbazforum.png" width="150px" alt="sihirbaz" />
       </router-link>
@@ -12,18 +12,17 @@
         <v-menu
           v-for="item in categories"
           :key="item._id"
-          dark
           tile
           open-on-hover
           offset-y
         >
           <template v-slot:activator="{ on, attrs }">
-            <a class="router-parent" v-bind="attrs" v-on="on">
+            <a :class="`router-parent`" v-bind="attrs" v-on="on">
               {{ item.name }}
             </a>
           </template>
 
-          <v-list>
+          <v-list color="header">
             <v-list-item
               v-for="(child, index) in item.children.filter((x) => x.status)"
               :key="index"
@@ -38,7 +37,16 @@
           </v-list>
         </v-menu>
       </div>
-      <div class="search">
+      <div class="theme-mode navbar-nav">
+        <v-btn color="header_theme_btn" @click="themeMode()" icon>
+          <v-icon>{{
+            $store.getters.getTheme.dark
+              ? "mdi-weather-sunny"
+              : "mdi-weather-night"
+          }}</v-icon>
+        </v-btn>
+      </div>
+      <div class="search navbar-nav">
         <v-text-field
           v-model="find"
           outlined
@@ -65,8 +73,12 @@
             <v-avatar v-else v-bind="attrs" v-on="on">
               <span class="white--text headline">{{
                 firstChar(
-                  $store.getters.currentUser.first_name ? $store.getters.currentUser.first_name:'',
-                  $store.getters.currentUser.last_name ? $store.getters.currentUser.last_name:''
+                  $store.getters.currentUser.first_name
+                    ? $store.getters.currentUser.first_name
+                    : "",
+                  $store.getters.currentUser.last_name
+                    ? $store.getters.currentUser.last_name
+                    : ""
                 )
               }}</span>
             </v-avatar>
@@ -112,7 +124,7 @@
           offset-y
         >
           <template v-slot:activator="{ on, attrs }">
-            <v-btn color="success" text dark v-bind="attrs" v-on="on">
+            <v-btn color="header_login_btn" text dark v-bind="attrs" v-on="on">
               Giriş
             </v-btn>
           </template>
@@ -121,6 +133,7 @@
               v-model="tab"
               background-color="primary accent-4"
               align-with-title
+              color="purple"
             >
               <v-tabs-slider color="yellow"></v-tabs-slider>
               <v-tab href="#login"> Kullanıcı Girişi </v-tab>
@@ -129,7 +142,7 @@
             <v-tabs-items v-model="tab">
               <v-tab-item value="login">
                 <v-card flat>
-                  <login v-on:login="login"></login>
+                  <login></login>
                 </v-card>
               </v-tab-item>
               <v-tab-item value="register">
@@ -142,7 +155,27 @@
         </v-menu>
       </div>
     </v-app-bar>
-    <v-navigation-drawer v-model="drawer" absolute temporary app>
+    <v-navigation-drawer color="header" v-model="drawer" temporary app>
+      <div class="theme-mode">
+        <v-btn color="header_theme_btn" @click="themeMode()" icon>
+          <v-icon>{{
+            $store.getters.getTheme.dark
+              ? "mdi-weather-sunny"
+              : "mdi-weather-night"
+          }}</v-icon>
+        </v-btn>
+      </div>
+      <div class="search">
+        <v-text-field
+          v-model="find"
+          outlined
+          dense
+          dark
+          placeholder="Ara"
+          @keypress.enter="search()"
+          prepend-inner-icon="mdi-magnify"
+        ></v-text-field>
+      </div>
       <v-list nav dense>
         <div v-for="item in categories" :key="item._id">
           <h3>{{ item.name }}</h3>
@@ -164,6 +197,7 @@
 <script>
 import ApiService from "@/core/services/api.service.js";
 import { LOGOUT } from "@/core/services/store/auth.module";
+import { THEME } from "@/core/services/store/option.module";
 
 export default {
   components: {
@@ -230,6 +264,10 @@ export default {
         )}`
       );
     },
+    /** Theme Mode */
+    themeMode() {
+      this.$store.dispatch(THEME, { dark: !this.$store.getters.getTheme.dark });
+    },
   },
   watch: {
     windowTop(newValue, oldValue) {
@@ -244,7 +282,7 @@ export default {
 </script>
 
 
-<style scoped>
+<style lang="scss" scoped>
 .nav-close {
   padding: 5px;
 }
@@ -253,12 +291,9 @@ export default {
   margin: 25px 0 0 0;
 }
 a {
-  color: #fff !important;
+  color: var(--v-header-lighten5) !important;
   text-decoration: none;
   margin-right: 20px;
-}
-a span {
-  color: #b4b4b4;
 }
 .dropdown-menu-inner {
   display: none;
@@ -273,9 +308,6 @@ a span {
 .media-body:hover > .dropdown-menu-inner {
   display: block;
 }
-.v-list-item:hover {
-  background-color: #252525;
-}
 @media only screen and (max-width: 960px) {
   .navbar-nav {
     display: none;
@@ -287,5 +319,11 @@ a span {
 ul li {
   list-style-type: none;
   padding: 5px 0 0 0;
+}
+.message {
+  position: fixed;
+  bottom: 0;
+  right: 10px;
+  z-index: 9;
 }
 </style>

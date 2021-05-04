@@ -14,6 +14,6 @@ export default new Vuex.Store({
   modules: {
     auth,
     blog,
-    option
+    option,
   }
 });
