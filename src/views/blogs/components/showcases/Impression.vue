@@ -7,8 +7,8 @@
       içerisinde en çok okunanlar
     </h3>
     <br />
-    <v-card v-for="item in getImpressionSort()" :key="item._id">
-      <div @click="$router.push(`/blog/${item._id}`)" class="click">
+    <v-card color="v_card_background" v-for="item in getImpressionSort()" :key="item._id">
+      <div @click="toContent(item)" class="click">
         <v-img :src="item.image_path" width="100px" height="auto"></v-img>
         <v-card-title>
           {{ item.name }}
@@ -64,11 +64,14 @@ export default {
         return array;
       }
     },
+    toContent(item){
+      this.$emit("content", item)
+    }
   },
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .card-body p {
   font-size: 13px;
 }
@@ -79,5 +82,8 @@ export default {
 }
 .click{
   cursor: pointer;
+}
+.v-card{
+  color: var(--v-v_card_title_color-base)
 }
 </style>

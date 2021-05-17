@@ -12,7 +12,7 @@ export const UPDATE_USER = "updateUser";
 // mutation types
 export const SET_CURRENT_USER = "setCurrentUser";
 export const PURGE_AUTH = "logOut";
-export const SET_AUTH = "setUser";
+export const SET_AUTH = "setAuth";
 export const SET_ERROR = "setError";
 
 const state = {
@@ -93,7 +93,7 @@ const actions = {
       return data;
     });
   },
-  [CURRENT_USER](context) {
+  async [CURRENT_USER](context) {
     if (JwtService.getToken()) {
       return new Promise((resolve, reject) => {
         ApiService.setHeader();

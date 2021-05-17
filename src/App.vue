@@ -21,8 +21,8 @@ export default {
       loading: true,
     };
   },
-  beforeCreate() {
-    this.$store.dispatch(CURRENT_USER)
+  async beforeCreate() {
+    await this.$store.dispatch(CURRENT_USER)
     ApiService.get("/options").then((x) => {
       localStorage.setItem("option", JSON.stringify(x.data));
       this.loading = false;
@@ -57,5 +57,14 @@ export default {
 }
 .content {
   margin-top: 30px;
+}
+.v-tabs-slider-wrapper{
+  height: 5px !important;
+}
+.v-tab{
+  color: var(--v-v_tabs_iactive_color-base) !important;
+}
+.v-tab--active{
+  font-weight: bold !important;
 }
 </style>

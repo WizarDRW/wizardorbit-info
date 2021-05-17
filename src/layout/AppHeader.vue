@@ -38,9 +38,9 @@
         </v-menu>
       </div>
       <div class="theme-mode navbar-nav">
-        <v-btn color="header_theme_btn" @click="themeMode()" icon>
+        <v-btn name="themeBtn" color="header_theme_btn" @click="themeMode(!$store.getters.getTheme.isDark)" icon>
           <v-icon>{{
-            $store.getters.getTheme.dark
+            $store.getters.getTheme.isDark
               ? "mdi-weather-sunny"
               : "mdi-weather-night"
           }}</v-icon>
@@ -51,7 +51,7 @@
           v-model="find"
           outlined
           dense
-          dark
+          color=""
           placeholder="Ara"
           @keypress.enter="search()"
           prepend-inner-icon="mdi-magnify"
@@ -95,6 +95,11 @@
                 ><v-icon>mdi-message</v-icon>&nbsp; Mesajlar</v-list-item-title
               >
             </v-list-item>
+            <v-list-item @click="toProfile()">
+              <v-list-item-title
+                ><v-icon>mdi-account</v-icon>&nbsp; Profilim</v-list-item-title
+              >
+            </v-list-item>
             <v-list-item
               @click="
                 () => {
@@ -124,7 +129,7 @@
           offset-y
         >
           <template v-slot:activator="{ on, attrs }">
-            <v-btn color="header_login_btn" text dark v-bind="attrs" v-on="on">
+            <v-btn name="loginBtn" color="header_login_btn" text dark v-bind="attrs" v-on="on">
               Giriş
             </v-btn>
           </template>
@@ -157,7 +162,7 @@
     </v-app-bar>
     <v-navigation-drawer color="header" v-model="drawer" temporary app>
       <div class="theme-mode">
-        <v-btn color="header_theme_btn" @click="themeMode()" icon>
+        <v-btn name="themeBtn" color="header_theme_btn" @click="themeMode()" icon>
           <v-icon>{{
             $store.getters.getTheme.dark
               ? "mdi-weather-sunny"
@@ -265,9 +270,24 @@ export default {
       );
     },
     /** Theme Mode */
-    themeMode() {
-      this.$store.dispatch(THEME, { dark: !this.$store.getters.getTheme.dark });
+    themeMode(status) {
+      this.$store.dispatch(THEME, {
+        isDark: status,
+        name: status ? "dark" : "light",
+      });
     },
+    /**
+     * to Profile
+     */
+    toProfile(){
+      
+    },
+    afternoon() {
+      this.$store.dispatch(THEME, {
+        isDark: false,
+        name: "morning"
+      })
+    }
   },
   watch: {
     windowTop(newValue, oldValue) {

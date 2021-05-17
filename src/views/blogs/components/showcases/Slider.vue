@@ -2,7 +2,7 @@
   <div>
     <v-carousel cycle show-arrows-on-hover :max="15">
       <div v-for="item in get()" :key="item._id">
-        <div @click="$router.push(`/blog/${item._id}`)" class="click">
+        <div @click="toContent(item)" class="click">
           <v-carousel-item
             v-if="item.showcases.includes('Carousel')"
             :src="item.image_path"
@@ -32,6 +32,9 @@ export default {
     get() {
       return JSON.parse(this._blogs);
     },
+    toContent(item){
+      this.$emit("content", item)
+    }
   },
 };
 </script>

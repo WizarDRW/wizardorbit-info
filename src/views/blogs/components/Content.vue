@@ -1,106 +1,75 @@
 <template>
-  <div class="profile-page">
-    <section class="section-profile-cover section-shaped my-0">
-      <div class="shape shape-style-1 shape-primary shape-skew alpha-4">
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
+  <v-container>
+    <div class="px-4">
+      <div class="text-center mt-5">
+        <h3>
+          {{ blog.name }}
+        </h3>
+        <div class="h6 mt-1">
+          {{ blog.short_description }}
+        </div>
+        <div>
+          <i class="ni education_hat mr-2"></i>
+        </div>
       </div>
-    </section>
-    <section class="section section-skew">
-      <div class="container">
-        <card shadow class="card-profile mt--400" no-body>
-          <div class="px-4">
-            <!-- <div class="row justify-content-center">
-              <div
-                class="col-lg-4 order-lg-3 text-lg-right align-self-lg-center"
-              >
-                <div class="card-profile-actions py-4 mt-lg-0">
-                  <base-button type="info" size="sm" class="mr-4"
-                    >Takip Et</base-button
-                  >
-                  <base-button type="default" size="sm" class="float-right"
-                    >Mesaj Gönder</base-button
-                  >
-                </div>
-              </div>
-              <div class="col-lg-4 order-lg-1">
-                <div class="card-profile-stats d-flex justify-content-center">
-                  <div>
-                    <span class="heading">{{ blog.impressions.length }}</span>
-                    <span class="description">Görüntüleme</span>
-                  </div>
-                  <div>
-                    <span class="heading">8/10</span>
-                    <span class="description">Değer</span>
-                    <star-rating :star-size="10" v-bind:max-rating="10" />
-                  </div>
-                  <div>
-                    <span class="heading">89</span>
-                    <span class="description">Yorum</span>
-                  </div>
-                </div>
-              </div>
-            </div> -->
-            <div class="text-center mt-5">
-              <h3>
-                {{ blog.name }}
-              </h3>
-              <div class="h6 mt-1">
-                {{ blog.short_description }}
-              </div>
-              <div>
-                <i class="ni education_hat mr-2"></i>
-              </div>
-            </div>
-            <div class="mt-5 py-5 border-top text-center">
-              <img :src="blog.image_path" width="50%" :alt="blog._id" />
-              <br />
-              <br />
-              <div class="row justify-content-center">
-                <div class="col-lg-9 text-left">
-                  <div v-highlight id="content" v-html="blog.description"></div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="order-lg-2">
-            <img
-              v-if="blog.user_data.image_path"
-              :src="blog.user_data.image_path"
-              width="10%"
-              class="rounded-circle"
-            />
-            <img
-              v-else
-              src="@/assets/vendor/img/null_profile.png"
-              class="rounded-circle"
-            />
-          </div>
-          <div class="user-info">
-            <div class="h6 font-weight-300">
-              <i class="ni location_pin"></i
-              >{{ `${blog.user_data.first_name}  ${blog.user_data.last_name}` }}
-            </div>
-            <div class="h6 mt-1">
-              <i class="ni business_briefcase-24"></i>{{ blog.user_data.title }}
-            </div>
-          </div>
-        </card>
+      <div class="mt-5 py-5 border-top text-center">
+        <img :src="blog.image_path" width="50%" :alt="blog._id" />
         <br />
+        <br />
+        <div class="text-left">
+          <div
+            class="preview"
+            v-for="(item, index) in blog.descriptions"
+            :key="index"
+          >
+            <div
+              v-if="item.type == 'markdown'"
+              v-katex
+              v-html="compiledMarkdown(item)"
+            ></div>
+            <div v-if="item.type == 'code'">
+              <code-block :_code="item" :_readonly="true"></code-block>
+            </div>
+            <div v-if="item.type == 'tiptap'">
+              <div v-html="item.val"></div>
+            </div>
+          </div>
+        </div>
       </div>
-    </section>
-  </div>
+    </div>
+    <div class="user-image">
+      <v-avatar size="150">
+        <v-img
+          :src="
+            blog.user_data.image_path
+              ? blog.user_data.image_path
+              : '@/assets/vendor/img/null_profile.png'
+          "
+          width="10%"
+        ></v-img>
+      </v-avatar>
+    </div>
+    <div class="user-info">
+      <div class="h6 font-weight-300">
+        <i class="ni location_pin"></i
+        >{{ `${blog.user_data.first_name}  ${blog.user_data.last_name}` }}
+      </div>
+      <div class="h6 mt-1">
+        <i class="ni business_briefcase-24"></i>{{ blog.user_data.title }}
+      </div>
+    </div>
+    <br />
+  </v-container>
 </template>
 
 <script>
-import ApiService from "@/core/services/api.service.js";
 import "vue-code-highlight/themes/duotone-sea.css";
 import "vue-code-highlight/themes/window.css";
+import marked from "marked";
+import {
+  GET_API_BLOG,
+  IMPRESSION_BLOG_UPDATE,
+} from "@/core/services/store/blog.module";
 export default {
   props: {
     _blog: {
@@ -109,27 +78,45 @@ export default {
   },
   components: {
     // Comment: () => import("./Comment"),
+    CodeBlock: () => import("@/components/Code"),
   },
   data() {
     return {
       user: {},
-      blog: {},
+      blog: {
+        image_path: "",
+      },
       loading: true,
     };
   },
-  mounted() {
-    ApiService.get(`/blogs/id/${this.$route.params.id}`).then((x) => {
-      this.blog = x.data;
-      fetch("https://api.ipify.org?format=json")
-        .then((response) => response.json())
-        .then((response) => {
-          ApiService.put("/blogs/updateImpression/id/" + x.data._id, {
-            ip_address: response.ip,
-            blog_id: this.blog._id,
-          });
-        });
+  beforeCreate() {
+    import("mermaid").then((m) => {
+      m.initialize({
+        startOnLoad: true,
+        theme: "dark",
+      });
+      m.init(".language-mermaid");
     });
-  },  
+  },
+  async mounted() {
+    if (!this.$store.getters.getBlog) {
+      await this.$store.dispatch(GET_API_BLOG, this.$route.params.id);
+    }
+    this.blog = this.$store.getters.getBlog;
+    fetch("https://api.ipify.org?format=json")
+      .then((response) => response.json())
+      .then(async ({ ip }) => {
+        await this.$store.dispatch(IMPRESSION_BLOG_UPDATE, {
+          id: this.$route.params.id,
+          ip: ip,
+        });
+      });
+  },
+  methods: {
+    compiledMarkdown(item) {
+      return marked(item.val);
+    },
+  },
   metaInfo() {
     return {
       title: "Sihirbaz Forum",
@@ -204,7 +191,8 @@ export default {
 .theme--dark.v-application code {
   background-color: transparent;
 }
-.token.property, .token.function{
+.token.property,
+.token.function {
   color: #ffed00;
 }
 </style>

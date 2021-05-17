@@ -46,7 +46,7 @@ export default new Router({
         },
         {
           path: "/news/:id",
-          name: "newscontent",
+          name: "NewsContent",
           beforeEnter: (to, from, next) => {
             currentRouteName = "newscontent";
             next();
@@ -121,21 +121,21 @@ export default new Router({
           path: "/blog/new-post",
           name: "newpost",
           component: () => import("./views/blogs/components/NewPost.vue")
-        }
+        },
+        {
+          path: "/blog/content/:id",
+          name: "BlogContent",
+          beforeEnter: (to, from, next) => {
+            currentRouteName = "BlogContent";
+            next();
+          },
+          components: {
+            header: AppHeader,
+            default: () => import("./views/blogs/components/Content.vue"),
+            footer: AppFooter
+          }
+        },
       ]
-    },
-    {
-      path: "/blog/:id",
-      name: "blogcontent",
-      beforeEnter: (to, from, next) => {
-        currentRouteName = "blogcontent";
-        next();
-      },
-      components: {
-        header: AppHeader,
-        default: () => import("./views/blogs/components/Content.vue"),
-        footer: AppFooter
-      }
     },
     {
       path: "/find/:text",
@@ -171,6 +171,15 @@ export default new Router({
         },
         component: () => import("./views/abouts/components/OurHistory.vue")
       }]
+    },
+    {
+      path: "/profile/:id",
+      name: "Profile",
+      components: {
+        header: AppHeader,
+        default: () => import("@/views/profiles/Profile.vue"),
+        footer: AppFooter
+      }
     },
     {
       path: '/*',

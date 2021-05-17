@@ -2,8 +2,8 @@
   <div>
     <v-row>
       <v-col v-for="item in get()" :key="item._id" md="6" lg="4">
-        <div @click="$router.push(`/blog/${item._id}`)" class="click">
-          <v-card>
+        <div @click="toContent(item)" class="click">
+          <v-card color="v_card_background">
             <v-img :src="item.image_path" height="150px"></v-img>
             <v-card-title>
               {{ item.name }}
@@ -30,6 +30,9 @@ export default {
         x.showcases.includes("Top6")
       );
     },
+    toContent(item){
+      this.$emit("content", item)
+    }
   },
 };
 </script>
@@ -40,5 +43,8 @@ export default {
 }
 .click{
   cursor: pointer;
+}
+.v-card{
+  color: var(--v-v_card_title_color-base)
 }
 </style>
