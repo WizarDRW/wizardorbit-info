@@ -5,6 +5,7 @@ import auth from "./auth.module";
 import user from "./user.module";
 import blog from "./blog.module";
 import news from "./news.module";
+import form from "./form.module";
 import library from "./library.module";
 import option from "./option.module";
 
@@ -20,6 +21,7 @@ export default new Vuex.Store({
     option,
     user,
     news,
-    library
+    library,
+    form
   }
 });

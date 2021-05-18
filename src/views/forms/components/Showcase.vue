@@ -11,7 +11,7 @@
       </v-col>
       <v-col md="3">
         <categories
-          :_forms="JSON.stringify(forms)"
+          :_forms="forms"
           v-on:selectedCategory="selectedCategory"
         ></categories>
       </v-col>
@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import ApiService from "@/core/services/api.service";
+import { FORM, GET_API_FORMS } from "@/core/services/store/form.module";
 export default {
   components: {
     TimeLine: () => import("./showcases/TimeLine"),
@@ -35,10 +35,11 @@ export default {
     };
   },
   async created() {
-    await ApiService.get("forms/").then((x) => {
-      this.forms = x.data;
-      this.filterForms = x.data;
-    });
+    if (!this.$store.getters.getForms)
+      await this.$store.dispatch(GET_API_FORMS);
+    this.forms = this.$store.getters.getForms;
+    this.filterForms = this.$store.getters.getForms;
+    if (this.blogs) this.loading = false;
   },
   computed: {
     selectedCategories: {
@@ -62,6 +63,10 @@ export default {
     selectedCategory(val) {
       this.selectedCategories = { ...val };
     },
+    toContent(content){
+      this.$store.dispatch(FORM, content);
+      this.$router.push({ name: "FormContent", params: { id: content._id } });
+    }
   },
 };
 </script>

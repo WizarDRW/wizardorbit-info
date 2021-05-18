@@ -1,64 +1,61 @@
 <template>
   <v-container>
-    <div class="px-4">
-      <div class="text-center mt-5">
-        <h3>
-          {{ blog.name }}
-        </h3>
-        <div class="h6 mt-1">
-          {{ blog.short_description }}
+    <v-card :loading="loading" outlined raised>
+      <v-card-title>
+        {{ blog.name }}
+      </v-card-title>
+      <v-card-subtitle>
+        {{ blog.short_description }}
+      </v-card-subtitle>
+      <v-img
+        :src="blog.image_path"
+        :lazy-src="blog.image_path"
+        height="400"
+        :alt="blog._id"
+      ></v-img>
+      <div
+        class="preview"
+        v-for="(item, index) in blog.descriptions"
+        :key="index"
+      >
+        <div
+          v-if="item.type == 'markdown'"
+          v-katex
+          v-html="compiledMarkdown(item)"
+        ></div>
+        <div v-if="item.type == 'code'">
+          <code-block :_code="item" :_readonly="true"></code-block>
         </div>
-        <div>
-          <i class="ni education_hat mr-2"></i>
-        </div>
-      </div>
-      <div class="mt-5 py-5 border-top text-center">
-        <img :src="blog.image_path" width="50%" :alt="blog._id" />
-        <br />
-        <br />
-        <div class="text-left">
-          <div
-            class="preview"
-            v-for="(item, index) in blog.descriptions"
-            :key="index"
-          >
-            <div
-              v-if="item.type == 'markdown'"
-              v-katex
-              v-html="compiledMarkdown(item)"
-            ></div>
-            <div v-if="item.type == 'code'">
-              <code-block :_code="item" :_readonly="true"></code-block>
-            </div>
-            <div v-if="item.type == 'tiptap'">
-              <div v-html="item.val"></div>
-            </div>
-          </div>
+        <div v-if="item.type == 'tiptap'">
+          <div v-html="item.val"></div>
         </div>
       </div>
-    </div>
-    <div class="user-image">
-      <v-avatar size="150">
-        <v-img
-          :src="
-            blog.user_data.image_path
-              ? blog.user_data.image_path
-              : '@/assets/vendor/img/null_profile.png'
-          "
-          width="10%"
-        ></v-img>
-      </v-avatar>
-    </div>
-    <div class="user-info">
-      <div class="h6 font-weight-300">
-        <i class="ni location_pin"></i
-        >{{ `${blog.user_data.first_name}  ${blog.user_data.last_name}` }}
+      <div class="user-image">
+        <v-avatar size="150">
+          <v-img
+            :lazy-src="
+              blog.user_data.image_path
+                ? blog.user_data.image_path
+                : '@/assets/vendor/img/null_profile.png'
+            "
+            :src="
+              blog.user_data.image_path
+                ? blog.user_data.image_path
+                : '@/assets/vendor/img/null_profile.png'
+            "
+            width="10%"
+          ></v-img>
+        </v-avatar>
       </div>
-      <div class="h6 mt-1">
-        <i class="ni business_briefcase-24"></i>{{ blog.user_data.title }}
+      <div class="user-info">
+        <v-card-title>
+          {{ `${blog.user_data.first_name}  ${blog.user_data.last_name}` }}
+        </v-card-title>
+        <v-card-subtitle>
+          <i class="ni business_briefcase-24"></i>{{ blog.user_data.title }}
+        </v-card-subtitle>
       </div>
-    </div>
-    <br />
+    </v-card>
   </v-container>
 </template>
 
@@ -103,6 +100,7 @@ export default {
       await this.$store.dispatch(GET_API_BLOG, this.$route.params.id);
     }
     this.blog = this.$store.getters.getBlog;
+    if (this.blog) this.loading = false;
     fetch("https://api.ipify.org?format=json")
       .then((response) => response.json())
       .then(async ({ ip }) => {
@@ -140,59 +138,19 @@ export default {
 </script>
 
 <style>
-.card-profile {
-  z-index: 999;
+.v-card__title,
+.v-card__subtitle {
+  justify-content: center;
+  text-align: center;
 }
-.vue-star-rating span {
-  display: none;
-}
-
-.back i:hover {
-  color: black;
-}
-#loading-content {
+.user-image {
+  margin-top: 30px;
   width: 100%;
   text-align: center;
 }
-.center-content {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 200px;
-}
-@media only screen and (max-width: 600px) {
-  .user-info {
-    right: -10px;
-  }
-  .profile-page .card-profile .card-profile-image img {
-    left: 85px !important;
-  }
-}
-@media only screen and (max-width: 510px) {
-  .user-info {
-    text-align: right;
-    right: 5px;
-  }
-  .profile-page .card-profile .card-profile-image img {
-    left: 85px !important;
-  }
-}
-
-@media only screen and (max-width: 1700px) {
-  .iframe-g {
-    width: 260px;
-    position: absolute;
-    padding: 0 0 0 0;
-  }
-}
-.section-shaped .shape-style-1.shape-primary {
-  z-index: 0;
-}
-.theme--dark.v-application code {
-  background-color: transparent;
-}
-.token.property,
-.token.function {
-  color: #ffed00;
+.user-info {
+  padding: 0 0 20px 0;
+  width: 100%;
+  text-align: center;
 }
 </style>

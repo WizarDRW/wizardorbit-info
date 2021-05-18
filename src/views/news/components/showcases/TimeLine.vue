@@ -14,13 +14,8 @@
                 item.create_date | moment("from", "now", true)
               }}</strong>
             </v-col>
-            <v-col sm="2" md="2">
-              <div @click="$router.push(`/news/${item._id}`)" class="click">
-                <img :src="item.image_path" width="100%" alt="" />
-              </div>
-            </v-col>
             <v-col>
-              <div @click="$router.push(`/news/${item._id}`)" class="click">
+              <div @click="toContent(item)" class="click">
                 <strong>{{ item.name }}</strong>
                 <br />
                 <i>{{ item.short_description }}</i>
@@ -39,7 +34,7 @@
                   </li>
                 </ul>
                 <br />
-                <div>
+                <div @click="profile(item.user_data)">
                   <v-avatar size="60">
                     <img :src="item.user_data.image_path" alt="" />
                   </v-avatar>
@@ -61,16 +56,12 @@
 </template>
 
 <script>
+import { USER } from '@/core/services/store/user.module'
 export default {
   props: {
     _news: {
       type: String,
     },
-  },
-  data() {
-    return {
-      blogs: this._blogs,
-    };
   },
   methods: {
     getCategories(categories) {
@@ -88,8 +79,14 @@ export default {
       );
       return array;
     },
+    profile(item){
+      this.$store.dispatch(USER, item);
+      this.$router.push({ name: `Profile`, params: { id: item._id}})
+    },
+    toContent(item){
+      this.$emit("content", item)
+    }
   },
-  computed: {},
 };
 </script>
 

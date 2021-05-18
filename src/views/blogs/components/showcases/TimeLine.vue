@@ -63,11 +63,6 @@ export default {
       type: String,
     },
   },
-  data() {
-    return {
-      blogs: this._blogs,
-    };
-  },
   methods: {
     getCategories(categories) {
       var cat = "";

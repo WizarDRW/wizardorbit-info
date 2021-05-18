@@ -74,7 +74,7 @@
     <v-row>
       <v-col>
         <v-container>
-          <v-card v-for="item in listPag()" :key="item.id">
+          <v-card tile rounded outlined v-for="item in listPag()" :key="item.id">
             <v-container>
               <v-row>
                 <v-col xs="12" sm="2" md="1">
@@ -139,8 +139,8 @@
                     </v-list-item>
                   </v-card-actions>
                   <v-card-text>
-                    <v-card>
-                      <div v-if="nested(item.comment_id)" class="nested">
+                    <v-card v-if="nested(item.comment_id)" outlined rounded>
+                      <div class="nested">
                         <div
                           v-html="
                             nested(item.comment_id)

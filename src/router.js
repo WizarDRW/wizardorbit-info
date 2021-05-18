@@ -28,7 +28,7 @@ export default new Router({
     {
       path: "/news",
       redirect: "/news/showcase",
-      name: "news",
+      name: "NewsContent",
       beforeEnter: (to, from, next) => {
         currentRouteName = "news";
         next();
@@ -116,11 +116,6 @@ export default new Router({
           path: "/blog/category",
           name: "category",
           component: () => import("./views/blogs/components/Category.vue")
-        },
-        {
-          path: "/blog/new-post",
-          name: "newpost",
-          component: () => import("./views/blogs/components/NewPost.vue")
         },
         {
           path: "/blog/content/:id",

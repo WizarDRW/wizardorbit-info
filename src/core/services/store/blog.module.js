@@ -36,7 +36,7 @@ export default {
       context.commit(SET_BLOGS, payload);
     },
     async [GET_API_BLOGS](context) {
-      var data = (await ApiService.get(`blogs/`)).data
+      var data = (await ApiService.get(`blogs/client`)).data
       context.commit(SET_BLOGS, data);
     },
     [USER_BLOGS](context, payload) {
@@ -47,7 +47,6 @@ export default {
       context.commit(SET_USER_BLOGS, data);
     },
     async [IMPRESSION_BLOG_UPDATE](context, data) {
-      console.log(data);
       ApiService.put("/blogs/updateImpression/id/" + data.id, {
         ip_address: data.ip,
         blog_id: data.id,

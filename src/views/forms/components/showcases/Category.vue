@@ -3,7 +3,7 @@
     <v-card>
       <v-data-table
         :headers="headers"
-        :items="categories"
+        :items="data"
         hide-default-footer
         @click:row="(item) => clicked(item)"
         class="elevation-1"
@@ -29,12 +29,12 @@
 </template>
 
 <script>
-import ApiServices from "@/core/services/api.service";
+import { GET_API_FORM_CATEGORIES } from "@/core/services/store/form.module";
 export default {
   props: {
     _forms: {
-      type: String,
-      default: "",
+      type: Array,
+      default: () => [],
     },
   },
   data() {
@@ -56,38 +56,29 @@ export default {
         },
       ],
       data: [],
+      forms: [],
     };
   },
-  computed: {
-    categories: {
-      get() {
-        return this.data;
-      },
-      set(value) {
-        this.data = value.map((x) => {
-          var count = 0;
-          JSON.parse(this._forms).forEach((element) => {
-            element.categories.forEach((elementc) => {
-              if (elementc.id === x.id) count++;
-            });
-          });
-          return {
-            ...x,
-            count: count,
-          };
+  async created() {
+    if (!this.$store.getters.getFormCategories)
+      await this.$store.dispatch(GET_API_FORM_CATEGORIES);
+    this.data = this.$store.getters.getFormCategories.map((x) => {
+      var count = 0;
+      this._forms.forEach((element) => {
+        element.categories.forEach((elementc) => {
+          if (elementc.id === x.id) count++;
         });
-      },
-    },
-  },
-  created() {
-    ApiServices.get("formcategories/notnested").then((x) => {
-      this.categories = x.data;
+      });
+      return {
+        ...x,
+        count: count,
+      };
     });
   },
   methods: {
-      clicked(val) {
-          this.$emit("selectedCategory", val);
-      }
+    clicked(val) {
+      this.$emit("selectedCategory", val);
+    },
   },
 };
 </script>

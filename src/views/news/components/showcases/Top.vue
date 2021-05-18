@@ -2,7 +2,7 @@
   <div>
     <v-row>
       <v-col v-for="item in get()" :key="item._id" md="6" lg="4">
-        <div @click="$router.push(`/news/${item._id}`)" class="click">
+        <div @click="toContent(item)" class="click">
           <v-card>
             <v-img :src="item.image_path" height="150px"></v-img>
             <v-card-title>
@@ -30,6 +30,9 @@ export default {
         x.showcases.includes("Top6")
       );
     },
+    toContent(item){
+      this.$emit("content", item)
+    }
   },
 };
 </script>

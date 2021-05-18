@@ -8,7 +8,7 @@
     </h3>
     <br />
     <v-card v-for="item in getImpressionSort()" :key="item._id">
-      <div @click="$router.push(`/news/${item._id}`)" class="click">
+      <div @click="toContent(item)" class="click">
         <v-img :src="item.image_path" width="100px" height="auto"></v-img>
         <v-card-title>
           {{ item.name }}
@@ -64,6 +64,9 @@ export default {
         return array;
       }
     },
+    toContent(item){
+      this.$emit("content", item)
+    }
   },
 };
 </script>
