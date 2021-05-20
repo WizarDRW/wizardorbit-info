@@ -6,35 +6,35 @@
         <v-row>
           <v-col md="6">
             <carousel
-              :_blogs="JSON.stringify(blogs)"
+              :_chapters="JSON.stringify(chapters)"
               v-on:content="toContent"
             ></carousel>
           </v-col>
           <v-col md="6">
-            <top :_blogs="JSON.stringify(blogs)" v-on:content="toContent"></top>
+            <top :_chapters="JSON.stringify(chapters)" v-on:content="toContent"></top>
           </v-col>
         </v-row>
         <v-row>
           <v-col sm="12" md="8">
             <time-line
-              :_blogs="JSON.stringify(blogs)"
+              :_chapters="JSON.stringify(chapters)"
               v-on:content="toContent"
             ></time-line>
           </v-col>
           <v-col md="4">
             <impression
-              :_blogs="JSON.stringify(blogs)"
+              :_chapters="JSON.stringify(chapters)"
               v-on:content="toContent"
             ></impression>
             <br />
             <impression
-              :_blogs="JSON.stringify(blogs)"
+              :_chapters="JSON.stringify(chapters)"
               :_ly="'monthly'"
               v-on:content="toContent"
             ></impression>
             <br />
             <impression
-              :_blogs="JSON.stringify(blogs)"
+              :_chapters="JSON.stringify(chapters)"
               :_ly="'yearly'"
               v-on:content="toContent"
             ></impression>
@@ -46,7 +46,7 @@
 </template>
 
 <script>
-import { BLOG, GET_API_BLOGS } from "@/core/services/store/blog.module";
+import { CHAPTER, GET_API_CHAPTERS } from "@/core/services/store/chapter.module";
 export default {
   components: {
     Carousel: () => import("./showcases/Slider"),
@@ -57,7 +57,7 @@ export default {
   },
   data() {
     return {
-      blogs: [],
+      chapters: [],
       modal: false,
       contact: {
         email: "",
@@ -70,19 +70,19 @@ export default {
     };
   },
   async created() {
-    if (!this.$store.getters.getBlogs)
-      await this.$store.dispatch(GET_API_BLOGS);
-    this.blogs = this.$store.getters.getBlogs;
-    if (this.blogs) this.loading = false;
+    if (!this.$store.getters.getChapters)
+      await this.$store.dispatch(GET_API_CHAPTERS);
+    this.chapters = this.$store.getters.getChapters;
+    if (this.chapters) this.loading = false;
   },
   methods: {
     toContent(content) {
-      this.$store.dispatch(BLOG, content);
-      this.$router.push({ name: "BlogContent", params: { id: content._id } });
+      this.$store.dispatch(CHAPTER, content);
+      this.$router.push({ name: "ChapterContent", params: { id: content._id } });
     },
   },
   destroyed() {
-    this.$store.dispatch(GET_API_BLOGS);
+    this.$store.dispatch(GET_API_CHAPTERS);
   },
 };
 </script>

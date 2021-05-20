@@ -23,14 +23,14 @@
 export default {
   components: {},
   props: {
-    _blogs: {
-      type: String,
-      default: null,
+    _libraries: {
+      type: Array,
+      default: () => [],
     },
   },
   methods: {
     get() {
-      return JSON.parse(this._blogs);
+      return this._libraries;
     },
     toContent(item){
       this.$emit("content", item)

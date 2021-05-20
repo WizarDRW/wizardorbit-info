@@ -1,13 +1,18 @@
 <template>
   <div>
     <h3>
-      {{
-        _ly == "daily" ? "Bugün" : _ly == "monthly" ? "1 Ay" : "1 Yıl"
-      }}
+      {{ _ly == "daily" ? "Bugün" : _ly == "monthly" ? "1 Ay" : "1 Yıl" }}
       içerisinde en çok okunanlar
     </h3>
     <br />
-    <v-card color="v_card_background" v-for="item in getImpressionSort()" :key="item._id">
+    <v-card
+      tile
+      rounded
+      outlined
+      hover
+      v-for="item in getImpressionSort()"
+      :key="item._id"
+    >
       <div @click="toContent(item)" class="click">
         <v-img :src="item.image_path" width="100px" height="auto"></v-img>
         <v-card-title>
@@ -25,7 +30,7 @@
 import moment from "moment";
 export default {
   props: {
-    _blogs: {
+    _news: {
       type: String,
     },
     _ly: {
@@ -36,7 +41,7 @@ export default {
   methods: {
     getImpressionSort() {
       if (this._ly == "daily") {
-        let array = JSON.parse(this._blogs)
+        let array = JSON.parse(this._news)
           .filter(
             (x) =>
               moment(x.create_date) == moment() ||
@@ -45,7 +50,7 @@ export default {
           .sort((x, y) => y.impression - x.impression);
         return array;
       } else if (this._ly == "monthly") {
-        let array = JSON.parse(this._blogs)
+        let array = JSON.parse(this._news)
           .filter(
             (x) =>
               moment(x.create_date) == moment() ||
@@ -53,8 +58,8 @@ export default {
           )
           .sort((x, y) => y.impression - x.impression);
         return array;
-      }else{
-        let array = JSON.parse(this._blogs)
+      } else {
+        let array = JSON.parse(this._news)
           .filter(
             (x) =>
               moment(x.create_date) == moment() ||
@@ -64,14 +69,14 @@ export default {
         return array;
       }
     },
-    toContent(item){
-      this.$emit("content", item)
-    }
+    toContent(item) {
+      this.$emit("content", item);
+    },
   },
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .card-body p {
   font-size: 13px;
 }
@@ -80,10 +85,7 @@ export default {
     display: none;
   }
 }
-.click{
+.click {
   cursor: pointer;
-}
-.v-card{
-  color: var(--v-v_card_title_color-base)
 }
 </style>

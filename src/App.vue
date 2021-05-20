@@ -3,7 +3,7 @@
     <router-view name="header"></router-view>
     <v-main>
       <div class="content">
-        <router-view></router-view>
+        <router-view :key="$route.path"></router-view>
       </div>
     </v-main>
     <router-view name="footer"></router-view>

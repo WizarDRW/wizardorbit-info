@@ -68,7 +68,6 @@ export default {
   },
   methods: {
     toContent(content) {
-      console.log(content);
       this.$store.dispatch(NEWS, content);
       this.$router.push({ name: "NewsContent", params: { id: content._id } });
     },

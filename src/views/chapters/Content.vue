@@ -2,17 +2,20 @@
   <v-container>
     <v-card :loading="loading" outlined raised>
       <v-card-title>
-        {{ news.name }}
+        {{ chapter.name }}
       </v-card-title>
+      <v-card-subtitle>
+        {{ chapter.short_description }}
+      </v-card-subtitle>
       <v-img
-        :src="news.image_path"
-        :lazy-src="news.image_path"
+        :src="chapter.image_path"
+        :lazy-src="chapter.image_path"
         height="400"
-        :alt="news._id"
+        :alt="chapter._id"
       ></v-img>
       <div
         class="preview"
-        v-for="(item, index) in news.descriptions"
+        v-for="(item, index) in chapter.descriptions"
         :key="index"
       >
         <div
@@ -31,13 +34,13 @@
         <v-avatar size="150">
           <v-img
             :lazy-src="
-              news.user_data.image_path
-                ? news.user_data.image_path
+              chapter.user_data.image_path
+                ? chapter.user_data.image_path
                 : '@/assets/vendor/img/null_profile.png'
             "
             :src="
-              news.user_data.image_path
-                ? news.user_data.image_path
+              chapter.user_data.image_path
+                ? chapter.user_data.image_path
                 : '@/assets/vendor/img/null_profile.png'
             "
             width="10%"
@@ -46,27 +49,27 @@
       </div>
       <div class="user-info">
         <v-card-title>
-          {{ `${news.user_data.first_name}  ${news.user_data.last_name}` }}
+          {{ `${chapter.user_data.first_name}  ${chapter.user_data.last_name}` }}
         </v-card-title>
         <v-card-subtitle>
-          {{ news.user_data.title }}
+          <i class="ni business_briefcase-24"></i>{{ chapter.user_data.title }}
         </v-card-subtitle>
       </div>
     </v-card>
   </v-container>
 </template>
 
-
-
 <script>
-import {
-  GET_API_NEWS,
-  IMPRESSION_BLOG_UPDATE,
-} from "@/core/services/store/news.module";
+import "vue-code-highlight/themes/duotone-sea.css";
+import "vue-code-highlight/themes/window.css";
 import marked from "marked";
+import {
+  GET_API_CHAPTER,
+  IMPRESSION_CHAPTER_UPDATE,
+} from "@/core/services/store/chapter.module";
 export default {
   props: {
-    _news: {
+    _chapter: {
       type: Object,
     },
   },
@@ -76,7 +79,10 @@ export default {
   },
   data() {
     return {
-      news: {},
+      user: {},
+      chapter: {
+        image_path: "",
+      },
       loading: true,
     };
   },
@@ -90,15 +96,15 @@ export default {
     });
   },
   async mounted() {
-    if (!this.$store.getters.getNews) {
-      await this.$store.dispatch(GET_API_NEWS, this.$route.params.id);
+    if (!this.$store.getters.getChapter) {
+      await this.$store.dispatch(GET_API_CHAPTER, this.$route.params.id);
     }
-    this.news = this.$store.getters.getNews;
-    if (this.news) this.loading = false;
+    this.chapter = this.$store.getters.getChapter;
+    if (this.chapter) this.loading = false;
     fetch("https://api.ipify.org?format=json")
       .then((response) => response.json())
       .then(async ({ ip }) => {
-        await this.$store.dispatch(IMPRESSION_BLOG_UPDATE, {
+        await this.$store.dispatch(IMPRESSION_CHAPTER_UPDATE, {
           id: this.$route.params.id,
           ip: ip,
         });
@@ -131,8 +137,7 @@ export default {
 };
 </script>
 
-
-<style lang="scss" scoped>
+<style>
 .v-card__title,
 .v-card__subtitle {
   justify-content: center;

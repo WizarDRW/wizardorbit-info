@@ -2,7 +2,6 @@ import Vue from "vue";
 import Router from "vue-router";
 import AppHeader from "./layout/AppHeader";
 import AppFooter from "./layout/AppFooter";
-import Blog from "./views/blogs/Blog.vue";
 import About from "./views/abouts/About.vue";
 
 Vue.use(Router);
@@ -28,21 +27,21 @@ export default new Router({
     {
       path: "/news",
       redirect: "/news/showcase",
-      name: "NewsContent",
+      name: "news",
       beforeEnter: (to, from, next) => {
         currentRouteName = "news";
         next();
       },
       components: {
         header: AppHeader,
-        default: () => import("./views/news/News.vue"),
+        default: { render(c) { return c('router-view') } },
         footer: AppFooter
       },
       children: [
         {
           path: "/news/showcase",
           name: "n_showcase",
-          component: () => import("./views/news/components/Showcase.vue")
+          component: () => import("./views/news/Showcase.vue")
         },
         {
           path: "/news/:id",
@@ -53,80 +52,106 @@ export default new Router({
           },
           components: {
             header: AppHeader,
-            default: () => import("./views/news/components/Content.vue"),
+            default: () => import("./views/news/Content.vue"),
             footer: AppFooter
           }
         },
       ]
     },
     {
-      path: "/forms",
-      redirect: "/forms/showcase",
-      name: "forms",
+      path: "/forum",
+      redirect: "/forum/showcase",
+      name: "forum",
       beforeEnter: (to, from, next) => {
-        currentRouteName = "forms";
+        currentRouteName = "forum";
         next();
       },
       components: {
         header: AppHeader,
-        default: () => import("./views/forms/Form.vue"),
+        default: { render(c) { return c('router-view') } },
         footer: AppFooter
       },
       children: [
         {
-          path: "/forms/showcase",
+          path: "/forum/showcase",
           name: "f_showcase",
-          component: () => import("./views/forms/components/Showcase.vue")
+          component: () => import("./views/forums/Showcase.vue")
         },
         {
-          path: "/forms/:id",
-          name: "formcontent",
+          path: "/forum/:id",
+          name: "ForumContent",
+          component: () => import("./views/forums/Content.vue")
+        },
+      ]
+    },
+    {
+      path: "/chapter",
+      redirect: "/chapter/showcase",
+      name: "chapter",
+      beforeEnter: (to, from, next) => {
+        currentRouteName = "chapter";
+        next();
+      },
+      components: {
+        header: AppHeader,
+        default: { render(c) { return c('router-view') } },
+        footer: AppFooter
+      },
+      children: [
+        {
+          path: "/chapter/showcase",
+          name: "showcase",
+          component: () => import("./views/chapters/Showcase.vue")
+        },
+        {
+          path: "/chapter/category",
+          name: "category",
+          component: () => import("./views/chapters/Category.vue")
+        },
+        {
+          path: "/chapter/content/:id",
+          name: "ChapterContent",
           beforeEnter: (to, from, next) => {
-            currentRouteName = "formcontent";
+            currentRouteName = "ChapterContent";
             next();
           },
           components: {
             header: AppHeader,
-            default: () => import("./views/forms/components/Content.vue"),
+            default: () => import("./views/chapters/Content.vue"),
             footer: AppFooter
           }
         },
       ]
     },
     {
-      path: "/blog",
-      redirect: "/blog/showcase",
-      name: "blog",
+      path: "/libraries",
+      redirect: "/libraries/showcase",
+      name: "libraries",
       beforeEnter: (to, from, next) => {
-        currentRouteName = "blog";
+        currentRouteName = "libraries";
         next();
       },
       components: {
         header: AppHeader,
-        default: Blog,
+        default: { render(c) { return c('router-view') } },
         footer: AppFooter
       },
       children: [
         {
-          path: "/blog/showcase",
-          name: "showcase",
-          component: () => import("./views/blogs/components/Showcase.vue")
+          path: "/libraries/showcase",
+          name: "l_showcase",
+          component: () => import("./views/libraries/Showcase.vue")
         },
         {
-          path: "/blog/category",
-          name: "category",
-          component: () => import("./views/blogs/components/Category.vue")
-        },
-        {
-          path: "/blog/content/:id",
-          name: "BlogContent",
+          path: "/libraries/:id",
+          name: "LibraryContent",
           beforeEnter: (to, from, next) => {
-            currentRouteName = "BlogContent";
+            currentRouteName = "LibraryContent";
             next();
           },
           components: {
             header: AppHeader,
-            default: () => import("./views/blogs/components/Content.vue"),
+            default: () => import("./views/libraries/Content.vue"),
             footer: AppFooter
           }
         },

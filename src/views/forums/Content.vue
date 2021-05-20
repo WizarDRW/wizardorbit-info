@@ -74,7 +74,13 @@
     <v-row>
       <v-col>
         <v-container>
-          <v-card tile rounded outlined v-for="item in listPag()" :key="item.id">
+          <v-card
+            tile
+            rounded
+            outlined
+            v-for="item in listPag()"
+            :key="item.id"
+          >
             <v-container>
               <v-row>
                 <v-col xs="12" sm="2" md="1">
@@ -230,13 +236,16 @@
 </template>
 
 <script>
-import ApiService from "@/core/services/api.service";
+import {
+  GET_API_FORUM,
+  FORUM_SENT_COMMENT,
+} from "@/core/services/store/forum.module";
 export default {
   components: {
     /**
      * Rich textbox
      */
-    Tiptap: () => import("./contents/Tiptap"),
+    Tiptap: () => import("@/components/Tiptap"),
   },
   data() {
     return {
@@ -255,23 +264,27 @@ export default {
       pagPage: 3,
     };
   },
-  async beforeMount() {
+  async created() {
     await this.getComment();
   },
   methods: {
     /** Get Comment */
     async getComment() {
-      this.data = {
-        ...(await ApiService.get(`forms/id/${this.$route.params.id}`)).data,
-      };
-      this.getComments();
+      if (!this.$store.getters.getForum) {
+        await this.$store.dispatch(GET_API_FORUM, this.$route.params.id);
+      }
+      this.data = this.$store.getters.getForum;
+      if (this.data) this.loading = false;
+      this.getComments(this.data);
     },
     /** Get Comments in Comment */
-    getComments() {
-      var arr = this.data.comments.map((el) => {
+    getComments(data) {
+      var arr = data.comments.map((el) => {
         return {
           ...el,
-          user_data: this.data.comments_user_data.find(x=> x._id == el.user_id)
+          user_data: data.comments_user_data.find(
+            (x) => x._id == el.user_id
+          ),
         };
       });
       this.comments = arr;
@@ -294,18 +307,24 @@ export default {
       else this.comment.comment_id = id;
     },
     /** Yorum gönder */
-    sendComment() {
+    async sendComment() {
       this.comment = {
         ...this.comment,
         user_id: this.$store.getters.currentUser._id,
       };
-      ApiService.post(`forms/comment/${this.data._id}`, this.comment).then(
-        (x) => {
-          if (x.status == 201) {
-            this.getComment();
-          }
-        }
-      );
+      var postData = await this.$store.dispatch(FORUM_SENT_COMMENT, {
+        id: this.data._id,
+        comment: this.comment,
+      });
+      console.log(postData);
+      if (postData.status === 201) {
+        postData.data = {
+          ...postData.data,
+          user_data: this.$store.getters.currentUser,
+        };
+        this.comments.push(postData.data);
+        this.comment.description = "";
+      }
     },
     /** Saylafalama */
     pagination() {

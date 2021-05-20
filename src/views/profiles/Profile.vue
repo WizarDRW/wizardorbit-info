@@ -15,7 +15,7 @@
     <v-tabs-items mandatory v-model="tab">
       <v-tab-item
         v-for="(content, content_index) in [
-          { type: 'BlogContent', content: blogs },
+          { type: 'ChapterContent', content: chapters },
           { type: 'NewsContent', content: news },
           { type: 'library', content: libraries },
         ]"
@@ -51,7 +51,7 @@
 
 <script>
 import { GET_API_USER } from "@/core/services/store/user.module";
-import { BLOG, GET_API_USER_BLOG } from "@/core/services/store/blog.module";
+import { CHAPTER, GET_API_USER_CHAPTERS } from "@/core/services/store/chapter.module";
 import { NEWS, GET_API_USER_THE_NEWS } from "@/core/services/store/news.module";
 import {
   LIBRARY,
@@ -62,12 +62,12 @@ export default {
   data() {
     return {
       user: null,
-      blogs: [],
+      chapters: [],
       news: [],
       libraries: [],
       tab: null,
       tabs: [
-        { id: "item-blog", name: "Bloglar" },
+        { id: "item-chapter", name: "Bölümler" },
         { id: "item-news", name: "Haberler" },
         { id: "item-library", name: "Kütüphane" },
       ],
@@ -84,8 +84,8 @@ export default {
   },
   methods: {
     async getBlogs(user_id) {
-      await this.$store.dispatch(GET_API_USER_BLOG, user_id);
-      this.blogs = this.$store.getters.getUserBlogs;
+      await this.$store.dispatch(GET_API_USER_CHAPTERS, user_id);
+      this.chapters = this.$store.getters.getUserChapters;
     },
     async getNews(user_id) {
       await this.$store.dispatch(GET_API_USER_THE_NEWS, user_id);
@@ -100,7 +100,7 @@ export default {
         ...item,
         user_data: this.user
       }
-      if (type == "BlogContent") this.$store.dispatch(BLOG, item);
+      if (type == "ChapterContent") this.$store.dispatch(CHAPTER, item);
       else if (type == "NewsContent") this.$store.dispatch(NEWS, item);
       else if (type == "library") this.$store.dispatch(LIBRARY, item);
       this.$router.push({ name: type, params: { id: item._id } });

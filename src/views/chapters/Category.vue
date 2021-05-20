@@ -15,7 +15,7 @@
           <treeselect
             :multiple="true"
             dark
-            :options="blogcategories"
+            :options="chaptercategories"
             :value-consists-of="valueConsistsOf"
             v-model="categories"
             placeholder="Kategori veya kategorileri seçiniz..."
@@ -27,7 +27,7 @@
       </v-col>
       <v-col md="10">
         <v-row>
-          <v-col v-for="item in filterBlogList" :key="item._id">
+          <v-col v-for="item in filterChapterList" :key="item._id">
             <v-card
               ><div @click="$router.push(`/blog/${item._id}`)" class="click">
                 <v-img
@@ -62,9 +62,9 @@ export default {
   },
   data() {
     return {
-      blogs: [],
-      filterblogs: [],
-      blogcategories: [],
+      chapters: [],
+      filterchapters: [],
+      chaptercategories: [],
       loading: true,
       valueConsistsOf: "ALL",
       search: "",
@@ -73,34 +73,34 @@ export default {
     };
   },
   mounted() {
-    ApiService.get("/blogcategories").then((x) => {
-      this.blogcategories = x.data.map((x) => {
+    ApiService.get("/chaptercategories").then((x) => {
+      this.chaptercategories = x.data.map((x) => {
         return {
           id: x.id,
           label: x.label,
           children: x.children,
         };
       });
-      ApiService.get("/blogs").then((x) => {
-        this.blogs = x.data;
-        this.filterBlogList = this.blogs;
+      ApiService.get("/chapters").then((x) => {
+        this.chapters = x.data;
+        this.filterChapterList = this.chapters;
       });
       this.loading = false;
     });
   },
   computed: {
-    filterBlogList: {
+    filterChapterList: {
       get() {
-        return this.filterblogs;
+        return this.filterchapters;
       },
       set(value) {
-        this.filterblogs = value;
+        this.filterchapters = value;
       },
     },
   },
   methods: {
     filter() {
-      this.filterBlogList = this.blogs.filter((x) => {
+      this.filterChapterList = this.chapters.filter((x) => {
         return (
           moment(x.create_date).format("YYYY-MM-DD") >=
             moment(this.dates[0]).format("YYYY-MM-DD") &&

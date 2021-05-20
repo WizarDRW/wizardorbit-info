@@ -18,7 +18,7 @@
       <div class="table">
         <table border="0" cellspacing="0" cellpadding="0" width="100%">
           <tbody v-for="(item, index) in listPag()" :key="index">
-            <tr @click="$router.push({ path: `/forms/${item._id}` })">
+            <tr @click="toContent(item)">
               <td width="20px">
                 <v-avatar
                   ><v-img :src="item.user_data.image_path"></v-img
@@ -39,7 +39,7 @@
 <script>
 export default {
   props: {
-    _forms: {
+    _forums: {
       type: Array,
       default: () => [],
     },
@@ -90,9 +90,12 @@ export default {
     },
     /** Seçilen Sayfalama */
     listPag() {
-      this.datas = this._forms;
+      this.datas = this._forums;
       return this.pagination()[this.page - 1];
     },
+    toContent(item){
+      this.$emit("content", item)
+    }
   },
 };
 </script>

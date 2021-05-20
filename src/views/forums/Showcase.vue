@@ -1,17 +1,18 @@
 <template>
   <v-container>
-    <v-row>
+    <div v-if="loading"></div>
+    <v-row v-else>
       <v-col>
-        <top :_forms="filterForms"></top>
+        <top :_forums="filterForums" v-on:content="toContent"></top>
       </v-col>
     </v-row>
     <v-row>
       <v-col md="4">
-        <time-line :_forms="JSON.stringify(filterForms)"></time-line>
+        <time-line :_forums="filterForums" v-on:content="toContent"></time-line>
       </v-col>
       <v-col md="3">
         <categories
-          :_forms="forms"
+          :_forums="forums"
           v-on:selectedCategory="selectedCategory"
         ></categories>
       </v-col>
@@ -20,7 +21,7 @@
 </template>
 
 <script>
-import { FORM, GET_API_FORMS } from "@/core/services/store/form.module";
+import { FORUM, GET_API_FORUMS } from "@/core/services/store/forum.module";
 export default {
   components: {
     TimeLine: () => import("./showcases/TimeLine"),
@@ -29,17 +30,18 @@ export default {
   },
   data() {
     return {
-      forms: [],
-      filterForms: [],
-      categories: [],
+      forums: null,
+      filterForums: null,
+      categories: null,
+      loading: true
     };
   },
   async created() {
-    if (!this.$store.getters.getForms)
-      await this.$store.dispatch(GET_API_FORMS);
-    this.forms = this.$store.getters.getForms;
-    this.filterForms = this.$store.getters.getForms;
-    if (this.blogs) this.loading = false;
+    if (!this.$store.getters.getForums)
+      await this.$store.dispatch(GET_API_FORUMS);
+    this.forums = this.$store.getters.getForums;
+    this.filterForums = this.$store.getters.getForums;
+    if (this.filterForums) this.loading = false;
   },
   computed: {
     selectedCategories: {
@@ -47,10 +49,10 @@ export default {
         return this.categories;
       },
       set(val) {
-        this.filterForms = [];
+        this.filterForums = [];
         this.categories.push({ ...val });
         this.categories.forEach((element) => {
-          this.filterForms = this.forms.filter((x) => {
+          this.filterForums = this.forums.filter((x) => {
             var b = false;
             b = x.categories.some((y) => y.id === element.id);
             return b;
@@ -64,8 +66,8 @@ export default {
       this.selectedCategories = { ...val };
     },
     toContent(content){
-      this.$store.dispatch(FORM, content);
-      this.$router.push({ name: "FormContent", params: { id: content._id } });
+      this.$store.dispatch(FORUM, content);
+      this.$router.push({ name: "ForumContent", params: { id: content._id } });
     }
   },
 };

@@ -1,28 +1,26 @@
 <template>
   <div>
-    <v-card color="v_card_background">
+    <v-card>
       <v-timeline align-top dense>
         <v-timeline-item
           color="white"
           small
-          v-for="(item, index) in getDateSort()"
-          :key="index"
+          v-for="item in getDateSort()"
+          :key="item._id"
         >
           <v-row class="pt-1">
-            <v-col sm="1" md="1">
+            <v-col sm="2" md="2">
               <strong>{{
-                item.create_date | moment("from", "now", true)
+                item.create_date | moment("from", "now")
               }}</strong>
             </v-col>
             <v-col>
               <div @click="toContent(item)" class="click">
                 <strong>{{ item.name }}</strong>
-                <br />
-                <i>{{ item.short_description }}</i>
               </div>
               <div class="caption">
                 <ul>
-                  <li v-for="(category, cat_index) in item.categories" :key="cat_index">
+                  <li v-for="category in item.categories" :key="category.id">
                     <v-tooltip color="green" bottom>
                       <template v-slot:activator="{ on, attrs }">
                         <v-icon v-bind="attrs" v-on="on">
@@ -34,7 +32,7 @@
                   </li>
                 </ul>
                 <br />
-                <div @click="profile(item.user_data)">
+                <div>
                   <v-avatar size="60">
                     <img :src="item.user_data.image_path" alt="" />
                   </v-avatar>
@@ -56,37 +54,29 @@
 </template>
 
 <script>
-import { USER } from '@/core/services/store/user.module'
 export default {
   props: {
-    _blogs: {
-      type: String,
+    _forums: {
+      type: Array,
+      default: () => []
     },
   },
+  data() {
+    return {
+      forums: this._forums,
+    };
+  },
   methods: {
-    getCategories(categories) {
-      var cat = "";
-      categories.forEach((element, index, array) => {
-        if (index === array.length - 1) {
-          cat += element;
-        } else cat += element + ", ";
-      });
-      return cat;
-    },
     getDateSort() {
-      let array = JSON.parse(this._blogs).sort(
+      return this._forums.sort(
         (x, y) => new Date(y.create_date) - new Date(x.create_date)
       );
-      return array;
-    },
-    profile(item){
-      this.$store.dispatch(USER, item);
-      this.$router.push({ name: `Profile`, params: { id: item._id}})
     },
     toContent(item){
       this.$emit("content", item)
     }
   },
+  computed: {},
 };
 </script>
 
@@ -111,7 +101,8 @@ ul li {
   list-style: none;
   padding-right: 10px;
 }
-.v-card{
-  color: var(--v-v_card_title_color-base)
+a {
+  text-decoration: none;
+  color: #fff;
 }
 </style>

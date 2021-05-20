@@ -2,20 +2,17 @@
   <v-container>
     <v-card :loading="loading" outlined raised>
       <v-card-title>
-        {{ blog.name }}
+        {{ news.name }}
       </v-card-title>
-      <v-card-subtitle>
-        {{ blog.short_description }}
-      </v-card-subtitle>
       <v-img
-        :src="blog.image_path"
-        :lazy-src="blog.image_path"
+        :src="news.image_path"
+        :lazy-src="news.image_path"
         height="400"
-        :alt="blog._id"
+        :alt="news._id"
       ></v-img>
       <div
         class="preview"
-        v-for="(item, index) in blog.descriptions"
+        v-for="(item, index) in news.descriptions"
         :key="index"
       >
         <div
@@ -34,13 +31,13 @@
         <v-avatar size="150">
           <v-img
             :lazy-src="
-              blog.user_data.image_path
-                ? blog.user_data.image_path
+              news.user_data.image_path
+                ? news.user_data.image_path
                 : '@/assets/vendor/img/null_profile.png'
             "
             :src="
-              blog.user_data.image_path
-                ? blog.user_data.image_path
+              news.user_data.image_path
+                ? news.user_data.image_path
                 : '@/assets/vendor/img/null_profile.png'
             "
             width="10%"
@@ -49,27 +46,27 @@
       </div>
       <div class="user-info">
         <v-card-title>
-          {{ `${blog.user_data.first_name}  ${blog.user_data.last_name}` }}
+          {{ `${news.user_data.first_name}  ${news.user_data.last_name}` }}
         </v-card-title>
         <v-card-subtitle>
-          <i class="ni business_briefcase-24"></i>{{ blog.user_data.title }}
+          {{ news.user_data.title }}
         </v-card-subtitle>
       </div>
     </v-card>
   </v-container>
 </template>
 
+
+
 <script>
-import "vue-code-highlight/themes/duotone-sea.css";
-import "vue-code-highlight/themes/window.css";
-import marked from "marked";
 import {
-  GET_API_BLOG,
-  IMPRESSION_BLOG_UPDATE,
-} from "@/core/services/store/blog.module";
+  GET_API_NEWS,
+  IMPRESSION_NEWS_UPDATE,
+} from "@/core/services/store/news.module";
+import marked from "marked";
 export default {
   props: {
-    _blog: {
+    _news: {
       type: Object,
     },
   },
@@ -79,10 +76,7 @@ export default {
   },
   data() {
     return {
-      user: {},
-      blog: {
-        image_path: "",
-      },
+      news: {},
       loading: true,
     };
   },
@@ -96,15 +90,15 @@ export default {
     });
   },
   async mounted() {
-    if (!this.$store.getters.getBlog) {
-      await this.$store.dispatch(GET_API_BLOG, this.$route.params.id);
+    if (!this.$store.getters.getNews) {
+      await this.$store.dispatch(GET_API_NEWS, this.$route.params.id);
     }
-    this.blog = this.$store.getters.getBlog;
-    if (this.blog) this.loading = false;
+    this.news = this.$store.getters.getNews;
+    if (this.news) this.loading = false;
     fetch("https://api.ipify.org?format=json")
       .then((response) => response.json())
       .then(async ({ ip }) => {
-        await this.$store.dispatch(IMPRESSION_BLOG_UPDATE, {
+        await this.$store.dispatch(IMPRESSION_NEWS_UPDATE, {
           id: this.$route.params.id,
           ip: ip,
         });
@@ -137,7 +131,8 @@ export default {
 };
 </script>
 
-<style>
+
+<style lang="scss" scoped>
 .v-card__title,
 .v-card__subtitle {
   justify-content: center;

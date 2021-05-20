@@ -25,20 +25,11 @@ export default {
     },
     actions: {
         [LIBRARY]: (context, payload) => context.commit(SET_LIBRARY, payload),
-        async [GET_API_LIBRARY](context, id) {
-            var data = (await ApiService.get(`mylibraries/id/${id}`)).data;
-            context.commit(SET_LIBRARY, data)
-        },
+        [GET_API_LIBRARY]: async (context, id) => context.commit(SET_LIBRARY, (await ApiService.get(`libraries/id/${id}`)).data),
         [LIBRARIES]: (context, payload) => context.commit(SET_LIBRARIES, payload),
-        async [LIBRARIES](context) {
-            var data = (await ApiService.get(`mylibraries/`)).data;
-            context.commit(SET_LIBRARIES, data)
-        },
+        [GET_API_LIBRARIES]: async (context) => context.commit(SET_LIBRARIES, (await ApiService.get(`libraries/`)).data),
         [USER_LIBRARIES]: (context, payload) => context.commit(SET_USER_LIBRARIES, payload),
-        async [GET_API_USER_LIBRARIES](context, id) {
-            var data = (await ApiService.get(`mylibraries/userid/${id}`)).data;
-            context.commit(SET_USER_LIBRARIES, data)
-        }
+        [GET_API_USER_LIBRARIES]:async(context, id) => context.commit(SET_USER_LIBRARIES, (await ApiService.get(`libraries/userid/${id}`)).data),
     },
     mutations: {
         [SET_LIBRARY]: (state, payload) => state.library = payload,

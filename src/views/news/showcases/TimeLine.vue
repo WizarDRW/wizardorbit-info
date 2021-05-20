@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-card>
+    <v-card tile rounded outlined hover>
       <v-timeline align-top dense>
         <v-timeline-item
           color="white"
@@ -11,7 +11,7 @@
           <v-row class="pt-1">
             <v-col sm="1" md="1">
               <strong>{{
-                item.create_date | moment("from", "now", true)
+                new Date(item.create_date) | moment("from", "now")
               }}</strong>
             </v-col>
             <v-col>
@@ -29,7 +29,7 @@
                           {{ category.icon }}
                         </v-icon>
                       </template>
-                      <span>{{category.label}}</span>
+                      <span>{{ category.label }}</span>
                     </v-tooltip>
                   </li>
                 </ul>
@@ -56,7 +56,7 @@
 </template>
 
 <script>
-import { USER } from '@/core/services/store/user.module'
+import { USER } from "@/core/services/store/user.module";
 export default {
   props: {
     _news: {
@@ -79,13 +79,13 @@ export default {
       );
       return array;
     },
-    profile(item){
+    profile(item) {
       this.$store.dispatch(USER, item);
-      this.$router.push({ name: `Profile`, params: { id: item._id}})
+      this.$router.push({ name: `Profile`, params: { id: item._id } });
     },
-    toContent(item){
-      this.$emit("content", item)
-    }
+    toContent(item) {
+      this.$emit("content", item);
+    },
   },
 };
 </script>

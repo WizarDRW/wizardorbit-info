@@ -29,10 +29,10 @@
 </template>
 
 <script>
-import { GET_API_FORM_CATEGORIES } from "@/core/services/store/form.module";
+import { GET_API_FORUM_CATEGORIES } from "@/core/services/store/forum.module";
 export default {
   props: {
-    _forms: {
+    _forums: {
       type: Array,
       default: () => [],
     },
@@ -56,15 +56,15 @@ export default {
         },
       ],
       data: [],
-      forms: [],
+      forums: [],
     };
   },
   async created() {
-    if (!this.$store.getters.getFormCategories)
-      await this.$store.dispatch(GET_API_FORM_CATEGORIES);
-    this.data = this.$store.getters.getFormCategories.map((x) => {
+    if (!this.$store.getters.getForumCategories)
+      await this.$store.dispatch(GET_API_FORUM_CATEGORIES);
+    this.data = this.$store.getters.getForumCategories.map((x) => {
       var count = 0;
-      this._forms.forEach((element) => {
+      this._forums.forEach((element) => {
         element.categories.forEach((elementc) => {
           if (elementc.id === x.id) count++;
         });

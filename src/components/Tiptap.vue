@@ -1,6 +1,6 @@
 <template>
   <tiptap-vuetify
-    v-model="_content.val"
+    v-model="_content.description"
     placeholder="Yazınız…"
     :extensions="extensions"
     :toolbar-attributes="{ color: 'black' }"

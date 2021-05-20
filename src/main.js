@@ -8,21 +8,26 @@ import VueGtag from 'vue-gtag'
 import ApiService from "./core/services/api.service";
 import VueCodeHighlight from 'vue-code-highlight';
 import Katex from 'vue-katex-auto-render'
+import { VueMasonryPlugin } from "vue-masonry";
 import { AUTO_THEME } from "./core/services/store/option.module";
 
+const moment = require('moment')
+
 Vue.use(VueCodeHighlight)
+Vue.use(VueMasonryPlugin);
 Vue.use(VueGtag, {
   config: { id: 'G-7NCN3ZZBC9' }
 })
 Vue.use(VueMeta)
-const moment = require('moment')
 require('moment/locale/tr')
 Vue.use(require('vue-moment'), {
   moment
 });
-
 Vue.directive('katex', Katex);
-Vue.config.productionTip = false
+
+Vue.config.productionTip = false;
+Vue.config.silent = true;
+Vue.config.devtools = false;
 ApiService.init();
 
 

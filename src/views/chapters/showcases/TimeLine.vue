@@ -1,26 +1,31 @@
 <template>
   <div>
-    <v-card>
+    <v-card tile rounded outlined color="v_card_background">
       <v-timeline align-top dense>
         <v-timeline-item
           color="white"
           small
-          v-for="item in getDateSort()"
-          :key="item._id"
+          v-for="(item, index) in getDateSort()"
+          :key="index"
         >
           <v-row class="pt-1">
-            <v-col sm="2" md="2">
+            <v-col sm="1" md="1">
               <strong>{{
-                item.create_date | moment("from", "now", true)
+                item.create_date | moment("from", "now")
               }}</strong>
             </v-col>
             <v-col>
-              <router-link :to="`/forms/${item._id}`">
+              <div @click="toContent(item)" class="click">
                 <strong>{{ item.name }}</strong>
-              </router-link>
+                <br />
+                <i>{{ item.short_description }}</i>
+              </div>
               <div class="caption">
                 <ul>
-                  <li v-for="category in item.categories" :key="category.id">
+                  <li
+                    v-for="(category, cat_index) in item.categories"
+                    :key="cat_index"
+                  >
                     <v-tooltip color="green" bottom>
                       <template v-slot:activator="{ on, attrs }">
                         <v-icon v-bind="attrs" v-on="on">
@@ -32,7 +37,7 @@
                   </li>
                 </ul>
                 <br />
-                <div>
+                <div @click="profile(item.user_data)">
                   <v-avatar size="60">
                     <img :src="item.user_data.image_path" alt="" />
                   </v-avatar>
@@ -54,25 +59,37 @@
 </template>
 
 <script>
+import { USER } from "@/core/services/store/user.module";
 export default {
   props: {
-    _forms: {
-      type: String
+    _chapters: {
+      type: String,
     },
-  },
-  data() {
-    return {
-      forms: this._forms,
-    };
   },
   methods: {
+    getCategories(categories) {
+      var cat = "";
+      categories.forEach((element, index, array) => {
+        if (index === array.length - 1) {
+          cat += element;
+        } else cat += element + ", ";
+      });
+      return cat;
+    },
     getDateSort() {
-      return JSON.parse(this._forms).sort(
+      let array = JSON.parse(this._chapters).sort(
         (x, y) => new Date(y.create_date) - new Date(x.create_date)
       );
+      return array;
+    },
+    profile(item) {
+      this.$store.dispatch(USER, item);
+      this.$router.push({ name: `Profile`, params: { id: item._id } });
+    },
+    toContent(item) {
+      this.$emit("content", item);
     },
   },
-  computed: {},
 };
 </script>
 
@@ -97,8 +114,7 @@ ul li {
   list-style: none;
   padding-right: 10px;
 }
-a {
-  text-decoration: none;
-  color: #fff;
+.v-card {
+  color: var(--v-v_card_title_color-base);
 }
 </style>

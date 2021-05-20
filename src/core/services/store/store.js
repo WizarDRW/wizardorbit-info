@@ -3,9 +3,9 @@ import Vuex from "vuex";
 
 import auth from "./auth.module";
 import user from "./user.module";
-import blog from "./blog.module";
+import blog from "./chapter.module";
 import news from "./news.module";
-import form from "./form.module";
+import form from "./forum.module";
 import library from "./library.module";
 import option from "./option.module";
 
