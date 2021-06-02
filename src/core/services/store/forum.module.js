@@ -11,14 +11,10 @@ export const IMPRESSION_FORUM_UPDATE = "impressionForumUpdate"
 
 export const FORUM_SENT_COMMENT = "forumSentComment";
 
-export const FORUM_CATEGORIES = "forumCategories"
-export const GET_API_FORUM_CATEGORIES = "getApiForumCategories"
-
 // mutation types
 const SET_FORUM = "setForum"
 const SET_FORUMS = "setForums"
 const SET_USER_FORUMS = "setUserForums"
-const SET_FORUM_CATEGORIES = "setForumCategories"
 
 export default {
   state: {
@@ -47,13 +43,10 @@ export default {
       });
     },
     [FORUM_SENT_COMMENT]: async (context, { id, comment }) => (await ApiService.post(`forums/comment/${id}`, comment)),
-    [FORUM_CATEGORIES]: (context, payload) => context.commit(SET_FORUM_CATEGORIES, payload),
-    [GET_API_FORUM_CATEGORIES]: async (context) => context.commit(SET_FORUM_CATEGORIES, (await ApiService.get(`forumcategories/notnested`)).data),
   },
   mutations: {
     [SET_FORUM]: (state, payload) => state.forum = payload,
     [SET_FORUMS]: (state, payload) => state.forums != payload ? state.forums = payload:null,
     [SET_USER_FORUMS]: (state, payload) => state.user_forums = payload,
-    [SET_FORUM_CATEGORIES]: (state, payload) => state.forum_categories = payload,
   }
 };

@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import { GET_API_FORUM_CATEGORIES } from "@/core/services/store/forum.module";
+import { GET_API_CATEGORY } from "@/core/services/store/category.module";
 export default {
   props: {
     _forums: {
@@ -60,20 +60,12 @@ export default {
     };
   },
   async created() {
-    if (!this.$store.getters.getForumCategories)
-      await this.$store.dispatch(GET_API_FORUM_CATEGORIES);
-    this.data = this.$store.getters.getForumCategories.map((x) => {
-      var count = 0;
+    if (!this.$store.getters.getForumCategory)
+      await this.$store.dispatch(GET_API_CATEGORY, "forum");
+    this.data = this.$store.getters.getForumCategory.categories
       this._forums.forEach((element) => {
-        element.categories.forEach((elementc) => {
-          if (elementc.id === x.id) count++;
-        });
+        this.data.push([...element.categories])
       });
-      return {
-        ...x,
-        count: count,
-      };
-    });
   },
   methods: {
     clicked(val) {
