@@ -10,9 +10,7 @@
         >
           <v-row class="pt-1">
             <v-col sm="2" md="2">
-              <strong>{{
-                item.create_date | moment("from", "now")
-              }}</strong>
+              <strong>{{ item.create_date | moment("from", "now") }}</strong>
             </v-col>
             <v-col>
               <div @click="toContent(item)" class="click">
@@ -58,25 +56,32 @@ export default {
   props: {
     _forums: {
       type: Array,
-      default: () => []
+      default: () => [],
     },
   },
   data() {
     return {
-      forums: this._forums,
+      datas: [],
     };
+  },
+  computed: {
+    filterForms: {
+      get() {
+        return this.datas;
+      },
+      set(val) {
+        this.datas = val;
+      },
+    },
   },
   methods: {
     getDateSort() {
-      return this._forums.sort(
-        (x, y) => new Date(y.create_date) - new Date(x.create_date)
-      );
+      return this._forums;
     },
-    toContent(item){
-      this.$emit("content", item)
-    }
+    toContent(item) {
+      this.$emit("content", item);
+    },
   },
-  computed: {},
 };
 </script>
 

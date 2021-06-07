@@ -6,57 +6,11 @@
     <v-row v-else>
       <v-col cols="12" sm="12" md="6" lg="6">
         <h2>En popüler kitaplar</h2>
-        <v-row v-masonry>
-          <v-col
-            v-for="(item, index) in libraries"
-            :key="index"
-            cols="12"
-            sm="6"
-            md="4"
-            lg="4"
-            xl="4"
-          >
-            <v-card hover tile outlined>
-              <v-img
-                height="150"
-                :src="
-                  item.image_path
-                    ? item.image_path
-                    : require('@/assets/vendor/img/old_book.jpeg')
-                "
-              ></v-img>
-              <v-card-title> {{ item.name }} </v-card-title>
-              <v-card-text> {{ item.description }} </v-card-text>
-            </v-card>
-          </v-col>
-        </v-row>
+        <top :_libraries="libraries"></top>
       </v-col>
       <v-col cols="12" sm="12" md="6" lg="6">
         <h2>Bu hafta en çok okunanlar</h2>
-        <v-row v-masonry>
-          <v-col
-            v-for="(item, index) in libraries"
-            :key="index"
-            cols="12"
-            sm="6"
-            md="4"
-            lg="4"
-            xl="3"
-          >
-            <v-card hover tile outlined>
-              <v-img
-                height="150"
-                :src="
-                  item.image_path
-                    ? item.image_path
-                    : require('@/assets/vendor/img/old_book.jpeg')
-                "
-              ></v-img>
-              <v-card-title> {{ item.name }} </v-card-title>
-              <v-card-text> {{ item.description }} </v-card-text>
-            </v-card>
-          </v-col>
-        </v-row>
+        <top :_libraries="libraries"></top>
       </v-col>
     </v-row>
   </v-container>
@@ -70,11 +24,13 @@ import {
 export default {
   components: {
     SkeletonLoader: () => import("@/components/SkeletonLoader"),
+    Top: () => import(`./showcases/Top`)
   },
   data() {
     return {
       libraries: [],
       loading: true,
+
     };
   },
   async created() {

@@ -8,14 +8,12 @@
         <v-row>
           <v-col sm="2" md="1" lg="1">
             <v-img
-              v-if="data.user_data.image_path"
-              :src="data.user_data.image_path"
+              :src="
+                data.user_data.image_path
+                  ? data.user_data.image_path
+                  : `@/assets/vendor/img/null_profile.png`
+              "
               width="100%"
-            ></v-img>
-            <v-img
-              v-else
-              width="100%"
-              src="@/assets/vendor/img/null_profile.png"
             ></v-img>
             <div class="w-100 text-center">
               <p>{{ data.user_data.first_name }}</p>
@@ -85,14 +83,12 @@
               <v-row>
                 <v-col xs="12" sm="2" md="1">
                   <v-img
-                    v-if="item.user_data.image_path"
-                    :src="item.user_data.image_path"
+                    :src="
+                      item.user_data.image_path
+                        ? item.user_data.image_path
+                        : `@/assets/vendor/img/null_profile.png`
+                    "
                     width="100%"
-                  ></v-img>
-                  <v-img
-                    v-else
-                    width="100%"
-                    src="@/assets/vendor/img/null_profile.png"
                   ></v-img>
                   <div class="w-100 text-center">
                     <p>{{ item.user_data.first_name }}</p>
@@ -240,6 +236,7 @@ import {
   GET_API_FORUM,
   FORUM_SENT_COMMENT,
 } from "@/core/services/store/forum.module";
+import ObjectId from "bson-objectid";
 export default {
   components: {
     /**
@@ -282,9 +279,7 @@ export default {
       var arr = data.comments.map((el) => {
         return {
           ...el,
-          user_data: data.comments_user_data.find(
-            (x) => x._id == el.user_id
-          ),
+          user_data: data.comments_user_data.find((x) => x._id == el.user_id),
         };
       });
       this.comments = arr;
@@ -310,13 +305,12 @@ export default {
     async sendComment() {
       this.comment = {
         ...this.comment,
-        user_id: this.$store.getters.currentUser._id,
+        user_id: ObjectId(this.$store.getters.currentUser._id),
       };
       var postData = await this.$store.dispatch(FORUM_SENT_COMMENT, {
         id: this.data._id,
         comment: this.comment,
       });
-      console.log(postData);
       if (postData.status === 201) {
         postData.data = {
           ...postData.data,

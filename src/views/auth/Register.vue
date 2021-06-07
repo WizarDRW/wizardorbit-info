@@ -35,6 +35,14 @@
             dense
           ></v-text-field>
           <v-text-field
+            prepend-inner-icon="mdi-at"
+            v-model="user.username"
+            label="Kullanıcı Adı Belirtiniz"
+            type="text"
+            outlined
+            dense
+          ></v-text-field>
+          <v-text-field
             id="password"
             v-model="user.password"
             prepend-inner-icon="mdi-lock"
@@ -81,6 +89,7 @@ export default {
     return {
       user: {
         email: "",
+        username: "",
         first_name: "",
         last_name: "",
         password: "",

@@ -1,6 +1,6 @@
 <template>
   <div class="overflow-hidden" style="height: 90px">
-    <v-app-bar color="header" dense app>
+    <v-app-bar color="header" app>
       <router-link to="/">
         <img src="@/assets/sihirbazforum.png" width="150px" alt="sihirbaz" />
       </router-link>

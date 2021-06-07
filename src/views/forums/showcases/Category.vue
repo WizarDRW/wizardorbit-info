@@ -3,7 +3,7 @@
     <v-card>
       <v-data-table
         :headers="headers"
-        :items="data"
+        :items="getCategories"
         hide-default-footer
         @click:row="(item) => clicked(item)"
         class="elevation-1"
@@ -29,7 +29,6 @@
 </template>
 
 <script>
-import { GET_API_CATEGORY } from "@/core/services/store/category.module";
 export default {
   props: {
     _forums: {
@@ -59,17 +58,38 @@ export default {
       forums: [],
     };
   },
-  async created() {
-    if (!this.$store.getters.getForumCategory)
-      await this.$store.dispatch(GET_API_CATEGORY, "forum");
-    this.data = this.$store.getters.getForumCategory.categories
-      this._forums.forEach((element) => {
-        this.data.push([...element.categories])
-      });
+  created() {
+    this._forums.forEach((element) => {
+      this.data.push(...element.categories);
+    });
+    var list = [];
+    for (let i = 0; i < this.data.length; i++) {
+      if (list.filter(x=> x.id == this.data[i].id).length == 0) {
+        list.push({
+          label: this.data[i].label,
+          id: this.data[i].id,
+          icon: this.data[i].icon,
+          count: 1
+        });
+      }else {
+        list[list.findIndex(x=>x.id == this.data[i].id)].count += 1;
+      }
+    }
+    this.getCategories = list;
   },
   methods: {
     clicked(val) {
       this.$emit("selectedCategory", val);
+    },
+  },
+  computed: {
+    getCategories: {
+      get() {
+        return this.data;
+      },
+      set(value) {
+        this.data = value;
+      },
     },
   },
 };

@@ -76,6 +76,10 @@ export default {
         }
       }).catch(() => this.loading = false);
     },
+    async googleAuth(){
+      var url = await this.$store.dispatch('googleLogin')
+      window.open(url)
+    }
   },
 };
 </script>

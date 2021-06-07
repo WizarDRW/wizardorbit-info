@@ -5,6 +5,7 @@ import JwtService from "@/core/services/jwt.service";
 export const VERIFY_AUTH = "verifyAuth";
 export const CURRENT_USER = "currentUser";
 export const LOGIN = "login";
+export const GOOGLE_LOGIN = "googleLogin";
 export const LOGOUT = "logout";
 export const REGISTER = "register";
 export const UPDATE_USER = "updateUser";
@@ -47,6 +48,16 @@ const actions = {
           context.commit(SET_ERROR, response.data.errors);
         });
     });
+  },
+  [GOOGLE_LOGIN]: async (context) => {
+    return new Promise((resolve, reject) => {
+      ApiService.get("users/urlgoogle").then(({data}) => {
+        resolve(data.url)
+      }).catch(err => {
+        reject(err)
+      })
+      context
+    })
   },
   [LOGOUT](context) {
     context.commit(PURGE_AUTH);

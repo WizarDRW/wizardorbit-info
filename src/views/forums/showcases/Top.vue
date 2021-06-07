@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-card>
+    <v-card tile>
       <v-card-title>
         <v-spacer></v-spacer>
         <v-spacer></v-spacer>
@@ -70,9 +70,9 @@ export default {
     };
   },
   methods: {
-    /** Saylafalama */
+    /** Sayfalama */
     pagination() {
-      var arr = this.datas.filter((x) => x.name.includes(this.search));
+      var arr = this.datas;
       this.pages = Math.ceil(arr.length / this.pagPage);
       var arrPages = [];
       let count = 0;
@@ -93,10 +93,15 @@ export default {
       this.datas = this._forums;
       return this.pagination()[this.page - 1];
     },
-    toContent(item){
-      this.$emit("content", item)
-    }
+    toContent(item) {
+      this.$emit("content", item);
+    },
   },
+  watch: {
+    search(val) {
+      this.$emit('search', val);
+    }
+  }
 };
 </script>
 
