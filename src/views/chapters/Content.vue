@@ -116,20 +116,18 @@ export default {
     },
   },
   metaInfo() {
+    var data = [];
+    this.chapter.tags && this.chapter.tags.forEach((el) => {
+      data.push({ property: `og:${el.key}`, content: `${el.tag}` });
+    });
     return {
-      title: "Sihirbaz Forum",
+      title: this.chapter.name,
       meta: [
         {
           name: "description",
-          content:
-            "En yeni teknoloji haberleri, Bilgi öğrenmek için yazılar ve sorunlarınıza çözüm için soru cevaplar. ",
+          content: this.chapter.short_description,
         },
-        {
-          property: "og:title",
-          content: "Sihirbaz Forum",
-        },
-        { property: "og:sihirbazforum.com", content: "Sihirbaz" },
-        { property: "og:type", content: "website" },
+        ...data,
         { name: "robots", content: "index,follow" },
       ],
     };

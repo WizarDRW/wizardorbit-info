@@ -2,34 +2,34 @@
   <v-container>
     <v-card>
       <v-card-title>
-        <h2>{{ data.name }}</h2>
+        <h2>{{ forum.name }}</h2>
       </v-card-title>
       <v-container>
         <v-row>
           <v-col sm="2" md="1" lg="1">
             <v-img
               :src="
-                data.user_data.image_path
-                  ? data.user_data.image_path
+                forum.user_data.image_path
+                  ? forum.user_data.image_path
                   : `@/assets/vendor/img/null_profile.png`
               "
               width="100%"
             ></v-img>
             <div class="w-100 text-center">
-              <p>{{ data.user_data.first_name }}</p>
+              <p>{{ forum.user_data.first_name }}</p>
             </div>
           </v-col>
           <v-col sm="10" md="11" lg="11">
             <v-card-actions>
               <v-list-item class="grow">
-                {{ data.create_date | moment("DD MMMM YYYY HH:mm") }}
+                {{ forum.create_date | moment("DD MMMM YYYY HH:mm") }}
 
                 <v-row align="center" justify="end">
                   <i class="mr-2">
                     <a
-                      :href="`mailTo:${data.user_data.email}`"
+                      :href="`mailTo:${forum.user_data.email}`"
                       target="_blank"
-                      >{{ data.user_data.email }}</a
+                      >{{ forum.user_data.email }}</a
                     ></i
                   >
                   <div v-if="$store.getters.isAuthenticated">
@@ -58,7 +58,7 @@
               </v-list-item>
             </v-card-actions>
             <v-card-text>
-              <div v-html="data.description"></div>
+              <div v-html="forum.description"></div>
             </v-card-text>
           </v-col>
         </v-row>
@@ -238,6 +238,7 @@ import {
 } from "@/core/services/store/forum.module";
 import ObjectId from "bson-objectid";
 export default {
+  name: "ForumContent",
   components: {
     /**
      * Rich textbox
@@ -246,7 +247,7 @@ export default {
   },
   data() {
     return {
-      data: {
+      forum: {
         user_data: {
           image_path: "",
         },
@@ -270,16 +271,16 @@ export default {
       if (!this.$store.getters.getForum) {
         await this.$store.dispatch(GET_API_FORUM, this.$route.params.id);
       }
-      this.data = this.$store.getters.getForum;
-      if (this.data) this.loading = false;
-      this.getComments(this.data);
+      this.forum = this.$store.getters.getForum;
+      if (this.forum) this.loading = false;
+      this.getComments(this.forum);
     },
     /** Get Comments in Comment */
-    getComments(data) {
-      var arr = data.comments.map((el) => {
+    getComments(forum) {
+      var arr = forum.comments.map((el) => {
         return {
           ...el,
-          user_data: data.comments_user_data.find((x) => x._id == el.user_id),
+          user_data: forum.comments_user_data.find((x) => x._id == el.user_id),
         };
       });
       this.comments = arr;
@@ -308,7 +309,7 @@ export default {
         user_id: ObjectId(this.$store.getters.currentUser._id),
       };
       var postData = await this.$store.dispatch(FORUM_SENT_COMMENT, {
-        id: this.data._id,
+        id: this.forum._id,
         comment: this.comment,
       });
       if (postData.status === 201) {
@@ -342,6 +343,23 @@ export default {
     listPag() {
       return this.pagination()[this.page - 1];
     },
+  },
+  metaInfo() {
+    var data = [];
+    this.forum.tags && this.forum.tags.forEach((el) => {
+      data.push({ property: `og:${el.key}`, content: `${el.tag}` });
+    });
+    return {
+      title: this.forum.name,
+      meta: [
+        {
+          name: "description",
+          content: this.forum.short_description,
+        },
+        ...data,
+        { name: "robots", content: "index,follow" },
+      ],
+    };
   },
 };
 </script>

@@ -18,7 +18,9 @@ Vue.use(VueMasonryPlugin);
 Vue.use(VueGtag, {
   config: { id: 'G-7NCN3ZZBC9' }
 })
-Vue.use(VueMeta)
+Vue.use(VueMeta, {
+  refreshOnceOnNavigation: true
+})
 require('moment/locale/tr')
 Vue.use(require('vue-moment'), {
   moment
@@ -32,7 +34,7 @@ ApiService.init();
 
 
 router.beforeEach(async (to, from, next) => {
-  var theme = localStorage.getItem("theme") ? JSON.parse(localStorage.getItem("theme")): { auto: true, dark: null, name: ""}
+  var theme = localStorage.getItem("theme") ? JSON.parse(localStorage.getItem("theme")) : { auto: true, dark: null, name: "" }
   if (theme.auto) {
     store.dispatch(AUTO_THEME, theme)
   }
