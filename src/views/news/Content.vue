@@ -53,6 +53,7 @@
         </v-card-subtitle>
       </div>
     </v-card>
+    <v-card v-intersect.once="onIntersect"></v-card>
   </v-container>
 </template>
 
@@ -95,18 +96,23 @@ export default {
     }
     this.news = this.$store.getters.getNews;
     if (this.news) this.loading = false;
-    fetch("https://api.ipify.org?format=json")
-      .then((response) => response.json())
-      .then(async ({ ip }) => {
-        await this.$store.dispatch(IMPRESSION_NEWS_UPDATE, {
-          id: this.$route.params.id,
-          ip: ip,
-        });
-      });
   },
   methods: {
     compiledMarkdown(item) {
       return marked(item.val);
+    },
+    /** Okuma oranı */
+    onIntersect(entries, observer, isIntersecting) {
+      if (isIntersecting) {
+        fetch("https://api.ipify.org?format=json")
+          .then((response) => response.json())
+          .then(async ({ ip }) => {
+            await this.$store.dispatch(IMPRESSION_NEWS_UPDATE, {
+              id: this.$route.params.id,
+              ip: ip,
+            });
+          });
+      }
     },
   },
   metaInfo() {

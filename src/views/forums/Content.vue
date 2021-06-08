@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-card>
+    <v-card v-intersect.once="onIntersect">
       <v-card-title>
         <h2>{{ forum.name }}</h2>
       </v-card-title>
@@ -235,6 +235,7 @@
 import {
   GET_API_FORUM,
   FORUM_SENT_COMMENT,
+  IMPRESSION_FORUM_UPDATE
 } from "@/core/services/store/forum.module";
 import ObjectId from "bson-objectid";
 export default {
@@ -342,6 +343,19 @@ export default {
     /** Seçilen Sayfalama */
     listPag() {
       return this.pagination()[this.page - 1];
+    },
+    /** Okuma oranı */
+    onIntersect(entries, observer, isIntersecting) {
+      if (isIntersecting) {
+        fetch("https://api.ipify.org?format=json")
+          .then((response) => response.json())
+          .then(async ({ ip }) => {
+            await this.$store.dispatch(IMPRESSION_FORUM_UPDATE, {
+              id: this.$route.params.id,
+              ip: ip,
+            });
+          });
+      }
     },
   },
   metaInfo() {

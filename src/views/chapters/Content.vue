@@ -8,8 +8,8 @@
         {{ chapter.short_description }}
       </v-card-subtitle>
       <v-img
-        :src="chapter.image_path"
-        :lazy-src="chapter.image_path"
+        :src="chapter.image_path ? chapter.image_path : ''"
+        :lazy-src="chapter.image_path ? chapter.image_path : ''"
         height="400"
         :alt="chapter._id"
       ></v-img>
@@ -49,13 +49,16 @@
       </div>
       <div class="user-info">
         <v-card-title>
-          {{ `${chapter.user_data.first_name}  ${chapter.user_data.last_name}` }}
+          {{
+            `${chapter.user_data.first_name}  ${chapter.user_data.last_name}`
+          }}
         </v-card-title>
         <v-card-subtitle>
           <i class="ni business_briefcase-24"></i>{{ chapter.user_data.title }}
         </v-card-subtitle>
       </div>
     </v-card>
+    <v-card v-intersect.once="onIntersect"></v-card>
   </v-container>
 </template>
 
@@ -68,6 +71,7 @@ import {
   IMPRESSION_CHAPTER_UPDATE,
 } from "@/core/services/store/chapter.module";
 export default {
+  name: "ChapterContent",
   props: {
     _chapter: {
       type: Object,
@@ -80,9 +84,7 @@ export default {
   data() {
     return {
       user: {},
-      chapter: {
-        image_path: "",
-      },
+      chapter: {},
       loading: true,
     };
   },
@@ -101,25 +103,30 @@ export default {
     }
     this.chapter = this.$store.getters.getChapter;
     if (this.chapter) this.loading = false;
-    fetch("https://api.ipify.org?format=json")
-      .then((response) => response.json())
-      .then(async ({ ip }) => {
-        await this.$store.dispatch(IMPRESSION_CHAPTER_UPDATE, {
-          id: this.$route.params.id,
-          ip: ip,
-        });
-      });
   },
   methods: {
     compiledMarkdown(item) {
       return marked(item.val);
     },
+    onIntersect(entries, observer, isIntersecting) {
+      if (isIntersecting) {
+        fetch("https://api.ipify.org?format=json")
+          .then((response) => response.json())
+          .then(async ({ ip }) => {
+            await this.$store.dispatch(IMPRESSION_CHAPTER_UPDATE, {
+              id: this.$route.params.id,
+              ip: ip,
+            });
+          });
+      }
+    },
   },
   metaInfo() {
     var data = [];
-    this.chapter.tags && this.chapter.tags.forEach((el) => {
-      data.push({ property: `og:${el.key}`, content: `${el.tag}` });
-    });
+    this.chapter.tags &&
+      this.chapter.tags.forEach((el) => {
+        data.push({ property: `og:${el.key}`, content: `${el.tag}` });
+      });
     return {
       title: this.chapter.name,
       meta: [

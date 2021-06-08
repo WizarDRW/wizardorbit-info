@@ -33,9 +33,9 @@ export default {
     [USER_CHAPTERS]: (context, payload) => context.commit(SET_USER_CHAPTERS, payload),
     [GET_API_USER_CHAPTERS]: async (context, userid) => context.commit(SET_USER_CHAPTERS, (await ApiService.get(`chapters/userid/${userid}`)).data),
     [IMPRESSION_CHAPTER_UPDATE]: async (context, data) =>
-      ApiService.put("/blogs/updateImpression/id/" + data.id, {
+      ApiService.put("/chapters/updateImpression/id/" + data.id, {
         ip_address: data.ip,
-        blog_id: data.id,
+        chapter_id: data.id,
       })
   },
   mutations: {
