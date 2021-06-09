@@ -107,8 +107,8 @@ export default {
       this.$store
         .dispatch(REGISTER, { ...this.user })
         .then(x=> {
-            if(x.token){
-                window.open(`https://panel.sihirbazforum.com/auth/${x.token}`);
+            if(x){
+                this.$store.dispatch('currentUser')
                 this.reset();
             }
         })

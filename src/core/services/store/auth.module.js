@@ -42,7 +42,6 @@ const actions = {
         .then(({ data }) => {
           context.commit(SET_AUTH, data);
           resolve(data);
-          context.commit(CURRENT_USER)
         })
         .catch(({ response }) => {
           context.commit(SET_ERROR, response.data.errors);
@@ -51,7 +50,7 @@ const actions = {
   },
   [GOOGLE_LOGIN]: async (context) => {
     return new Promise((resolve, reject) => {
-      ApiService.get("users/urlgoogle").then(({data}) => {
+      ApiService.get("users/urlgoogle").then(({ data }) => {
         resolve(data.url)
       }).catch(err => {
         reject(err)
@@ -60,11 +59,18 @@ const actions = {
     })
   },
   [LOGOUT](context) {
-    context.commit(PURGE_AUTH);
+    return new Promise((resolve, reject) => {
+      ApiService.post("users/destroysession").then(({ data }) => {
+        context.commit(PURGE_AUTH);
+        resolve(data)
+      }).catch(err => {
+        reject(err)
+      })
+    })
   },
   [REGISTER](context, credentials) {
     return new Promise((resolve, reject) => {
-      ApiService.post("users", credentials)
+      ApiService.post("users/register", credentials)
         .then(({ data }) => {
           context.commit(SET_AUTH, data);
           resolve(data);
@@ -77,15 +83,15 @@ const actions = {
   },
   [VERIFY_AUTH](context) {
     if (JwtService.getToken()) {
+      console.log(JwtService.getToken());
       ApiService.setHeader();
       ApiService.get("users/verify")
         .then((x) => {
-          if (!x.data) {
+          if (x) {
             context.commit(PURGE_AUTH);
           }
         })
         .catch(() => {
-          //context.commit(SET_ERROR, response.data.errors);
           context.commit(PURGE_AUTH);
         });
     } else {
@@ -104,39 +110,34 @@ const actions = {
       return data;
     });
   },
-  async [CURRENT_USER](context) {
-    if (JwtService.getToken()) {
-      return new Promise((resolve, reject) => {
-        ApiService.setHeader();
-        ApiService.get("users/whoami")
-          .then(({ data }) => {
-            context.commit(SET_CURRENT_USER, data);
-            resolve(data);
-          })
-          .catch((response) => {
-            context.commit(PURGE_AUTH);
-            reject(response);
-          });
-      })
-    }
+  [CURRENT_USER](context) {
+    return new Promise((resolve, reject) => {
+      ApiService.get("users/whoami")
+        .then(({ data }) => {
+          context.commit(SET_CURRENT_USER, data);
+          resolve(data);
+        })
+        .catch((response) => {
+          context.commit(PURGE_AUTH);
+          reject(response);
+        });
+    })
   }
 };
 
 const mutations = {
   [SET_CURRENT_USER](state, data) {
     state.user = data;
+    state.isAuthenticated = true;
   },
   [SET_ERROR](state, error) {
     state.errors = error;
   },
   [SET_AUTH](state, data) {
-    state.isAuthenticated = true;
-    JwtService.saveToken(data.token);
-    localStorage.setItem("USER_INFO", JSON.stringify(data.user))
+    state.isAuthenticated = data;
   },
   [PURGE_AUTH](state) {
     state.isAuthenticated = false;
-    JwtService.destroyToken();
   }
 };
 

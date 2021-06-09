@@ -39,7 +39,7 @@ export default {
     [IMPRESSION_FORUM_UPDATE]: async (context, data) => {
       ApiService.put("/forums/updateImpression/id/" + data.id, {
         ip_address: data.ip,
-        blog_id: data.id,
+        forum_id: data.id,
       });
     },
     [FORUM_SENT_COMMENT]: async (context, { id, comment }) => (await ApiService.post(`forums/comment/${id}`, comment)),

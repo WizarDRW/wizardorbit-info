@@ -63,7 +63,7 @@ export default {
       const password = this.user.password;
       this.loading = true;
       this.$store.dispatch(LOGIN, { email, password }).then((x) => {
-        if (x.token) {
+        if (x) {
           this.$store.dispatch(CURRENT_USER)
           this.loading = false;
         } else {

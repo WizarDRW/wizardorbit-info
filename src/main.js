@@ -10,10 +10,12 @@ import VueCodeHighlight from 'vue-code-highlight';
 import Katex from 'vue-katex-auto-render'
 import { VueMasonryPlugin } from "vue-masonry";
 import { AUTO_THEME } from "./core/services/store/option.module";
+import VueCookies from 'vue-cookies'
 
 const moment = require('moment')
 
 Vue.use(VueCodeHighlight)
+Vue.use(VueCookies)
 Vue.use(VueMasonryPlugin);
 Vue.use(VueGtag, {
   config: { id: 'G-7NCN3ZZBC9' }

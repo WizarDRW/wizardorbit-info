@@ -43,7 +43,7 @@ export default {
         async [IMPRESSION_NEWS_UPDATE](context, data) {
           ApiService.put("/blogs/updateImpression/id/" + data.id, {
             ip_address: data.ip,
-            blog_id: data.id,
+            news_id: data.id,
           });
         }
     },
