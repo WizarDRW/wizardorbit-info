@@ -38,7 +38,12 @@
         </v-menu>
       </div>
       <div class="theme-mode navbar-nav">
-        <v-btn name="themeBtn" color="header_theme_btn" @click="themeMode(!$store.getters.getTheme.isDark)" icon>
+        <v-btn
+          name="themeBtn"
+          color="header_theme_btn"
+          @click="themeMode(!$store.getters.getTheme.isDark)"
+          icon
+        >
           <v-icon>{{
             $store.getters.getTheme.isDark
               ? "mdi-weather-sunny"
@@ -84,7 +89,7 @@
             </v-avatar>
           </template>
           <v-list>
-            <v-list-item @click="open()">
+            <v-list-item @click="open('http://localhost:8080')">
               <v-list-item-title
                 ><v-icon>mdi-solar-panel</v-icon>&nbsp;Panele
                 Git</v-list-item-title
@@ -129,7 +134,14 @@
           offset-y
         >
           <template v-slot:activator="{ on, attrs }">
-            <v-btn name="loginBtn" color="header_login_btn" text dark v-bind="attrs" v-on="on">
+            <v-btn
+              name="loginBtn"
+              color="header_login_btn"
+              text
+              dark
+              v-bind="attrs"
+              v-on="on"
+            >
               Giriş
             </v-btn>
           </template>
@@ -162,7 +174,12 @@
     </v-app-bar>
     <v-navigation-drawer color="header" v-model="drawer" temporary app>
       <div class="theme-mode">
-        <v-btn name="themeBtn" color="header_theme_btn" @click="themeMode()" icon>
+        <v-btn
+          name="themeBtn"
+          color="header_theme_btn"
+          @click="themeMode()"
+          icon
+        >
           <v-icon>{{
             $store.getters.getTheme.dark
               ? "mdi-weather-sunny"
@@ -226,7 +243,7 @@ export default {
   },
   created() {
     window.addEventListener("scroll", this.onScroll);
-    ApiService.get("/menus/").then((x) => {
+    ApiService.get("/menus").then((x) => {
       this.categories = x.data
         .filter((y) => y.status)
         .sort((a, b) => a.sort - b.sort);
@@ -259,16 +276,6 @@ export default {
     search() {
       if (this.find != "") this.$router.push("/find/" + this.find);
     },
-    /**
-     * Admin panel open
-     */
-    open() {
-      window.open(
-        `https://panel.sihirbazforum.com/auth/${localStorage.getItem(
-          "id_token"
-        )}`
-      );
-    },
     /** Theme Mode */
     themeMode(status) {
       this.$store.dispatch(THEME, {
@@ -279,15 +286,21 @@ export default {
     /**
      * to Profile
      */
-    toProfile(){
-      
+    toProfile() {
+      this.$router.push({
+        name: "Profile",
+        params: { id: this.$store.getters.currentUser._id },
+      });
+    },
+    open(path) {
+      window.open(path);
     },
     afternoon() {
       this.$store.dispatch(THEME, {
         isDark: false,
-        name: "morning"
-      })
-    }
+        name: "morning",
+      });
+    },
   },
   watch: {
     windowTop(newValue, oldValue) {

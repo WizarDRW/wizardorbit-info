@@ -37,20 +37,24 @@ const actions = {
       email: credentials.email,
       password: credentials.password
     }
-    return new Promise(resolve => {
-      ApiService.post("users/login", user)
-        .then(({ data }) => {
-          context.commit(SET_AUTH, data);
-          resolve(data);
+    return new Promise((resolve, reject) => {
+      ApiService.post("auth/dologin", user)
+        .then((x) => {
+          if (x.status == 200) {
+            context.commit(SET_AUTH, true);
+            context.commit(CURRENT_USER);
+            resolve(x);
+          }
         })
         .catch(({ response }) => {
           context.commit(SET_ERROR, response.data.errors);
+          reject(response);
         });
     });
   },
   [GOOGLE_LOGIN]: async (context) => {
     return new Promise((resolve, reject) => {
-      ApiService.get("users/urlgoogle").then(({ data }) => {
+      ApiService.get("auth/urlgoogle").then(({ data }) => {
         resolve(data.url)
       }).catch(err => {
         reject(err)
@@ -60,7 +64,7 @@ const actions = {
   },
   [LOGOUT](context) {
     return new Promise((resolve, reject) => {
-      ApiService.post("users/destroysession").then(({ data }) => {
+      ApiService.post("auth/destroysession").then(({ data }) => {
         context.commit(PURGE_AUTH);
         resolve(data)
       }).catch(err => {
@@ -70,10 +74,16 @@ const actions = {
   },
   [REGISTER](context, credentials) {
     return new Promise((resolve, reject) => {
-      ApiService.post("users/register", credentials)
+      ApiService.post("auth/register", credentials)
         .then(({ data }) => {
-          context.commit(SET_AUTH, data);
-          resolve(data);
+          if (data) {
+            context.commit(SET_AUTH, true);
+            context.commit(CURRENT_USER);
+            resolve(data);
+          } else {
+            context.commit(PURGE_AUTH);
+            reject(data);
+          }
         })
         .catch(({ response }) => {
           context.commit(SET_ERROR, response.data.errors);
@@ -85,7 +95,7 @@ const actions = {
     if (JwtService.getToken()) {
       console.log(JwtService.getToken());
       ApiService.setHeader();
-      ApiService.get("users/verify")
+      ApiService.get("auth/verify")
         .then((x) => {
           if (x) {
             context.commit(PURGE_AUTH);

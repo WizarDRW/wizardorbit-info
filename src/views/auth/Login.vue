@@ -1,8 +1,5 @@
 <template>
   <div id="inspire">
-    <div class="alert">
-      <v-alert v-if="error.status" type="error"> {{ error.message }} </v-alert>
-    </div>
     <v-card>
       <v-card-text>
         <v-form>
@@ -24,6 +21,13 @@
         </v-form>
       </v-card-text>
       <v-card-actions>
+        <s-alert
+          v-if="alert"
+          _type="error"
+          :_message="error.message"
+          _dense
+          v-on:closeAlert="(val) => (alert = val)"
+        ></s-alert>
         <v-spacer></v-spacer>
         <v-btn @click="login()" color="primary" :disabled="loading">
           <v-progress-circular
@@ -43,7 +47,9 @@
 import { LOGIN, CURRENT_USER } from "@/core/services/store/auth.module";
 export default {
   name: "Login",
-  components: {},
+  components: {
+    SAlert: () => import(`@/components/Alert.vue`),
+  },
   data() {
     return {
       user: {
@@ -62,32 +68,37 @@ export default {
       const email = this.user.email;
       const password = this.user.password;
       this.loading = true;
-      this.$store.dispatch(LOGIN, { email, password }).then((x) => {
-        if (x) {
-          this.$store.dispatch(CURRENT_USER)
-          this.loading = false;
-        } else {
-          this.error.status = true;
+      this.$store
+        .dispatch(LOGIN, { email, password })
+        .then((x) => {
+          if (x.status == 200) {
+            this.$store.dispatch(CURRENT_USER);
+            this.loading = false;
+          }
+        })
+        .catch((x) => {
+          this.alert = true;
           this.error.message = x.data.message;
           this.loading = false;
-          setTimeout(() => {
-            this.error.status = false;
-          }, 5000);
-        }
-      }).catch(() => this.loading = false);
+        });
     },
-    async googleAuth(){
-      var url = await this.$store.dispatch('googleLogin')
-      window.open(url)
-    }
+    async googleAuth() {
+      var url = await this.$store.dispatch("googleLogin");
+      window.open(url);
+    },
+  },
+  computed: {
+    alert: {
+      get() {
+        return this.error.status;
+      },
+      set(value) {
+        this.error.status = value;
+      },
+    },
   },
 };
 </script>
 
 <style scoped>
-.alert {
-  position: absolute;
-  right: 5px;
-  top: 5px;
-}
 </style>

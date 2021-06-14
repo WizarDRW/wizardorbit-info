@@ -12,7 +12,10 @@
       <v-row>
         <v-col cols="12" sm="8" md="8" lg="8" xl="10"> </v-col>
         <v-col
-          v-if="$store.getters.isAuthenticated"
+          v-if="
+            $store.getters.isAuthenticated &&
+            $store.getters.currentUser._id != _user._id
+          "
           align="right"
           cols="12"
           sm="4"
@@ -22,6 +25,17 @@
         >
           <v-btn text color="header_theme_btn">Takip Et</v-btn>
           <v-btn text color="header_theme_btn">Mesaj Gönder</v-btn>
+        </v-col>
+        <v-col
+          v-else-if="$store.getters.currentUser._id == _user._id"
+          align="end"
+          cols="12"
+          sm="4"
+          md="4"
+          lg="4"
+          xl="2"
+        >
+          <v-btn fab text color="header_theme_btn"> <v-icon>mdi-pencil</v-icon> </v-btn>
         </v-col>
       </v-row>
     </v-card>
