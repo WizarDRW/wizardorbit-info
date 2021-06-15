@@ -21,10 +21,17 @@
             <tr @click="toContent(item)">
               <td width="20px">
                 <v-avatar
-                  ><v-img :src="item.user_data.image_path"></v-img
+                  ><v-img
+                    :src="
+                      item.user_data.image_path
+                        ? item.user_data.image_path
+                        : require('@/assets/vendor/img/null_profile.png')
+                    "
+                  ></v-img
                 ></v-avatar>
               </td>
-              <td>{{ item.user_data.email }}</td>
+              <td v-if="item.user_data.username">@{{ item.user_data.username }}</td>
+              <td v-if="item.user_data.email">{{ item.user_data.email }}</td>
               <td>{{ item.name }}</td>
               <td>{{ item.create_date | moment("DD MMMM YYYY HH:mm") }}</td>
             </tr>
@@ -99,9 +106,9 @@ export default {
   },
   watch: {
     search(val) {
-      this.$emit('search', val);
-    }
-  }
+      this.$emit("search", val);
+    },
+  },
 };
 </script>
 

@@ -92,21 +92,16 @@ const actions = {
     });
   },
   [VERIFY_AUTH](context) {
-    if (JwtService.getToken()) {
-      console.log(JwtService.getToken());
-      ApiService.setHeader();
-      ApiService.get("auth/verify")
-        .then((x) => {
-          if (x) {
-            context.commit(PURGE_AUTH);
-          }
-        })
-        .catch(() => {
-          context.commit(PURGE_AUTH);
-        });
-    } else {
-      context.commit(PURGE_AUTH);
-    }
+    ApiService.setHeader();
+    ApiService.get("auth/verify")
+      .then((x) => {
+        if (x) {
+          context.commit(SET_AUTH, true);
+        }
+      })
+      .catch(() => {
+        context.commit(PURGE_AUTH);
+      });
   },
   [UPDATE_USER](context, payload) {
     const { email, username, password, image, bio } = payload;

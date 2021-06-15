@@ -21,7 +21,7 @@ export default new Vuetify({
     },
     themes: {
       light: themes[st_.name],
-      dark: themes.dark
+      dark: themes[st_.name]
     },
     dark: store.getters.getTheme.isDark
   }

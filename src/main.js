@@ -36,6 +36,7 @@ ApiService.init();
 
 
 router.beforeEach(async (to, from, next) => {
+  store.dispatch('verifyAuth')
   var theme = localStorage.getItem("theme") ? JSON.parse(localStorage.getItem("theme")) : { auto: true, dark: null, name: "" }
   if (theme.auto) {
     store.dispatch(AUTO_THEME, theme)

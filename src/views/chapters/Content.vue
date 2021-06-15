@@ -36,25 +36,36 @@
             :lazy-src="
               chapter.user_data.image_path
                 ? chapter.user_data.image_path
-                : '@/assets/vendor/img/null_profile.png'
+                : require('@/assets/vendor/img/null_profile.png')
             "
             :src="
               chapter.user_data.image_path
                 ? chapter.user_data.image_path
-                : '@/assets/vendor/img/null_profile.png'
+                : require('@/assets/vendor/img/null_profile.png')
             "
             width="10%"
           ></v-img>
         </v-avatar>
       </div>
       <div class="user-info">
-        <v-card-title>
-          {{
-            `${chapter.user_data.first_name}  ${chapter.user_data.last_name}`
-          }}
+        <v-card-title v-if="chapter.user_data.first_name || chapter.user_data.last_name">
+          <div v-if="chapter.user_data.first_name && chapter.user_data.last_name && chapter.user_data.reverse">
+            {{ chapter.user_data.last_name ? chapter.user_data.last_name : "" }},
+            {{ chapter.user_data.first_name ? chapter.user_data.first_name : "" }}
+          </div>
+          <div v-else>
+            {{ chapter.user_data.first_name ? chapter.user_data.first_name : "" }}
+            {{ chapter.user_data.last_name ? chapter.user_data.last_name : "" }}
+          </div>
         </v-card-title>
-        <v-card-subtitle>
-          <i class="ni business_briefcase-24"></i>{{ chapter.user_data.title }}
+        <v-card-title v-if="chapter.user_data.username">
+          @{{ chapter.user_data.username }}
+        </v-card-title>
+        <v-card-title v-if="chapter.user_data.email">
+          {{ chapter.user_data.email }}
+        </v-card-title>
+        <v-card-subtitle v-if="chapter.user_data.title">
+          {{ chapter.user_data.title }}
         </v-card-subtitle>
       </div>
     </v-card>

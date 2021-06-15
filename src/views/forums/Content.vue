@@ -6,26 +6,59 @@
       </v-card-title>
       <v-container>
         <v-row>
-          <v-col sm="2" md="1" lg="1">
-            <v-img
-              :src="
-                forum.user_data.image_path
-                  ? forum.user_data.image_path
-                  : `@/assets/vendor/img/null_profile.png`
-              "
-              width="100%"
-            ></v-img>
-            <div class="w-100 text-center">
-              <p>{{ forum.user_data.first_name }}</p>
+          <v-col align="center" cols="12" sm="2" md="2" lg="1">
+            <v-avatar size="100">
+              <v-img
+                :src="
+                  forum.user_data.image_path
+                    ? forum.user_data.image_path
+                    : require(`@/assets/vendor/img/null_profile.png`)
+                "
+                width="100%"
+              ></v-img>
+            </v-avatar>
+            <div class="user-info">
+              <v-card-subtitle
+                v-if="forum.user_data.first_name || forum.user_data.last_name"
+              >
+                <div
+                  v-if="
+                    forum.user_data.first_name &&
+                    forum.user_data.last_name &&
+                    forum.user_data.reverse
+                  "
+                >
+                  {{
+                    forum.user_data.last_name ? forum.user_data.last_name : ""
+                  }},
+                  {{
+                    forum.user_data.first_name ? forum.user_data.first_name : ""
+                  }}
+                </div>
+                <div v-else>
+                  {{
+                    forum.user_data.first_name ? forum.user_data.first_name : ""
+                  }}
+                  {{
+                    forum.user_data.last_name ? forum.user_data.last_name : ""
+                  }}
+                </div>
+              </v-card-subtitle>
+              <v-card-subtitle v-if="forum.user_data.username">
+                @{{ forum.user_data.username }}
+              </v-card-subtitle>
+              <v-card-subtitle v-if="forum.user_data.title">
+                {{ forum.user_data.title }}
+              </v-card-subtitle>
             </div>
           </v-col>
-          <v-col sm="10" md="11" lg="11">
+          <v-col cols="12" sm="10" md="10" lg="11">
             <v-card-actions>
               <v-list-item class="grow">
                 {{ forum.create_date | moment("DD MMMM YYYY HH:mm") }}
 
                 <v-row align="center" justify="end">
-                  <i class="mr-2">
+                  <i v-if="forum.user_data.email" class="mr-2">
                     <a
                       :href="`mailTo:${forum.user_data.email}`"
                       target="_blank"
@@ -81,20 +114,63 @@
           >
             <v-container>
               <v-row>
-                <v-col xs="12" sm="2" md="1">
-                  <v-img
-                    :src="
-                      item.user_data.image_path
-                        ? item.user_data.image_path
-                        : `@/assets/vendor/img/null_profile.png`
-                    "
-                    width="100%"
-                  ></v-img>
-                  <div class="w-100 text-center">
-                    <p>{{ item.user_data.first_name }}</p>
+                <v-col align="center" cols="12" sm="2" md="2" lg="2" xl="1">
+                  <v-avatar size="100">
+                    <v-img
+                      :src="
+                        item.user_data.image_path
+                          ? item.user_data.image_path
+                          : require(`@/assets/vendor/img/null_profile.png`)
+                      "
+                      width="100%"
+                    ></v-img>
+                  </v-avatar>
+                  <div class="user-info">
+                    <v-card-subtitle
+                      v-if="
+                        item.user_data.first_name || item.user_data.last_name
+                      "
+                    >
+                      <div
+                        v-if="
+                          item.user_data.first_name &&
+                          item.user_data.last_name &&
+                          item.user_data.reverse
+                        "
+                      >
+                        {{
+                          item.user_data.last_name
+                            ? item.user_data.last_name
+                            : ""
+                        }},
+                        {{
+                          item.user_data.first_name
+                            ? item.user_data.first_name
+                            : ""
+                        }}
+                      </div>
+                      <div v-else>
+                        {{
+                          item.user_data.first_name
+                            ? item.user_data.first_name
+                            : ""
+                        }}
+                        {{
+                          item.user_data.last_name
+                            ? item.user_data.last_name
+                            : ""
+                        }}
+                      </div>
+                    </v-card-subtitle>
+                    <v-card-subtitle v-if="item.user_data.username">
+                      @{{ item.user_data.username }}
+                    </v-card-subtitle>
+                    <v-card-subtitle v-if="item.user_data.title">
+                      {{ item.user_data.title }}
+                    </v-card-subtitle>
                   </div>
                 </v-col>
-                <v-col xs="12" sm="10" md="11">
+                <v-col cols="12" sm="10" md="10" lg="10" xl="11">
                   <v-card-actions>
                     <v-list-item class="grow">
                       {{ item.create_date | moment("DD MMMM YYYY HH:mm") }}
@@ -186,22 +262,22 @@
           <v-card v-if="$store.getters.isAuthenticated">
             <v-container>
               <v-row>
-                <v-col md="1">
-                  <v-img
-                    v-if="$store.getters.currentUser.image_path"
-                    :src="$store.getters.currentUser.image_path"
-                    width="100%"
-                  ></v-img>
-                  <v-img
-                    v-else
-                    width="100%"
-                    src="@/assets/vendor/img/null_profile.png"
-                  ></v-img>
+                <v-col align="center" cols="12" sm="2" md="2">
+                  <v-avatar size="100">
+                    <v-img
+                      v-if="$store.getters.currentUser.image_path"
+                      :src="$store.getters.currentUser.image_path"
+                    ></v-img>
+                    <v-img
+                      v-else
+                      src="@/assets/vendor/img/null_profile.png"
+                    ></v-img>
+                  </v-avatar>
                   <div class="w-100 text-center">
-                    <p>{{ $store.getters.currentUser.first_name }}</p>
+                    <p>@{{ $store.getters.currentUser.username }}</p>
                   </div>
                 </v-col>
-                <v-col>
+                <v-col cols="12" sm="10" md="10">
                   <div v-if="nested(comment.comment_id)" class="nested">
                     <div
                       v-html="
@@ -235,7 +311,7 @@
 import {
   GET_API_FORUM,
   FORUM_SENT_COMMENT,
-  IMPRESSION_FORUM_UPDATE
+  IMPRESSION_FORUM_UPDATE,
 } from "@/core/services/store/forum.module";
 import ObjectId from "bson-objectid";
 export default {
@@ -360,9 +436,10 @@ export default {
   },
   metaInfo() {
     var data = [];
-    this.forum.tags && this.forum.tags.forEach((el) => {
-      data.push({ property: `og:${el.key}`, content: `${el.tag}` });
-    });
+    this.forum.tags &&
+      this.forum.tags.forEach((el) => {
+        data.push({ property: `og:${el.key}`, content: `${el.tag}` });
+      });
     return {
       title: this.forum.name,
       meta: [
