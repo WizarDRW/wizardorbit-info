@@ -3,21 +3,8 @@
     v-model="_content.description"
     placeholder="Yazınız…"
     :extensions="extensions"
-    :toolbar-attributes="{ color: 'black' }"
+    :toolbar-attributes="{ color: 'tiptaptoolbar' }"
   >
-    <template #toolbar-after>
-      <div class="delete-btn">
-        <v-btn
-          @click="
-            () => {
-              $emit('delete_item');
-            }
-          "
-          icon
-          ><v-icon>mdi-delete-variant</v-icon></v-btn
-        >
-      </div>
-    </template>
   </tiptap-vuetify>
 </template>
 

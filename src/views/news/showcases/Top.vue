@@ -3,7 +3,7 @@
     <v-row>
       <v-col v-for="item in get()" :key="item._id" md="6" lg="4">
         <div @click="toContent(item)" class="click">
-          <v-card tile rounded outlined hover>
+          <v-card color="v_card_background" tile rounded hover>
             <v-img :src="item.image_path" height="150px"></v-img>
             <v-card-title>
               {{ item.name }}

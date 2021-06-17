@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-card :loading="loading" outlined raised>
+    <v-card color="v_card_background" :loading="loading" outlined raised>
       <v-card-title>
         {{ news.name }}
       </v-card-title>
@@ -151,10 +151,13 @@ export default {
 
 <style lang="scss" scoped>
 .v-card__title,
-.v-card__subtitle {
+.v-card__subtitle,
+.v-card__text {
   justify-content: center;
   text-align: center;
+  color: var(--v-v_card_title_color-base) !important;
 }
+
 .user-image {
   margin-top: 30px;
   width: 100%;
@@ -164,5 +167,11 @@ export default {
   padding: 0 0 20px 0;
   width: 100%;
   text-align: center;
+}
+
+.user-info .v-card__title,
+.user-info .v-card__subtitle,
+.user-info .v-card__text {
+  padding: 0;
 }
 </style>

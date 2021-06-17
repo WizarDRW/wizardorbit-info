@@ -3,14 +3,14 @@
     <div v-if="loading"></div>
     <v-row v-else>
       <v-col>
-        <v-card tile>
-          <v-card-title> {{ selectedCat ? selectedCat.label:"" }} </v-card-title>
+        <v-card v-if="selectedCat" color="v_card_background" tile>
+          <v-card-title> {{ selectedCat.label }} </v-card-title>
         </v-card>
         <top :_forums="selectedFilterCategories" v-on:content="toContent" v-on:search="search"></top>
       </v-col>
     </v-row>
     <v-row>
-      <v-col md="4">
+      <v-col md="6">
         <time-line
           :_forums="filterTimeline"
           v-on:content="toContent"

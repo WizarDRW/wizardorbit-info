@@ -1,5 +1,4 @@
 import ApiService from "@/core/services/api.service";
-import JwtService from "@/core/services/jwt.service";
 
 // action types
 export const VERIFY_AUTH = "verifyAuth";
@@ -19,7 +18,7 @@ export const SET_ERROR = "setError";
 const state = {
   errors: null,
   user: {},
-  isAuthenticated: !!JwtService.getToken()
+  isAuthenticated: false
 };
 
 const getters = {
@@ -41,8 +40,12 @@ const actions = {
       ApiService.post("auth/dologin", user)
         .then((x) => {
           if (x.status == 200) {
-            context.commit(SET_AUTH, true);
+            context.commit(SET_AUTH);
             context.commit(CURRENT_USER);
+            context.dispatch(
+              "getApiUserTheme",
+              context.getters.currentUser._id
+            );
             resolve(x);
           }
         })
@@ -92,11 +95,10 @@ const actions = {
     });
   },
   [VERIFY_AUTH](context) {
-    ApiService.setHeader();
     ApiService.get("auth/verify")
       .then((x) => {
-        if (x) {
-          context.commit(SET_AUTH, true);
+        if (x.data) {
+          context.commit(SET_AUTH);
         }
       })
       .catch(() => {
@@ -138,8 +140,8 @@ const mutations = {
   [SET_ERROR](state, error) {
     state.errors = error;
   },
-  [SET_AUTH](state, data) {
-    state.isAuthenticated = data;
+  [SET_AUTH](state) {
+    state.isAuthenticated = true;
   },
   [PURGE_AUTH](state) {
     state.isAuthenticated = false;

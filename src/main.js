@@ -9,7 +9,6 @@ import ApiService from "./core/services/api.service";
 import VueCodeHighlight from 'vue-code-highlight';
 import Katex from 'vue-katex-auto-render'
 import { VueMasonryPlugin } from "vue-masonry";
-import { AUTO_THEME } from "./core/services/store/option.module";
 import VueCookies from 'vue-cookies'
 
 const moment = require('moment')
@@ -34,19 +33,14 @@ Vue.config.silent = true;
 Vue.config.devtools = false;
 ApiService.init();
 
-
-router.beforeEach(async (to, from, next) => {
+router.beforeEach((to, from, next) => {
   store.dispatch('verifyAuth')
-  var theme = localStorage.getItem("theme") ? JSON.parse(localStorage.getItem("theme")) : { auto: true, dark: null, name: "" }
-  if (theme.auto) {
-    store.dispatch(AUTO_THEME, theme)
-  }
   next();
 })
 
 new Vue({
-  vuetify,
-  router,
   store,
+  router,
+  vuetify,
   render: h => h(App)
 }).$mount('#app')

@@ -1,11 +1,12 @@
 <template>
   <div>
-    <h3>
+    <h3 class="secondary--text">
       {{ _ly == "daily" ? "Bugün" : _ly == "monthly" ? "1 Ay" : "1 Yıl" }}
       içerisinde en çok okunanlar
     </h3>
     <br />
     <v-card
+      color="v_card_background"
       tile
       rounded
       outlined
@@ -87,5 +88,8 @@ export default {
 }
 .click {
   cursor: pointer;
+}
+.v-card{
+  color: var(--v-v_card_title_color-base) !important
 }
 </style>

@@ -3,10 +3,10 @@
     <v-container>
       <v-row>
         <v-col cols="6">
-          <h2>Blog Aramaları</h2>
+          <h2 class="secondary--text">Bölüm Aramaları</h2>
           <v-row>
-            <v-col v-for="item in blogs" :key="item._id">
-              <v-card>
+            <v-col v-for="item in chapters" :key="item._id">
+              <v-card color="v_card_background">
                 <img :src="item.image_path" width="100%" alt="" />
                 <v-card-title>
                   {{ item.name }}
@@ -19,7 +19,7 @@
           </v-row>
         </v-col>
         <v-col cols="6">
-          <h2>Haber Aramaları</h2>
+          <!-- <h2 class="secondary--text">Haber Aramaları</h2> -->
         </v-col>
       </v-row>
     </v-container>
@@ -33,7 +33,7 @@ export default {
   components: {},
   data() {
     return {
-      blogs: [],
+      chapters: [],
       modal: false,
       contact: {
         email: "",
@@ -48,8 +48,8 @@ export default {
   },
   methods: {
     getData() {
-      ApiService.get(`/blogs/find/${this.$route.params.text}`).then((x) => {
-        this.blogs = x.data.sort(
+      ApiService.get(`/chapters/find/${this.$route.params.text}`).then((x) => {
+        this.chapters = x.data.sort(
           (x, y) => new Date(y.create_date) - new Date(x.create_date)
         );
         this.loading = false;
@@ -75,4 +75,10 @@ export default {
 
 
 <style lang="scss" scoped>
+.v-card__title, .v-card__subtitle {
+  color: var(--v-v_card_title_color-base) !important;
+}
+.timeline-user-info .v-card__subtitle {
+  padding: 5px;
+}
 </style>

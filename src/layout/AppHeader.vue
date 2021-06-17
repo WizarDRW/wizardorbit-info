@@ -242,11 +242,6 @@ export default {
     };
   },
   created() {
-    if (!this.$store.getters.getUserTheme)
-      this.$store.dispatch(
-        "getApiUserTheme",
-        this.$store.getters.currentUser._id
-      );
     window.addEventListener("scroll", this.onScroll);
     ApiService.get("/menus").then((x) => {
       this.categories = x.data
@@ -283,17 +278,7 @@ export default {
     },
     /** Theme Mode */
     themeMode(status) {
-      const theme = this.$store.getters.getUserTheme;
-      if (this.$store.getters.isAuthenticated) {
-        this.$store.dispatch(THEME, {
-          isDark: status,
-          name: status ? theme.dark.name : theme.light.name,
-        });
-      } else
-        this.$store.dispatch(THEME, {
-          isDark: status,
-          name: status ? "dark" : "light",
-        });
+      this.$store.dispatch("changeUserTheme", status);
     },
     /**
      * to Profile

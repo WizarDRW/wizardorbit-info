@@ -1,12 +1,12 @@
 <template>
   <v-container>
-    <v-card v-intersect.once="onIntersect">
+    <v-card color="v_card_background" v-intersect.once="onIntersect">
       <v-card-title>
         <h2>{{ forum.name }}</h2>
       </v-card-title>
       <v-container>
         <v-row>
-          <v-col align="center" cols="12" sm="2" md="2" lg="1">
+          <v-col align="center" cols="12" sm="2" md="2" lg="2" xl="1">
             <v-avatar size="100">
               <v-img
                 :src="
@@ -52,7 +52,7 @@
               </v-card-subtitle>
             </div>
           </v-col>
-          <v-col cols="12" sm="10" md="10" lg="11">
+          <v-col cols="12" sm="10" md="10" lg="10" xl="11">
             <v-card-actions>
               <v-list-item class="grow">
                 {{ forum.create_date | moment("DD MMMM YYYY HH:mm") }}
@@ -98,19 +98,19 @@
       </v-container>
     </v-card>
     <br />
-    <v-divider></v-divider>
-    <v-card-subtitle>
-      <h4>Yorumlar</h4>
-    </v-card-subtitle>
+    <v-divider color="secondary"></v-divider>
+    <br>
+    <h4 class="secondary--text">
+      Yorumlar
+    </h4>
     <v-row>
       <v-col>
         <v-container>
           <v-card
-            tile
-            rounded
-            outlined
+            color="v_card_background"
             v-for="item in listPag()"
             :key="item.id"
+            class="mt-5"
           >
             <v-container>
               <v-row>
@@ -245,21 +245,30 @@
             <v-row>
               <v-col cols="2">
                 <v-select
+                  color="secondary"
+                  item-color="tertiary"
                   v-model="pagPage"
                   :items="[comments.length, 3, 5, 10, 15, 20, 50, 100]"
-                ></v-select>
+                >
+                  <template #selection="{ item }">
+                    <span class="secondary--text"> {{item}} </span>
+                  </template>
+                </v-select>
               </v-col>
               <v-col>
                 <v-pagination
                   v-model="page"
-                  color="secondary"
+                  color="tertiary"
                   class="my-4"
                   :length="pages"
                 ></v-pagination>
               </v-col>
             </v-row>
           </v-container>
-          <v-card v-if="$store.getters.isAuthenticated">
+          <v-card
+            color="v_card_background"
+            v-if="$store.getters.isAuthenticated"
+          >
             <v-container>
               <v-row>
                 <v-col align="center" cols="12" sm="2" md="2">
@@ -345,9 +354,7 @@ export default {
   methods: {
     /** Get Comment */
     async getComment() {
-      if (!this.$store.getters.getForum) {
-        await this.$store.dispatch(GET_API_FORUM, this.$route.params.id);
-      }
+      await this.$store.dispatch(GET_API_FORUM, this.$route.params.id);
       this.forum = this.$store.getters.getForum;
       if (this.forum) this.loading = false;
       this.getComments(this.forum);
@@ -463,5 +470,11 @@ export default {
 }
 .nested .email {
   text-align: right;
+}
+.v-card, .v-card__subtitle {
+  color: var(--v-v_card_title_color-base) !important;
+}
+.timeline-user-info .v-card__subtitle {
+  padding: 5px;
 }
 </style>

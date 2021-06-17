@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-card :loading="loading" outlined raised>
+    <v-card color="v_card_background" :loading="loading" outlined raised>
       <v-card-title>
         {{ chapter.name }}
       </v-card-title>
@@ -20,6 +20,7 @@
       >
         <div
           v-if="item.type == 'markdown'"
+          class="descriptions--text"
           v-katex
           v-html="compiledMarkdown(item)"
         ></div>
@@ -27,9 +28,15 @@
           <code-block :_code="item" :_readonly="true"></code-block>
         </div>
         <div v-if="item.type == 'tiptap'">
-          <div v-html="item.val"></div>
+          <div v-html="item.val" class="descriptions--text"></div>
+        </div>
+        <div v-if="item.type == 'image'">
+          <img width="100%" :src="item.val"/>
         </div>
       </div>
+      <v-container>
+        <div class="descriptions--text" v-html="chapter.description"></div>
+      </v-container>
       <div class="user-image">
         <v-avatar size="150">
           <v-img
@@ -48,13 +55,27 @@
         </v-avatar>
       </div>
       <div class="user-info">
-        <v-card-title v-if="chapter.user_data.first_name || chapter.user_data.last_name">
-          <div v-if="chapter.user_data.first_name && chapter.user_data.last_name && chapter.user_data.reverse">
-            {{ chapter.user_data.last_name ? chapter.user_data.last_name : "" }},
-            {{ chapter.user_data.first_name ? chapter.user_data.first_name : "" }}
+        <v-card-title
+          v-if="chapter.user_data.first_name || chapter.user_data.last_name"
+        >
+          <div
+            v-if="
+              chapter.user_data.first_name &&
+              chapter.user_data.last_name &&
+              chapter.user_data.reverse
+            "
+          >
+            {{
+              chapter.user_data.last_name ? chapter.user_data.last_name : ""
+            }},
+            {{
+              chapter.user_data.first_name ? chapter.user_data.first_name : ""
+            }}
           </div>
           <div v-else>
-            {{ chapter.user_data.first_name ? chapter.user_data.first_name : "" }}
+            {{
+              chapter.user_data.first_name ? chapter.user_data.first_name : ""
+            }}
             {{ chapter.user_data.last_name ? chapter.user_data.last_name : "" }}
           </div>
         </v-card-title>
@@ -153,11 +174,13 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .v-card__title,
-.v-card__subtitle {
+.v-card__subtitle,
+.v-card__text {
   justify-content: center;
   text-align: center;
+  color: var(--v-v_card_title_color-base) !important;
 }
 .user-image {
   margin-top: 30px;
@@ -165,8 +188,14 @@ export default {
   text-align: center;
 }
 .user-info {
-  padding: 0 0 20px 0;
+  padding: 15px 0 20px 0;
   width: 100%;
   text-align: center;
+}
+
+.user-info .v-card__title,
+.user-info .v-card__subtitle,
+.user-info .v-card__text {
+  padding: 0;
 }
 </style>

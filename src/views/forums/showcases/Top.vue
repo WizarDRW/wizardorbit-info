@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-card tile>
+    <v-card color="v_card_background">
       <v-card-title>
         <v-spacer></v-spacer>
         <v-spacer></v-spacer>
@@ -38,7 +38,7 @@
           </tbody>
         </table>
       </div>
-      <v-pagination v-model="page" :length="pages"></v-pagination>
+      <v-pagination v-model="page" color="tertiary" :length="pages"></v-pagination>
     </v-card>
   </div>
 </template>
@@ -118,6 +118,7 @@ table tbody tr td {
   margin-right: 10px;
   cursor: pointer;
   border: none;
+  color: var(--v-form_showcase_top_table_color-base);
 }
 table tbody tr:hover {
   background-color: var(--v-form_showcase_top_table_hover_background-base);

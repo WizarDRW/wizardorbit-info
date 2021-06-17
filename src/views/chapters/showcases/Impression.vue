@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h3>
+    <h3 class="secondary--text">
       {{
         _ly == "daily" ? "Bugün" : _ly == "monthly" ? "1 Ay" : "1 Yıl"
       }}
