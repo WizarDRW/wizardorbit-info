@@ -89,7 +89,7 @@
             </v-avatar>
           </template>
           <v-list>
-            <v-list-item @click="open('http://localhost:8080')">
+            <v-list-item @click="open('http://panel.sihirbazforum.com')">
               <v-list-item-title
                 ><v-icon>mdi-solar-panel</v-icon>&nbsp;Panele
                 Git</v-list-item-title

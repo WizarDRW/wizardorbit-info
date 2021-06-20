@@ -20,7 +20,7 @@ export default {
             context.commit(SET_USER, payload)
         },
         async [GET_API_USER](context, id) {
-            var data = (await ApiService.get(`users/id/${id}`)).data
+            var data = (await ApiService.get(`users/profile/${id}`)).data
             context.commit(SET_USER, data);
         }
     },

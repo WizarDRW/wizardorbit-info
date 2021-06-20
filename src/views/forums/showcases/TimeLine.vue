@@ -22,7 +22,11 @@
                 <li v-for="category in item.categories" :key="category.id">
                   <v-tooltip color="v_tooltip_success_color" bottom>
                     <template v-slot:activator="{ on, attrs }">
-                      <v-icon color="v_timeline_card_color" v-bind="attrs" v-on="on">
+                      <v-icon
+                        color="v_timeline_card_color"
+                        v-bind="attrs"
+                        v-on="on"
+                      >
                         {{ category.icon }}
                       </v-icon>
                     </template>
@@ -33,18 +37,37 @@
             </v-card-actions>
           </v-card>
           <template v-slot:icon>
-            <v-avatar>
-              <v-img
-                :src="
-                  item.user_data.image_path
-                    ? item.user_data.image_path
-                    : require('@/assets/vendor/img/null_profile.png')
-                "
-              ></v-img>
-            </v-avatar>
+            <v-btn
+              @click="
+                $router.push({
+                  name: 'Profile',
+                  params: { id: item.user_data._id },
+                })
+              "
+              fab
+              color="tertiary"
+            >
+              <v-avatar>
+                <v-img
+                  :src="
+                    item.user_data.image_path
+                      ? item.user_data.image_path
+                      : require('@/assets/vendor/img/null_profile.png')
+                  "
+                ></v-img>
+              </v-avatar>
+            </v-btn>
           </template>
           <template v-slot:opposite>
-            <div class="timeline-user-info">
+            <div
+              @click="
+                $router.push({
+                  name: 'Profile',
+                  params: { id: item.user_data._id },
+                })
+              "
+              class="timeline-user-info"
+            >
               <v-card-subtitle
                 v-if="item.user_data.first_name || item.user_data.last_name"
               >
@@ -129,10 +152,12 @@ ul li {
   list-style: none;
   padding-right: 10px;
 }
-.v-card, .v-card__subtitle {
+.v-card,
+.v-card__subtitle {
   color: var(--v-v_card_title_color-base) !important;
 }
 .timeline-user-info .v-card__subtitle {
   padding: 5px;
+  cursor: pointer;
 }
 </style>
