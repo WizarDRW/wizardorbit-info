@@ -2,7 +2,7 @@
   <div>
     <v-card class="rounded-t-xl" rounded="0" color="v_card_background">
       <div class="img-w-100">
-        <v-avatar size="150">
+        <v-avatar size="100">
           <v-img
             :src="
               _user.image_path
@@ -40,53 +40,32 @@
           xl="2"
           style="padding-right: 25px"
         >
-          <v-btn fab icon> <v-icon>mdi-pencil</v-icon> </v-btn>
+          <v-btn
+            fab
+            icon
+            @click="open('http://panel.sihirbazforum.com/useroptions')"
+          >
+            <v-icon>mdi-pencil</v-icon>
+          </v-btn>
         </v-col>
       </v-row>
       <div class="profile-user-info">
-        <v-card-title
-          v-if="
-            _user.first_name ||
-            _user.last_name
-          "
-        >
-          <div
-            v-if="
-              _user.first_name &&
-              _user.last_name &&
-              _isReveseFullName
-            "
-          >
-            {{
-              _user.last_name
-                ? _user.last_name
-                : ""
-            }},
-            {{
-              _user.first_name
-                ? _user.first_name
-                : ""
-            }}
+        <v-card-title v-if="_user.first_name || _user.last_name">
+          <div v-if="_user.first_name && _user.last_name && _isReveseFullName">
+            {{ _user.last_name ? _user.last_name : "" }},
+            {{ _user.first_name ? _user.first_name : "" }}
           </div>
           <div v-else>
-            {{
-              _user.first_name
-                ? _user.first_name
-                : ""
-            }}
-            {{
-              _user.last_name
-                ? _user.last_name
-                : ""
-            }}
+            {{ _user.first_name ? _user.first_name : "" }}
+            {{ _user.last_name ? _user.last_name : "" }}
           </div>
         </v-card-title>
-        <h2 v-if="_user.username">
-          @{{ _user.username }}
-        </h2>
-        <v-card-subtitle v-if="_user.email">{{
-          _user.email
-        }}</v-card-subtitle>
+        <h2 v-if="_user.username">@{{ _user.username }}</h2>
+        <v-card-subtitle v-if="_user.email"
+          ><a :href="`mailto:${_user.email}`">{{
+            _user.email
+          }}</a></v-card-subtitle
+        >
         <v-card-text v-if="_user.description">
           {{ _user.description }}
         </v-card-text>
@@ -101,6 +80,11 @@ export default {
     _user: {
       type: Object,
       default: () => {},
+    },
+  },
+  methods: {
+    open(path) {
+      window.open(path);
     },
   },
 };
@@ -128,6 +112,10 @@ export default {
 .v-card__subtitle {
   padding: 10px 0 10px 0;
   text-align: center !important;
+}
+.v-card__subtitle a {
+  color: var(--v-v_card_title_color);
+  text-decoration: none;
 }
 h2 {
   text-align: center;

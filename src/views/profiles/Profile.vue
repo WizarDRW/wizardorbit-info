@@ -17,6 +17,7 @@
         v-for="(content, content_index) in [
           { type: 'ChapterContent', content: chapters },
           { type: 'NewsContent', content: news },
+          { type: 'forum', content: forums },
           { type: 'library', content: libraries },
         ]"
         :key="content_index"
@@ -53,6 +54,7 @@
 import { GET_API_USER } from "@/core/services/store/user.module";
 import { CHAPTER, GET_API_USER_CHAPTERS } from "@/core/services/store/chapter.module";
 import { NEWS, GET_API_USER_THE_NEWS } from "@/core/services/store/news.module";
+import { FORUM, GET_API_USER_FORUMS } from "@/core/services/store/forum.module";
 import {
   LIBRARY,
   GET_API_USER_LIBRARIES,
@@ -64,11 +66,13 @@ export default {
       user: null,
       chapters: [],
       news: [],
+      forums: [],
       libraries: [],
       tab: null,
       tabs: [
         { id: "item-chapter", name: "Bölümler" },
         { id: "item-news", name: "Haberler" },
+        { id: "item-forum", name: "Forumlar" },
         { id: "item-library", name: "Kütüphane" },
       ],
     };
@@ -80,6 +84,7 @@ export default {
     this.user = this.$store.getters.getUser;
     await this.getBlogs(this.user._id);
     await this.getNews(this.user._id);
+    await this.getForums(this.user._id);
     await this.getLibraries(this.user._id);
   },
   methods: {
@@ -90,6 +95,10 @@ export default {
     async getNews(user_id) {
       await this.$store.dispatch(GET_API_USER_THE_NEWS, user_id);
       this.news = this.$store.getters.getUserTheNews;
+    },
+    async getForums(user_id) {
+      await this.$store.dispatch(GET_API_USER_FORUMS, user_id);
+      this.forums = this.$store.getters.getUserForums;
     },
     async getLibraries(user_id) {
       await this.$store.dispatch(GET_API_USER_LIBRARIES, user_id);
@@ -102,6 +111,7 @@ export default {
       }
       if (type == "ChapterContent") this.$store.dispatch(CHAPTER, item);
       else if (type == "NewsContent") this.$store.dispatch(NEWS, item);
+      else if (type == "forum") this.$store.dispatch(FORUM, item);
       else if (type == "library") this.$store.dispatch(LIBRARY, item);
       this.$router.push({ name: type, params: { id: item._id } });
     },

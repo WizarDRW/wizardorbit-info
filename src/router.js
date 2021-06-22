@@ -2,7 +2,6 @@ import Vue from "vue";
 import Router from "vue-router";
 import AppHeader from "./layout/AppHeader";
 import AppFooter from "./layout/AppFooter";
-import About from "./views/abouts/About.vue";
 
 Vue.use(Router);
 var currentRouteName = "Home";
@@ -44,6 +43,11 @@ export default new Router({
           component: () => import("./views/news/Showcase.vue")
         },
         {
+          path: "/news/category",
+          name: "n_category",
+          component: () => import("./views/news/Category.vue")
+        },
+        {
           path: "/news/:id",
           name: "NewsContent",
           beforeEnter: (to, from, next) => {
@@ -76,6 +80,11 @@ export default new Router({
           path: "/forum/showcase",
           name: "f_showcase",
           component: () => import("./views/forums/Showcase.vue")
+        },
+        {
+          path: "/forum/category",
+          name: "f_category",
+          component: () => import("./views/forums/Category.vue")
         },
         {
           path: "/forum/:id",
@@ -179,17 +188,36 @@ export default new Router({
       },
       components: {
         header: AppHeader,
-        default: About,
+        default: () => import(`@/views/abouts/About.vue`),
         footer: AppFooter
       },
       children: [{
         path: "/about/ourhistory",
         name: "ourhistory",
+        meta: { description: "Hikayemiz" },
         beforeEnter: (to, from, next) => {
           currentRouteName = "ourhistory";
           next();
         },
         component: () => import("./views/abouts/components/OurHistory.vue")
+      },{
+        path: "/about/ourplan",
+        name: "ourplan",
+        meta: { description: "Planlarımız" },
+        beforeEnter: (to, from, next) => {
+          currentRouteName = "ourplan";
+          next();
+        },
+        component: () => import("./views/abouts/components/OurPlan.vue")
+      },{
+        path: "/about/contact",
+        name: "contact",
+        meta: { description: "İletişim" },
+        beforeEnter: (to, from, next) => {
+          currentRouteName = "contact";
+          next();
+        },
+        component: () => import("./views/abouts/components/Contact.vue")
       }]
     },
     {

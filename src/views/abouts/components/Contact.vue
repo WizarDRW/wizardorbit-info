@@ -1,6 +1,6 @@
 <template>
     <v-container>
-        OurHistory
+        Contact
     </v-container>
 </template>
 

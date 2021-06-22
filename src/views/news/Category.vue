@@ -17,7 +17,7 @@
       <v-col v-if="!loading" md="10">
         <v-row v-masonry>
           <v-col
-            v-for="item in filterChapterList"
+            v-for="item in filterNewsList"
             :key="item._id"
             cols="12"
             sm="6"
@@ -50,9 +50,8 @@ export default {
   components: {},
   data() {
     return {
-      chapters: [],
-      filterchapters: [],
-      chaptercategories: [],
+      news: [],
+      filternews: [],
       loading: true,
       valueConsistsOf: "ALL",
       search: "",
@@ -61,27 +60,27 @@ export default {
     };
   },
   async mounted() {
-    await this.$store.dispatch("getApiCategory", "chapter");
-    this.chaptercategories = this.$store.getters.getCategories;
-    if (!this.$store.getters.getChapters)
-      await this.$store.dispatch("getApiChapters");
-    this.chapters = this.$store.getters.getChapters;
-    this.filterChapterList = this.chapters;
-    if (this.chapters) this.loading = false;
+    await this.$store.dispatch("getApiCategory", "news");
+    this.categories = this.$store.getters.getCategories;
+    if (!this.$store.getters.getNews)
+      await this.$store.dispatch("getApiNews");
+    this.news = this.$store.getters.getNews;
+    this.filterNewsList = this.news;
+    if (this.news) this.loading = false;
   },
   computed: {
-    filterChapterList: {
+    filterNewsList: {
       get() {
-        return this.filterchapters;
+        return this.filternews;
       },
       set(value) {
-        this.filterchapters = value;
+        this.filternews = value;
       },
     },
   },
   methods: {
     filter() {
-      this.filterChapterList = this.chapters.filter((x) => {
+      this.filterNewsList = this.news.filter((x) => {
         return (
           moment(x.create_date).format("YYYY-MM-DD") >= moment(this.dates[0]) &&
           moment(x.create_date).format("YYYY-MM-DD") <= moment(this.dates[1]) &&

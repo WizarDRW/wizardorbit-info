@@ -17,7 +17,7 @@
       <v-col v-if="!loading" md="10">
         <v-row v-masonry>
           <v-col
-            v-for="item in filterChapterList"
+            v-for="item in filterForumList"
             :key="item._id"
             cols="12"
             sm="6"
@@ -50,9 +50,8 @@ export default {
   components: {},
   data() {
     return {
-      chapters: [],
-      filterchapters: [],
-      chaptercategories: [],
+      forums: [],
+      filterforums: [],
       loading: true,
       valueConsistsOf: "ALL",
       search: "",
@@ -61,27 +60,27 @@ export default {
     };
   },
   async mounted() {
-    await this.$store.dispatch("getApiCategory", "chapter");
-    this.chaptercategories = this.$store.getters.getCategories;
-    if (!this.$store.getters.getChapters)
-      await this.$store.dispatch("getApiChapters");
-    this.chapters = this.$store.getters.getChapters;
-    this.filterChapterList = this.chapters;
-    if (this.chapters) this.loading = false;
+    await this.$store.dispatch("getApiCategory", "forum");
+    this.categories = this.$store.getters.getCategories;
+    if (!this.$store.getters.getForums)
+      await this.$store.dispatch("getApiForums");
+    this.forums = this.$store.getters.getForums;
+    this.filterForumList = this.forums;
+    if (this.forums) this.loading = false;
   },
   computed: {
-    filterChapterList: {
+    filterForumList: {
       get() {
-        return this.filterchapters;
+        return this.filterforums;
       },
       set(value) {
-        this.filterchapters = value;
+        this.filterforums = value;
       },
     },
   },
   methods: {
     filter() {
-      this.filterChapterList = this.chapters.filter((x) => {
+      this.filterForumList = this.forums.filter((x) => {
         return (
           moment(x.create_date).format("YYYY-MM-DD") >= moment(this.dates[0]) &&
           moment(x.create_date).format("YYYY-MM-DD") <= moment(this.dates[1]) &&

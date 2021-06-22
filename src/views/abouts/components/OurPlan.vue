@@ -1,6 +1,6 @@
 <template>
     <v-container>
-        OurHistory
+        OurPlan
     </v-container>
 </template>
 
