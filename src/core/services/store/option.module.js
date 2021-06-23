@@ -1,12 +1,17 @@
 import Vuetify from '@/plugins/vuetify';
 import themes from '../../themes'
+import ApiService from "@/core/services/api.service";
 
 // action types
 export const THEME = "theme";
 export const AUTO_THEME = "autoTheme";
+export const GET_API_ABOUTS = "getApiAbouts";
+export const GET_API_RELEASES = "getApiReleases";
 
 // mutation types
 const SET_THEME = "setTheme";
+const SET_ABOUTS = "setAbouts"
+const SET_RELEASES = "setReleases"
 
 export default {
     state: {
@@ -16,7 +21,9 @@ export default {
                 name: "dark",
                 isDark: true,
                 auto: true
-            }
+            },
+        abouts: null,
+        releases: null
     },
     getters: {
         getOption(state) {
@@ -24,6 +31,12 @@ export default {
         },
         getTheme(state) {
             return state.theme;
+        },
+        getAbouts(state) {
+            return state.abouts;
+        },
+        getReleases(state) {
+            return state.releases;
         }
     },
     actions: {
@@ -34,6 +47,14 @@ export default {
         [THEME](context, theme) {
             localStorage.setItem("theme", JSON.stringify({ auto: false, ...theme }))
             context.commit(SET_THEME, theme)
+        },
+        [GET_API_ABOUTS]: async (context) => {
+            var response = (await ApiService.get("abouts/"));
+            context.commit(SET_ABOUTS, response.data)
+        },
+        [GET_API_RELEASES]: async (context) => {
+            var response = (await ApiService.get(`abouts/releases/`));
+            context.commit(SET_RELEASES, response.data)
         }
     },
     mutations: {
@@ -42,6 +63,12 @@ export default {
             Vuetify.framework.theme.themes.light = { ...light, ...themes[theme.name] }
             state.theme = { auto: state.theme.auto ? state.theme.auto : false, ...theme }
             Vuetify.framework.theme.dark = theme.isDark;
-        }
+        },
+        [SET_ABOUTS]:  (state, payload) => {
+            state.abouts = payload;
+        },
+        [SET_RELEASES]:  (state, payload) => {
+            state.releases = payload;
+        },
     }
 };

@@ -10,9 +10,15 @@ import VueCodeHighlight from 'vue-code-highlight';
 import Katex from 'vue-katex-auto-render'
 import { VueMasonryPlugin } from "vue-masonry";
 import VueCookies from 'vue-cookies'
+import * as VueGoogleMaps from 'vue2-google-maps'
 
 const moment = require('moment')
-
+Vue.use(VueGoogleMaps, {
+  load: {
+    key: 'YOUR_API_TOKEN',
+    libraries: 'places'
+  },
+})
 Vue.use(VueCodeHighlight)
 Vue.use(VueCookies)
 Vue.use(VueMasonryPlugin);

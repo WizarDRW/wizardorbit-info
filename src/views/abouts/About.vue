@@ -2,7 +2,7 @@
   <v-container>
     <v-row>
       <v-col cols="12" sm="4" md="2" lg="2" xl="2">
-        <v-navigation-drawer color="header" permanent>
+        <v-navigation-drawer color="header" permanent width="100%">
           <v-list-item>
             <v-list-item-content>
               <v-list-item-title class="text-h6">
@@ -32,7 +32,7 @@
         </v-navigation-drawer>
       </v-col>
       <v-col cols="12" sm="8" md="10" lg="10" xl="10">
-        <router-view></router-view>
+        <router-view v-if="$store.getters.getAbouts"></router-view>
       </v-col>
     </v-row>
   </v-container>
@@ -50,9 +50,13 @@ export default {
         },
         { title: "Planlarımız", icon: "mdi-floor-plan", path: "/about/ourplan" },
         { title: "İletişim", icon: "mdi-human-greeting-proximity", path: "/about/contact" },
+        { title: "Sürüm Notları", icon: "mdi-note-text-outline", path: "/about/release" },
       ],
       right: null,
     };
+  },
+  async created() {
+    if(!this.$store.getters.getAbouts) await this.$store.dispatch('getApiAbouts')
   },
 };
 </script>

@@ -218,6 +218,15 @@ export default new Router({
           next();
         },
         component: () => import("./views/abouts/components/Contact.vue")
+      },{
+        path: "/about/release",
+        name: "Release",
+        meta: { description: "Sürüm Notları" },
+        beforeEnter: (to, from, next) => {
+          currentRouteName = "Release";
+          next();
+        },
+        component: () => import("./views/abouts/components/Release.vue")
       }]
     },
     {
