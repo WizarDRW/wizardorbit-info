@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-row>
+    <v-row v-masonry>
       <v-col cols="12" sm="4" md="2" lg="2" xl="2">
         <v-navigation-drawer color="header" permanent width="100%">
           <v-list-item>
