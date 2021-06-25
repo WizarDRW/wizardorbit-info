@@ -230,7 +230,7 @@ export default new Router({
       }]
     },
     {
-      path: "/profile/:id",
+      path: "/profile/:username",
       name: "Profile",
       components: {
         header: AppHeader,

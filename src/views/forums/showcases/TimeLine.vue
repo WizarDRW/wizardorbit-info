@@ -41,7 +41,7 @@
               @click="
                 $router.push({
                   name: 'Profile',
-                  params: { id: item.user_data._id },
+                  params: { username: item.user_data.username },
                 })
               "
               fab
@@ -63,7 +63,7 @@
               @click="
                 $router.push({
                   name: 'Profile',
-                  params: { id: item.user_data._id },
+                  params: { username: item.user_data.username },
                 })
               "
               class="timeline-user-info"

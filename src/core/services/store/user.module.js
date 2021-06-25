@@ -19,8 +19,8 @@ export default {
         [USER](context, payload) {
             context.commit(SET_USER, payload)
         },
-        async [GET_API_USER](context, id) {
-            var data = (await ApiService.get(`users/profile/${id}`)).data
+        async [GET_API_USER](context, username) {
+            var data = (await ApiService.get(`users/profile/${username}`)).data
             context.commit(SET_USER, data);
         }
     },

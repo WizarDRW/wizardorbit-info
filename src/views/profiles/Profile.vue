@@ -79,7 +79,7 @@ export default {
   },
   async created() {
     if (!this.$store.getters.getUser) {
-      await this.$store.dispatch(GET_API_USER, this.$route.params.id);
+      await this.$store.dispatch(GET_API_USER, this.$route.params.username);
     }
     this.user = this.$store.getters.getUser;
     await this.getBlogs(this.user._id);
