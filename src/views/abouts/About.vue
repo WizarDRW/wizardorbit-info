@@ -44,6 +44,11 @@ export default {
     return {
       items: [
         {
+          title: "Biz Kimiz",
+          icon: "mdi-account-group",
+          path: "/about/who-we-are",
+        },
+        {
           title: "Hikayemiz",
           icon: "mdi-history",
           path: "/about/ourhistory",

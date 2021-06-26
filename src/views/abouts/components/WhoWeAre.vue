@@ -55,7 +55,7 @@ export default {
   },
   mounted() {
     this.content = this.$store.getters.getAbouts.find(
-      (x) => x.type == "ourhistory"
+      (x) => x.type == "whoweare"
     );
   },
   methods: {

@@ -192,6 +192,15 @@ export default new Router({
         footer: AppFooter
       },
       children: [{
+        path: "/about/who-we-are",
+        name: "WhoWeAre",
+        meta: { description: "Biz Kimiz" },
+        beforeEnter: (to, from, next) => {
+          currentRouteName = "WhoWeAre";
+          next();
+        },
+        component: () => import("./views/abouts/components/WhoWeAre.vue")
+      },{
         path: "/about/ourhistory",
         name: "ourhistory",
         meta: { description: "Hikayemiz" },
