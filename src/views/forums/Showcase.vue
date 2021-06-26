@@ -49,7 +49,6 @@ export default {
     if (!this.$store.getters.getForums)
       await this.$store.dispatch(GET_API_FORUMS);
     this.forums = this.$store.getters.getForums;
-    console.log(this.forums);
     if (this.forums) this.loading = false;
     this.filterForums = this.forums;
     this.filterTimeline = undefined;

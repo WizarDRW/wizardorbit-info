@@ -18,6 +18,15 @@
         v-for="(item, index) in chapter.descriptions"
         :key="index"
       >
+        <v-card-title v-if="item.type == 'v-card-title'">
+          {{ item.val }}
+        </v-card-title>
+        <v-card-subtitle v-if="item.type == 'v-card-subtitle'">{{
+          item.val
+        }}</v-card-subtitle>
+        <v-card-text v-if="item.type == 'v-card-text'">{{
+          item.val
+        }}</v-card-text>
         <div
           v-if="item.type == 'markdown'"
           class="descriptions--text"
@@ -31,7 +40,7 @@
           <div v-html="item.val" class="descriptions--text"></div>
         </div>
         <div v-if="item.type == 'image'">
-          <img width="100%" :src="item.val"/>
+          <img width="100%" :src="item.val" />
         </div>
       </div>
       <v-container>
