@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid v-if="content">
+  <v-container v-if="content">
     <v-card color="v_card_background">
       <div v-for="(item, index) in content.descriptions" :key="index">
         <v-card-title v-if="item.type == 'v-card-title'">
