@@ -1,8 +1,3 @@
-import ApiService from "@/core/services/api.service";
-// actions
-export const USER = "user";
-export const GET_API_USER = "getApiUser";
-
 // mutations
 export const SET_USER = "setUser"
 
@@ -13,15 +8,6 @@ export default {
     getters: {
         getUser(state) {
             return state.user_data
-        }
-    },
-    actions: {
-        [USER](context, payload) {
-            context.commit(SET_USER, payload)
-        },
-        async [GET_API_USER](context, username) {
-            var data = (await ApiService.get(`users/profile/${username}`)).data
-            context.commit(SET_USER, data);
         }
     },
     mutations: {

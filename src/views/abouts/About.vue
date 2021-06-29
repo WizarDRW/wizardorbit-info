@@ -61,7 +61,10 @@ export default {
     };
   },
   async created() {
-    if(!this.$store.getters.getAbouts) await this.$store.dispatch('getApiAbouts')
+    if(!this.$store.getters.getAbouts) await this.$store.dispatch('getApiContent', {
+        url: `abouts`,
+        content: "setAbouts",
+      })
   },
 };
 </script>

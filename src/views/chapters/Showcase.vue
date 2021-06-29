@@ -6,35 +6,41 @@
         <v-row>
           <v-col md="6">
             <carousel
-              :_chapters="JSON.stringify(chapters)"
+              :_contents="chapters"
               v-on:content="toContent"
             ></carousel>
           </v-col>
           <v-col md="6">
-            <top :_chapters="JSON.stringify(chapters)" v-on:content="toContent"></top>
+            <top
+              :_contents="chapters"
+              v-on:content="toContent"
+            ></top>
           </v-col>
         </v-row>
         <v-row>
           <v-col sm="12" md="8">
-            <time-line
-              :_chapters="JSON.stringify(chapters)"
-              v-on:content="toContent"
-            ></time-line>
+            <time-line :_contents="chapters" v-on:content="toContent">
+              <template #default="{ item }">
+                <v-card-subtitle>
+                  <i>{{ item.short_description }}</i>
+                </v-card-subtitle>
+              </template>
+            </time-line>
           </v-col>
           <v-col md="4">
             <impression
-              :_chapters="JSON.stringify(chapters)"
+              :_contents="chapters"
               v-on:content="toContent"
             ></impression>
             <br />
             <impression
-              :_chapters="JSON.stringify(chapters)"
+              :_contents="chapters"
               :_ly="'monthly'"
               v-on:content="toContent"
             ></impression>
             <br />
             <impression
-              :_chapters="JSON.stringify(chapters)"
+              :_contents="chapters"
               :_ly="'yearly'"
               v-on:content="toContent"
             ></impression>
@@ -46,13 +52,12 @@
 </template>
 
 <script>
-import { CHAPTER, GET_API_CHAPTERS } from "@/core/services/store/chapter.module";
 export default {
   components: {
-    Carousel: () => import("./showcases/Slider"),
-    Top: () => import("./showcases/Top"),
-    TimeLine: () => import("./showcases/TimeLine"),
-    Impression: () => import("./showcases/Impression"),
+    Carousel: () => import("@/components/showcases/Slider"),
+    Top: () => import("@/components/showcases/Top"),
+    TimeLine: () => import("@/components/TimeLine.vue"),
+    Impression: () => import("@/components/showcases/Impression"),
     SkeletonLoader: () => import("@/components/loaders/ShowcaseSkeletonLoader"),
   },
   data() {
@@ -71,18 +76,27 @@ export default {
   },
   async created() {
     if (!this.$store.getters.getChapters)
-      await this.$store.dispatch(GET_API_CHAPTERS);
+      await this.$store.dispatch("getApiContent", {
+        url: "chapters/client",
+        content: "setChapters",
+      });
     this.chapters = this.$store.getters.getChapters;
     if (this.chapters) this.loading = false;
   },
   methods: {
     toContent(content) {
-      this.$store.dispatch(CHAPTER, content);
-      this.$router.push({ name: "ChapterContent", params: { id: content._id } });
+      this.$store.commit("setChapter", content);
+      this.$router.push({
+        name: "ChapterContent",
+        params: { id: content._id },
+      });
     },
   },
   destroyed() {
-    this.$store.dispatch(GET_API_CHAPTERS);
+    this.$store.dispatch("getApiContent", {
+      url: "chapters/client",
+      content: "setChapters",
+    });
   },
 };
 </script>

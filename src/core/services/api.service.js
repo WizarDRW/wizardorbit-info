@@ -1,7 +1,6 @@
 import Vue from "vue";
 import axios from "axios";
 import VueAxios from "vue-axios";
-import JwtService from "@/core/services/jwt.service";
 
 /**
  * Service to call HTTP request via Axios
@@ -16,14 +15,10 @@ const ApiService = {
    * Set the default HTTP request headers
    */
   setHeader() {
-    // Vue.axios.defaults.headers.common[
-    //   "Authorization"
-    // ] = `Bearer ${JwtService.getToken()}`;
     Vue.axios.defaults.withCredentials = true;
   },
   query(resource, params) {
     return Vue.axios.get(resource, params).catch(error => {
-      // console.log(error);
       throw new Error(`ApiService ${error}`);
     });
   },
@@ -36,7 +31,6 @@ const ApiService = {
    */
   async get(resource, slug = "") {
     return await Vue.axios.get(`${resource}/${slug}`, this.setHeader()).catch(error => {
-      // console.log(error);
       throw new Error(`ApiService ${error}`);
     });
   },
@@ -51,9 +45,6 @@ const ApiService = {
     return await Vue.axios.post(`${resource}`, params);
   },
 
-  async postImage(resource, params) {
-    return await Vue.axios.post(`${resource}`, params, { "Authorization": `Bearer ${JwtService.getToken()}`, "Content-Type": "multipart/form-data" });
-  },
   /**
    * Send the UPDATE HTTP request
    * @param resource
@@ -82,7 +73,6 @@ const ApiService = {
    */
   async delete(resource) {
     return await Vue.axios.delete(resource).catch(error => {
-      // console.log(error);
       throw new Error(`ApiService ${error}`);
     });
   }

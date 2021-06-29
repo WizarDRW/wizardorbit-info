@@ -1,11 +1,9 @@
 import Vuetify from '@/plugins/vuetify'
-import ApiService from '../api.service';
 import theme from '@/core/themes'
 
-export const GET_API_USER_THEME = "getApiUserTheme";
 export const CHANGE_USER_THEME = "changeUserTheme";
 
-const SET_USER_THEME = "setUserTheme"
+export const SET_USER_THEME = "setUserTheme"
 
 export default {
     state: {
@@ -15,11 +13,6 @@ export default {
         getUserTheme: (state) => state.user_theme
     },
     actions: {
-        [GET_API_USER_THEME]: async (context, userid) => {
-            var response = await ApiService.get(`useroptions/theme/${userid}`);
-            context.commit(SET_USER_THEME, response.data);
-            return response.status;
-        },
         [CHANGE_USER_THEME]: (context, status) => {
             context.dispatch('theme', {
                 isDark: status,

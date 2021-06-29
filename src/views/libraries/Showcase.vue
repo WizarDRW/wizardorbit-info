@@ -17,31 +17,29 @@
 </template>
 
 <script>
-import {
-  LIBRARIES,
-  GET_API_LIBRARIES,
-} from "@/core/services/store/library.module";
 export default {
   components: {
     SkeletonLoader: () => import("@/components/SkeletonLoader"),
-    Top: () => import(`./showcases/Top`)
+    Top: () => import(`./showcases/Top`),
   },
   data() {
     return {
       libraries: [],
       loading: true,
-
     };
   },
   async created() {
     if (!this.$store.getters.getLibraries)
-      await this.$store.dispatch(GET_API_LIBRARIES);
+      await this.$store.dispatch("getApiContent", {
+        url: `libraries`,
+        content: "setLibraries",
+      });
     this.libraries = this.$store.getters.getLibraries;
     if (this.libraries) this.loading = false;
   },
   methods: {
     toContent(content) {
-      this.$store.dispatch(LIBRARIES, content);
+      this.$store.commit('setLibrary', content);
       this.$router.push({
         name: "LibraryContent",
         params: { id: content._id },

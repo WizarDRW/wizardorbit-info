@@ -7,7 +7,6 @@ export const LOGIN = "login";
 export const GOOGLE_LOGIN = "googleLogin";
 export const LOGOUT = "logout";
 export const REGISTER = "register";
-export const UPDATE_USER = "updateUser";
 
 // mutation types
 export const SET_CURRENT_USER = "setCurrentUser";
@@ -42,10 +41,10 @@ const actions = {
           if (x.status == 200) {
             context.commit(SET_AUTH);
             context.commit(CURRENT_USER);
-            context.dispatch(
-              "getApiUserTheme",
-              context.getters.currentUser._id
-            );
+            context.dispatch("getApiContent", {
+              url: `useroptions/theme/${context.getters.currentUser._id}`,
+              content: "setUserTheme",
+            });
             resolve(x);
           }
         })
@@ -55,14 +54,13 @@ const actions = {
         });
     });
   },
-  [GOOGLE_LOGIN]: async (context) => {
+  [GOOGLE_LOGIN]: async () => {
     return new Promise((resolve, reject) => {
       ApiService.get("auth/urlgoogle").then(({ data }) => {
         resolve(data.url)
       }).catch(err => {
         reject(err)
       })
-      context
     })
   },
   [LOGOUT](context) {
@@ -104,18 +102,6 @@ const actions = {
       .catch(() => {
         context.commit(PURGE_AUTH);
       });
-  },
-  [UPDATE_USER](context, payload) {
-    const { email, username, password, image, bio } = payload;
-    const user = { email, username, bio, image };
-    if (password) {
-      user.password = password;
-    }
-
-    return ApiService.put("user", user).then(({ data }) => {
-      context.commit(SET_AUTH, data);
-      return data;
-    });
   },
   [CURRENT_USER](context) {
     return new Promise((resolve, reject) => {

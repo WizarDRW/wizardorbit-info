@@ -63,7 +63,7 @@ export default {
     await this.$store.dispatch("getApiCategory", "news");
     this.categories = this.$store.getters.getCategories;
     if (!this.$store.getters.getNews)
-      await this.$store.dispatch("getApiNews");
+      await this.$store.dispatch('getApiContent', {url: 'news', content: 'setTheNews'});
     this.news = this.$store.getters.getNews;
     this.filterNewsList = this.news;
     if (this.news) this.loading = false;

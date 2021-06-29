@@ -19,19 +19,19 @@
 export default {
   components: {},
   props: {
-    _news: {
-      type: String,
-      default: null,
+    _contents: {
+      type: Array,
+      default: () => {},
     },
   },
   methods: {
     get() {
-      return JSON.parse(this._news).filter((x) => x.showcases.includes("Top6"));
+      return this._contents.filter((x) => x.showcases.includes("Top6"));
     },
     toContent(item) {
       this.$emit("content", item);
     },
-  },
+  }
 };
 </script>
 

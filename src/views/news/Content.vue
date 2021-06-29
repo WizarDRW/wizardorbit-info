@@ -54,8 +54,16 @@
         </v-avatar>
       </div>
       <div class="user-info">
-        <v-card-title v-if="news.user_data.first_name || news.user_data.last_name">
-          <div v-if="news.user_data.first_name && news.user_data.last_name && news.user_data.reverse">
+        <v-card-title
+          v-if="news.user_data.first_name || news.user_data.last_name"
+        >
+          <div
+            v-if="
+              news.user_data.first_name &&
+              news.user_data.last_name &&
+              news.user_data.reverse
+            "
+          >
             {{ news.user_data.last_name ? news.user_data.last_name : "" }},
             {{ news.user_data.first_name ? news.user_data.first_name : "" }}
           </div>
@@ -82,10 +90,6 @@
 
 
 <script>
-import {
-  GET_API_NEWS,
-  IMPRESSION_NEWS_UPDATE,
-} from "@/core/services/store/news.module";
 import marked from "marked";
 export default {
   props: {
@@ -94,7 +98,6 @@ export default {
     },
   },
   components: {
-    // Comment: () => import("./Comment"),
     CodeBlock: () => import("@/components/Code"),
   },
   data() {
@@ -114,7 +117,10 @@ export default {
   },
   async mounted() {
     if (!this.$store.getters.getNews) {
-      await this.$store.dispatch(GET_API_NEWS, this.$route.params.id);
+      await this.$store.dispatch("getApiContent", {
+        url: `news/id/${this.$route.params.id}`,
+        content: "setNews",
+      });
     }
     this.news = this.$store.getters.getNews;
     if (this.news) this.loading = false;
@@ -129,9 +135,12 @@ export default {
         fetch("https://api.ipify.org?format=json")
           .then((response) => response.json())
           .then(async ({ ip }) => {
-            await this.$store.dispatch(IMPRESSION_NEWS_UPDATE, {
-              id: this.$route.params.id,
-              ip: ip,
+            await this.$store.dispatch("impressionContentUpdate", {
+              content: "news",
+              data: {
+                id: this.$route.params.id,
+                ip: ip,
+              },
             });
           });
       }
@@ -139,9 +148,10 @@ export default {
   },
   metaInfo() {
     var data = [];
-    this.news.tags && this.news.tags.forEach((el) => {
-      data.push({ property: `og:${el.key}`, content: `${el.tag}` });
-    });
+    this.news.tags &&
+      this.news.tags.forEach((el) => {
+        data.push({ property: `og:${el.key}`, content: `${el.tag}` });
+      });
     return {
       title: this.news.name,
       meta: [

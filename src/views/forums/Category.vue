@@ -63,7 +63,7 @@ export default {
     await this.$store.dispatch("getApiCategory", "forum");
     this.categories = this.$store.getters.getCategories;
     if (!this.$store.getters.getForums)
-      await this.$store.dispatch("getApiForums");
+      await this.$store.dispatch('getApiContent', {url: 'forums', content: 'setForums'});
     this.forums = this.$store.getters.getForums;
     this.filterForumList = this.forums;
     if (this.forums) this.loading = false;

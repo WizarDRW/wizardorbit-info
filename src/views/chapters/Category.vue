@@ -64,7 +64,7 @@ export default {
     await this.$store.dispatch("getApiCategory", "chapter");
     this.chaptercategories = this.$store.getters.getCategories;
     if (!this.$store.getters.getChapters)
-      await this.$store.dispatch("getApiChapters");
+      await this.$store.dispatch('getApiContent', {url: 'chapters', content: 'setChapters'});
     this.chapters = this.$store.getters.getChapters;
     this.filterChapterList = this.chapters;
     if (this.chapters) this.loading = false;

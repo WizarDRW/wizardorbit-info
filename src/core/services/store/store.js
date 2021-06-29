@@ -10,6 +10,7 @@ import library from "./library.module.js";
 import option from "./option.module.js";
 import category from "./category.module.js";
 import userOption from './useroption.module.js'
+import content from './content.module.js'
 
 Vue.use(Vuex);
 
@@ -26,6 +27,7 @@ export default new Vuex.Store({
     library,
     forum,
     category,
-    userOption
+    userOption,
+    content
   }
 });

@@ -1,29 +1,26 @@
 <template>
-  <v-card tile rounded outlined color="v_card_background">
+  <v-card color="v_card_background">
     <v-container>
       <v-timeline>
         <v-timeline-item
           color="white"
           small
-          v-for="(item, index) in getDateSort()"
-          :key="index"
+          v-for="item in getDateSort()"
+          :key="item._id"
         >
           <v-card color="v_timeline_card_background" @click="toContent(item)">
-            <v-card-title>{{ item.name }}</v-card-title>
-            <v-card-subtitle
-              ><i>{{ item.short_description }}</i></v-card-subtitle
-            >
+            <v-card-title>
+              {{ item.name }}
+            </v-card-title>
+            <slot :item="item"></slot>
             <v-card-subtitle
               ><strong>{{
-                item.create_date | moment("from", "now")
+                item.create_date | moment()
               }}</strong></v-card-subtitle
             >
             <v-card-actions class="caption">
               <ul>
-                <li
-                  v-for="(category, cat_index) in item.categories"
-                  :key="cat_index"
-                >
+                <li v-for="category in item.categories" :key="category.id">
                   <v-tooltip color="v_tooltip_success_color" bottom>
                     <template v-slot:activator="{ on, attrs }">
                       <v-icon
@@ -114,37 +111,43 @@
 </template>
 
 <script>
-import { USER } from "@/core/services/store/user.module";
+import moment from 'moment'
+require('moment/locale/tr')
 export default {
   props: {
-    _news: {
-      type: String,
+    _contents: {
+      type: Array,
+      default: () => [],
+    },
+  },
+  data() {
+    return {
+      datas: [],
+    };
+  },
+  computed: {
+    filterForms: {
+      get() {
+        return this.datas;
+      },
+      set(val) {
+        this.datas = val;
+      },
     },
   },
   methods: {
-    getCategories(categories) {
-      var cat = "";
-      categories.forEach((element, index, array) => {
-        if (index === array.length - 1) {
-          cat += element;
-        } else cat += element + ", ";
-      });
-      return cat;
-    },
     getDateSort() {
-      let array = JSON.parse(this._news).sort(
-        (x, y) => new Date(y.create_date) - new Date(x.create_date)
-      );
-      return array;
-    },
-    profile(item) {
-      this.$store.dispatch(USER, item);
-      this.$router.push({ name: `Profile`, params: { id: item._id } });
+      return this._contents;
     },
     toContent(item) {
       this.$emit("content", item);
     },
   },
+  filters: {
+    moment: function(date){
+      return moment(date).fromNow()
+    }
+  }
 };
 </script>
 

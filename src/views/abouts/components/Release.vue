@@ -64,7 +64,10 @@ export default {
   },
   async created() {
     if (!this.$store.getters.getReleases)
-      await this.$store.dispatch("getApiReleases");
+      await this.$store.dispatch("getApiContent", {
+        url: `abouts/releases`,
+        content: "setReleases",
+      });
     this.releases = this.$store.getters.getReleases;
     this.release = this.releases[0];
   },

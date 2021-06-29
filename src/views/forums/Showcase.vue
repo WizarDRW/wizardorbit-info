@@ -12,7 +12,7 @@
     <v-row>
       <v-col md="6">
         <time-line
-          :_forums="filterTimeline"
+          :_contents="filterTimeline"
           v-on:content="toContent"
         ></time-line>
       </v-col>
@@ -27,10 +27,9 @@
 </template>
 
 <script>
-import { FORUM, GET_API_FORUMS } from "@/core/services/store/forum.module";
 export default {
   components: {
-    TimeLine: () => import("./showcases/TimeLine"),
+    TimeLine: () => import("@/components/TimeLine.vue"),
     Categories: () => import("./showcases/Category"),
     Top: () => import("./showcases/Top"),
   },
@@ -47,7 +46,7 @@ export default {
   },
   async created() {
     if (!this.$store.getters.getForums)
-      await this.$store.dispatch(GET_API_FORUMS);
+      await this.$store.dispatch('getApiContent', {url: 'forums/client', content: 'setForums'});
     this.forums = this.$store.getters.getForums;
     if (this.forums) this.loading = false;
     this.filterForums = this.forums;
@@ -93,7 +92,7 @@ export default {
       this.filterTimeline = val;
     },
     toContent(content) {
-      this.$store.dispatch(FORUM, content);
+      this.$store.commit('setForum', content);
       this.$router.push({ name: "ForumContent", params: { id: content._id } });
     },
   },

@@ -104,13 +104,7 @@
 </template>
 
 <script>
-import "vue-code-highlight/themes/duotone-sea.css";
-import "vue-code-highlight/themes/window.css";
 import marked from "marked";
-import {
-  GET_API_CHAPTER,
-  IMPRESSION_CHAPTER_UPDATE,
-} from "@/core/services/store/chapter.module";
 export default {
   name: "ChapterContent",
   props: {
@@ -119,7 +113,6 @@ export default {
     },
   },
   components: {
-    // Comment: () => import("./Comment"),
     CodeBlock: () => import("@/components/Code"),
   },
   data() {
@@ -140,7 +133,10 @@ export default {
   },
   async mounted() {
     if (!this.$store.getters.getChapter) {
-      await this.$store.dispatch(GET_API_CHAPTER, this.$route.params.id);
+      await this.$store.dispatch("getApiContent", {
+        url: `chapters/id/${this.$route.params.id}`,
+        content: "setChapter",
+      });
     }
     this.chapter = this.$store.getters.getChapter;
     if (this.chapter) this.loading = false;
@@ -154,9 +150,12 @@ export default {
         fetch("https://api.ipify.org?format=json")
           .then((response) => response.json())
           .then(async ({ ip }) => {
-            await this.$store.dispatch(IMPRESSION_CHAPTER_UPDATE, {
-              id: this.$route.params.id,
-              ip: ip,
+            await this.$store.dispatch("impressionContentUpdate", {
+              content: "chapters",
+              data: {
+                id: this.$route.params.id,
+                ip: ip,
+              },
             });
           });
       }

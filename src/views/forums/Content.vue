@@ -99,10 +99,8 @@
     </v-card>
     <br />
     <v-divider color="secondary"></v-divider>
-    <br>
-    <h4 class="secondary--text">
-      Yorumlar
-    </h4>
+    <br />
+    <h4 class="secondary--text">Yorumlar</h4>
     <v-row>
       <v-col>
         <v-container>
@@ -251,7 +249,7 @@
                   :items="[comments.length, 3, 5, 10, 15, 20, 50, 100]"
                 >
                   <template #selection="{ item }">
-                    <span class="secondary--text"> {{item}} </span>
+                    <span class="secondary--text"> {{ item }} </span>
                   </template>
                 </v-select>
               </v-col>
@@ -317,11 +315,6 @@
 </template>
 
 <script>
-import {
-  GET_API_FORUM,
-  FORUM_SENT_COMMENT,
-  IMPRESSION_FORUM_UPDATE,
-} from "@/core/services/store/forum.module";
 import ObjectId from "bson-objectid";
 export default {
   name: "ForumContent",
@@ -354,7 +347,10 @@ export default {
   methods: {
     /** Get Comment */
     async getComment() {
-      await this.$store.dispatch(GET_API_FORUM, this.$route.params.id);
+      await this.$store.dispatch("getApiContent", {
+        url: `forums/id/${this.$route.params.id}`,
+        content: "setForum",
+      });
       this.forum = this.$store.getters.getForum;
       if (this.forum) this.loading = false;
       this.getComments(this.forum);
@@ -392,9 +388,10 @@ export default {
         ...this.comment,
         user_id: ObjectId(this.$store.getters.currentUser._id),
       };
-      var postData = await this.$store.dispatch(FORUM_SENT_COMMENT, {
-        id: this.forum._id,
-        comment: this.comment,
+      var postData = await this.$store.dispatch("postApiContent", {
+        url: `forums/comment/${this.forum._id}`,
+        content: "",
+        data: this.comment,
       });
       if (postData.status === 201) {
         postData.data = {
@@ -433,9 +430,12 @@ export default {
         fetch("https://api.ipify.org?format=json")
           .then((response) => response.json())
           .then(async ({ ip }) => {
-            await this.$store.dispatch(IMPRESSION_FORUM_UPDATE, {
-              id: this.$route.params.id,
-              ip: ip,
+            await this.$store.dispatch("impressionContentUpdate", {
+              content: "forums",
+              data: {
+                id: this.$route.params.id,
+                ip: ip,
+              },
             });
           });
       }
@@ -471,7 +471,8 @@ export default {
 .nested .email {
   text-align: right;
 }
-.v-card, .v-card__subtitle {
+.v-card,
+.v-card__subtitle {
   color: var(--v-v_card_title_color-base) !important;
 }
 .timeline-user-info .v-card__subtitle {

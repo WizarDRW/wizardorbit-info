@@ -31,8 +31,8 @@
 import moment from "moment";
 export default {
   props: {
-    _news: {
-      type: String,
+    _contents: {
+      type: Array,
     },
     _ly: {
       type: String,
@@ -42,7 +42,7 @@ export default {
   methods: {
     getImpressionSort() {
       if (this._ly == "daily") {
-        let array = JSON.parse(this._news)
+        let array = this._contents
           .filter(
             (x) =>
               moment(x.create_date) == moment() ||
@@ -51,7 +51,7 @@ export default {
           .sort((x, y) => y.impression - x.impression);
         return array;
       } else if (this._ly == "monthly") {
-        let array = JSON.parse(this._news)
+        let array = this._contents
           .filter(
             (x) =>
               moment(x.create_date) == moment() ||
@@ -60,7 +60,7 @@ export default {
           .sort((x, y) => y.impression - x.impression);
         return array;
       } else {
-        let array = JSON.parse(this._news)
+        let array = this._contents
           .filter(
             (x) =>
               moment(x.create_date) == moment() ||

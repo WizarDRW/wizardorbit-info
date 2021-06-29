@@ -5,27 +5,39 @@
       <div v-else>
         <v-row>
           <v-col md="6">
-            <carousel :_news="JSON.stringify(news)" v-on:content="toContent"></carousel>
+            <carousel
+              :_contents="news"
+              v-on:content="toContent"
+            ></carousel>
           </v-col>
           <v-col md="6">
-            <top :_news="JSON.stringify(news)" v-on:content="toContent"></top>
+            <top :_contents="news" v-on:content="toContent"></top>
           </v-col>
         </v-row>
         <v-row>
           <v-col sm="12" md="8">
-            <time-line :_news="JSON.stringify(news)" v-on:content="toContent"></time-line>
+            <time-line :_contents="news" v-on:content="toContent">
+              <template #default="{ item }">
+                <v-card-subtitle>
+                  <i>{{ item.short_description }}</i>
+                </v-card-subtitle>
+              </template>
+            </time-line>
           </v-col>
           <v-col md="4">
-            <impression :_news="JSON.stringify(news)" v-on:content="toContent"></impression>
+            <impression
+              :_contents="news"
+              v-on:content="toContent"
+            ></impression>
             <br />
             <impression
-              :_news="JSON.stringify(news)"
+              :_contents="news"
               :_ly="'monthly'"
               v-on:content="toContent"
             ></impression>
             <br />
             <impression
-              :_news="JSON.stringify(news)"
+              :_contents="news"
               :_ly="'yearly'"
               v-on:content="toContent"
             ></impression>
@@ -37,13 +49,12 @@
 </template>
 
 <script>
-import { NEWS, GET_API_THE_NEWS } from "@/core/services/store/news.module";
 export default {
   components: {
-    Carousel: () => import("./showcases/Slider"),
-    Top: () => import("./showcases/Top"),
-    TimeLine: () => import("./showcases/TimeLine"),
-    Impression: () => import("./showcases/Impression"),
+    Carousel: () => import("@/components/showcases/Slider"),
+    Top: () => import("@/components/showcases/Top"),
+    TimeLine: () => import("@/components/TimeLine.vue"),
+    Impression: () => import("@/components/showcases/Impression"),
     SkeletonLoader: () => import("@/components/loaders/ShowcaseSkeletonLoader"),
   },
   data() {
@@ -62,18 +73,24 @@ export default {
   },
   async created() {
     if (!this.$store.getters.getTheNews)
-      await this.$store.dispatch(GET_API_THE_NEWS);
+      await this.$store.dispatch("getApiContent", {
+        url: "news/client",
+        content: "setTheNews",
+      });
     this.news = this.$store.getters.getTheNews;
     if (this.news) this.loading = false;
   },
   methods: {
     toContent(content) {
-      this.$store.dispatch(NEWS, content);
+      this.$store.commit("setNews", content);
       this.$router.push({ name: "NewsContent", params: { id: content._id } });
     },
   },
   destroyed() {
-    this.$store.dispatch(GET_API_THE_NEWS);
+    this.$store.dispatch("getApiContent", {
+      url: "news/client",
+      content: "setTheNews",
+    });
   },
 };
 </script>

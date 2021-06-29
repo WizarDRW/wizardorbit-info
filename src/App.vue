@@ -11,27 +11,14 @@
 </template>
 
 <script>
-import ApiService from "@/core/services/api.service.js";
-import { CURRENT_USER } from "@/core/services/store/auth.module";
 export default {
-  components: {},
-  data() {
-    return {
-      option: {},
-      loading: true,
-    };
-  },
   async beforeCreate() {
-    await this.$store.dispatch(CURRENT_USER);
-    ApiService.get("/options").then((x) => {
-      localStorage.setItem("option", JSON.stringify(x.data));
-      this.loading = false;
-    });
+    await this.$store.dispatch("currentUser");
     if (this.$store.getters["isAuthenticated"])
-      await this.$store.dispatch(
-        "getApiUserTheme",
-        this.$store.getters.currentUser._id
-      );
+      await this.$store.dispatch("getApiContent", {
+        url: `useroptions/theme/${this.$store.getters.currentUser._id}`,
+        content: "setUserTheme",
+      });
   },
   metaInfo() {
     return {

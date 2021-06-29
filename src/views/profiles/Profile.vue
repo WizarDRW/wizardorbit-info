@@ -51,14 +51,6 @@
 </template>
 
 <script>
-import { GET_API_USER } from "@/core/services/store/user.module";
-import { CHAPTER, GET_API_USER_CHAPTERS } from "@/core/services/store/chapter.module";
-import { NEWS, GET_API_USER_THE_NEWS } from "@/core/services/store/news.module";
-import { FORUM, GET_API_USER_FORUMS } from "@/core/services/store/forum.module";
-import {
-  LIBRARY,
-  GET_API_USER_LIBRARIES,
-} from "@/core/services/store/library.module";
 export default {
   components: { UserHeader: () => import("./components/UserHeader.vue") },
   data() {
@@ -79,29 +71,29 @@ export default {
   },
   async created() {
     if (!this.$store.getters.getUser) {
-      await this.$store.dispatch(GET_API_USER, this.$route.params.username);
+      await this.$store.dispatch('getApiContent', {url: `users/profile/${this.$route.params.username}`, content: 'setUser'});
     }
     this.user = this.$store.getters.getUser;
-    await this.getBlogs(this.user._id);
+    await this.getChapters(this.user._id);
     await this.getNews(this.user._id);
     await this.getForums(this.user._id);
     await this.getLibraries(this.user._id);
   },
   methods: {
-    async getBlogs(user_id) {
-      await this.$store.dispatch(GET_API_USER_CHAPTERS, user_id);
+    async getChapters(user_id) {
+      await this.$store.dispatch('getApiContent', {url: `chapters/client/userid/${user_id}`, content: 'setUserChapters'});
       this.chapters = this.$store.getters.getUserChapters;
     },
     async getNews(user_id) {
-      await this.$store.dispatch(GET_API_USER_THE_NEWS, user_id);
+      await this.$store.dispatch('getApiContent', {url: `news/client/userid/${user_id}`, content: 'setUserTheNews'});
       this.news = this.$store.getters.getUserTheNews;
     },
     async getForums(user_id) {
-      await this.$store.dispatch(GET_API_USER_FORUMS, user_id);
+      await this.$store.dispatch('getApiContent', {url: `forums/client/userid/${user_id}`, content: 'setUserForums'});
       this.forums = this.$store.getters.getUserForums;
     },
     async getLibraries(user_id) {
-      await this.$store.dispatch(GET_API_USER_LIBRARIES, user_id);
+      await this.$store.dispatch('getApiContent', {url: `libraries/client/userid/${user_id}`, content: 'setUserLibraries'});
       this.libraries = this.$store.getters.getUserLibraries;
     },
     toContent(type, item) {
@@ -109,10 +101,10 @@ export default {
         ...item,
         user_data: this.user
       }
-      if (type == "ChapterContent") this.$store.dispatch(CHAPTER, item);
-      else if (type == "NewsContent") this.$store.dispatch(NEWS, item);
-      else if (type == "forum") this.$store.dispatch(FORUM, item);
-      else if (type == "library") this.$store.dispatch(LIBRARY, item);
+      if (type == "ChapterContent") this.$store.commit('setChapter', item);
+      else if (type == "NewsContent") this.$store.commit('setNews', item);
+      else if (type == "forum") this.$store.commit('setForum', item);
+      else if (type == "library") this.$store.commit('setLibrary', item);
       this.$router.push({ name: type, params: { id: item._id } });
     },
   },

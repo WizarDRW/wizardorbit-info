@@ -215,12 +215,7 @@
   </div>
 </template>
 
-
 <script>
-import ApiService from "@/core/services/api.service.js";
-import { LOGOUT } from "@/core/services/store/auth.module";
-import { THEME } from "@/core/services/store/option.module";
-
 export default {
   components: {
     Login: () => import("@/views/auth/Login.vue"),
@@ -241,13 +236,16 @@ export default {
       isLogin: false,
     };
   },
-  created() {
+  async created() {
     window.addEventListener("scroll", this.onScroll);
-    ApiService.get("/menus").then((x) => {
-      this.categories = x.data
-        .filter((y) => y.status)
-        .sort((a, b) => a.sort - b.sort);
-    });
+    if (!this.$store.getters.getMenus)
+      await this.$store.dispatch("getApiContent", {
+        url: "menus",
+        content: "setMenus",
+      });
+    this.categories = this.$store.getters.getMenus
+      .filter((y) => y.status)
+      .sort((a, b) => a.sort - b.sort);
     var result = JSON.parse(localStorage.getItem("option"));
     var json = result.find((x) => x.key == "header").json;
     this.logo = json.header_logo;
@@ -259,7 +257,7 @@ export default {
      * User Logout
      */
     async logout() {
-      await this.$store.dispatch(LOGOUT);
+      await this.$store.dispatch('logout');
     },
     /**
      * Return user's full name with user's data
@@ -293,7 +291,7 @@ export default {
       window.open(path);
     },
     afternoon() {
-      this.$store.dispatch(THEME, {
+      this.$store.dispatch('theme', {
         isDark: false,
         name: "morning",
       });
