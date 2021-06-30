@@ -22,7 +22,7 @@ export default {
   },
   metaInfo() {
     return {
-      title: "Sihirbaz Forum",
+      title: "Wizard Orbit",
       meta: [
         {
           name: "description",
@@ -31,9 +31,9 @@ export default {
         },
         {
           property: "og:title",
-          content: "Sihirbaz Forum",
+          content: "Wizard Orbit",
         },
-        { property: "og:sihirbazforum.com", content: "Sihirbaz" },
+        { property: "og:wizardorbit.com", content: "Sihirbaz" },
         { property: "og:type", content: "website" },
         { name: "robots", content: "index,follow" },
       ],
