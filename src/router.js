@@ -194,7 +194,7 @@ export default new Router({
       children: [{
         path: "/about/who-we-are",
         name: "WhoWeAre",
-        meta: { description: "Biz Kimiz" },
+        meta: { i18n: "message.aboutMenu.whoWeAre" },
         beforeEnter: (to, from, next) => {
           currentRouteName = "WhoWeAre";
           next();
@@ -203,7 +203,7 @@ export default new Router({
       },{
         path: "/about/ourhistory",
         name: "ourhistory",
-        meta: { description: "Hikayemiz" },
+        meta: { i18n: "message.aboutMenu.ourHistory" },
         beforeEnter: (to, from, next) => {
           currentRouteName = "ourhistory";
           next();
@@ -212,7 +212,7 @@ export default new Router({
       },{
         path: "/about/ourplan",
         name: "ourplan",
-        meta: { description: "Planlarımız" },
+        meta: { i18n: "message.aboutMenu.ourPlan" },
         beforeEnter: (to, from, next) => {
           currentRouteName = "ourplan";
           next();
@@ -221,7 +221,7 @@ export default new Router({
       },{
         path: "/about/contact",
         name: "contact",
-        meta: { description: "İletişim" },
+        meta: { i18n: "message.aboutMenu.contact" },
         beforeEnter: (to, from, next) => {
           currentRouteName = "contact";
           next();
@@ -230,7 +230,7 @@ export default new Router({
       },{
         path: "/about/release",
         name: "Release",
-        meta: { description: "Sürüm Notları" },
+        meta: { i18n: "message.aboutMenu.release" },
         beforeEnter: (to, from, next) => {
           currentRouteName = "Release";
           next();

@@ -1,8 +1,16 @@
 <template>
   <div>
     <h3 class="secondary--text">
-      {{ _ly == "daily" ? "Bugün" : _ly == "monthly" ? "1 Ay" : "1 Yıl" }}
-      içerisinde en çok okunanlar
+      {{
+        $t("message.impression.def", {
+          in:
+            _ly == "daily"
+              ? $t("message.impression.inDaily")
+              : _ly == "monthly"
+              ? $t("message.impression.inOneMonth")
+              : $t("message.impression.inOneYear"),
+        })
+      }}
     </h3>
     <br />
     <v-card
@@ -89,7 +97,7 @@ export default {
 .click {
   cursor: pointer;
 }
-.v-card{
-  color: var(--v-v_card_title_color-base) !important
+.v-card {
+  color: var(--v-v_card_title_color-base) !important;
 }
 </style>

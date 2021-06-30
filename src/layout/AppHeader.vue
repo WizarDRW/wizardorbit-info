@@ -9,33 +9,104 @@
         <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
       </div>
       <div class="navbar-nav">
-        <v-menu
-          v-for="item in categories"
-          :key="item._id"
-          tile
-          open-on-hover
-          offset-y
-        >
+        <v-menu tile open-on-hover offset-y>
           <template v-slot:activator="{ on, attrs }">
             <a :class="`router-parent`" v-bind="attrs" v-on="on">
-              {{ item.name }}
+              {{ $t("message.headerMenus.chapter.main") }}
             </a>
           </template>
 
           <v-list color="header">
-            <v-list-item
-              v-for="(child, index) in item.children.filter((x) => x.status)"
-              :key="index"
-            >
+            <v-list-item>
               <v-list-item-title>
-                <router-link :to="child.path">
-                  {{ child.name }} <br />
-                  <span>{{ child.description }}</span>
+                <router-link to="/chapter/showcase">
+                  {{ $tc("message.headerMenus.chapter.children", 1) }} <br />
+                  <span>{{
+                    $tc("message.headerMenus.chapter.childrenDescriptions", 1)
+                  }}</span>
+                </router-link>
+              </v-list-item-title>
+            </v-list-item>
+            <v-list-item>
+              <v-list-item-title>
+                <router-link to="/chapter/category">
+                  {{ $tc("message.headerMenus.chapter.children", 2) }} <br />
+                  <span>{{
+                    $tc("message.headerMenus.chapter.childrenDescriptions", 2)
+                  }}</span>
                 </router-link>
               </v-list-item-title>
             </v-list-item>
           </v-list>
         </v-menu>
+        <v-menu tile open-on-hover offset-y>
+          <template v-slot:activator="{ on, attrs }">
+            <a :class="`router-parent`" v-bind="attrs" v-on="on">
+              {{ $t("message.headerMenus.news.main") }}
+            </a>
+          </template>
+
+          <v-list color="header">
+            <v-list-item>
+              <v-list-item-title>
+                <router-link to="/news/showcase">
+                  {{ $tc("message.headerMenus.news.children", 1) }} <br />
+                  <span>{{
+                    $tc("message.headerMenus.news.childrenDescriptions", 1)
+                  }}</span>
+                </router-link>
+              </v-list-item-title>
+            </v-list-item>
+            <v-list-item>
+              <v-list-item-title>
+                <router-link to="/news/category">
+                  {{ $tc("message.headerMenus.news.children", 2) }} <br />
+                  <span>{{
+                    $tc("message.headerMenus.news.childrenDescriptions", 2)
+                  }}</span>
+                </router-link>
+              </v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-menu>
+        <v-menu tile open-on-hover offset-y>
+          <template v-slot:activator="{ on, attrs }">
+            <a :class="`router-parent`" v-bind="attrs" v-on="on">
+              {{ $t("message.headerMenus.forum.main") }}
+            </a>
+          </template>
+
+          <v-list color="header">
+            <v-list-item>
+              <v-list-item-title>
+                <router-link to="/forum/showcase">
+                  {{ $tc("message.headerMenus.forum.children", 1) }} <br />
+                  <span>{{
+                    $tc("message.headerMenus.forum.childrenDescriptions", 1)
+                  }}</span>
+                </router-link>
+              </v-list-item-title>
+            </v-list-item>
+            <v-list-item>
+              <v-list-item-title>
+                <router-link to="/forum/category">
+                  {{ $tc("message.headerMenus.forum.children", 2) }} <br />
+                  <span>{{
+                    $tc("message.headerMenus.forum.childrenDescriptions", 2)
+                  }}</span>
+                </router-link>
+              </v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-menu>
+        <router-link
+          :class="`router-parent`"
+          to="/about"
+          v-bind="attrs"
+          v-on="on"
+        >
+          {{ $t("message.headerMenus.about") }}
+        </router-link>
       </div>
       <div class="theme-mode navbar-nav">
         <v-btn
@@ -51,13 +122,41 @@
           }}</v-icon>
         </v-btn>
       </div>
+      <div class="navbar-nav">
+        <!-- I18N -->
+        <v-menu offset-y>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn fab x-small dark v-bind="attrs" v-on="on">
+              <v-img width="0px" :src="$store.getters.getLang.icon"></v-img>
+            </v-btn>
+          </template>
+          <div
+            v-for="(item, index) in languages.filter(
+              (x) => x.name != $store.getters.getLang.name
+            )"
+            :key="index"
+            style="margin-top: 10px"
+          >
+            <v-btn
+              fab
+              x-small
+              dark
+              v-bind="attrs"
+              v-on="on"
+              @click="setLang(item)"
+            >
+              <v-img width="0px" :src="item.icon"></v-img>
+            </v-btn>
+          </div>
+        </v-menu>
+      </div>
       <div class="search navbar-nav">
         <v-text-field
           v-model="find"
           outlined
           dense
           color=""
-          placeholder="Ara"
+          :placeholder="$t('message.headerSetting.findText')"
           @keypress.enter="search()"
           prepend-inner-icon="mdi-magnify"
         ></v-text-field>
@@ -142,7 +241,7 @@
               v-bind="attrs"
               v-on="on"
             >
-              Giriş
+              {{ $t('message.headerSetting.loginButton') }}
             </v-btn>
           </template>
           <v-card>
@@ -153,8 +252,8 @@
               color="purple"
             >
               <v-tabs-slider color="yellow"></v-tabs-slider>
-              <v-tab href="#login"> Kullanıcı Girişi </v-tab>
-              <v-tab href="#register"> Kayıt Ol </v-tab>
+              <v-tab href="#login"> {{ $t('message.login.title') }} </v-tab>
+              <v-tab href="#register"> {{ $t('message.register.title') }} </v-tab>
             </v-tabs>
             <v-tabs-items v-model="tab">
               <v-tab-item value="login">
@@ -187,30 +286,42 @@
           }}</v-icon>
         </v-btn>
       </div>
+      <!-- I18N -->
+      <v-menu offset-y>
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn fab x-small dark v-bind="attrs" v-on="on">
+            <v-img width="0px" :src="$store.getters.getLang.icon"></v-img>
+          </v-btn>
+        </template>
+        <div
+          v-for="(item, index) in languages.filter(
+            (x) => x.name != $store.getters.getLang.name
+          )"
+          :key="index"
+        >
+          <v-btn
+            fab
+            x-small
+            dark
+            v-bind="attrs"
+            v-on="on"
+            @click="setLang(item)"
+          >
+            <v-img width="0px" :src="item.icon"></v-img>
+          </v-btn>
+        </div>
+      </v-menu>
       <div class="search">
         <v-text-field
           v-model="find"
           outlined
           dense
           dark
-          placeholder="Ara"
+          :placeholder="$t('message.headerSetting.findText')"
           @keypress.enter="search()"
           prepend-inner-icon="mdi-magnify"
         ></v-text-field>
       </div>
-      <v-list nav dense>
-        <div v-for="item in categories" :key="item._id">
-          <h3>{{ item.name }}</h3>
-          <ul>
-            <li
-              v-for="child in item.children.filter((x) => x.status)"
-              :key="child.name"
-            >
-              <router-link :to="child.path">{{ child.name }}</router-link>
-            </li>
-          </ul>
-        </div>
-      </v-list>
     </v-navigation-drawer>
   </div>
 </template>
@@ -234,15 +345,28 @@ export default {
       menu: false,
       tab: "login",
       isLogin: false,
+      languages: [
+        {
+          name: "en",
+          icon: require("../assets/vendor/svg/en.svg"),
+        },
+        {
+          name: "de",
+          icon: require("../assets/vendor/svg/de.png"),
+        },
+        {
+          name: "fr",
+          icon: require("../assets/vendor/svg/fr.svg"),
+        },
+        {
+          name: "tr",
+          icon: require("../assets/vendor/svg/tr.svg"),
+        },
+      ],
     };
   },
   async created() {
     window.addEventListener("scroll", this.onScroll);
-    if (!this.$store.getters.getMenus)
-      await this.$store.dispatch("getApiContent", {
-        url: "menus",
-        content: "setMenus",
-      });
     this.categories = this.$store.getters.getMenus
       .filter((y) => y.status)
       .sort((a, b) => a.sort - b.sort);
@@ -257,7 +381,7 @@ export default {
      * User Logout
      */
     async logout() {
-      await this.$store.dispatch('logout');
+      await this.$store.dispatch("logout");
     },
     /**
      * Return user's full name with user's data
@@ -291,10 +415,13 @@ export default {
       window.open(path);
     },
     afternoon() {
-      this.$store.dispatch('theme', {
+      this.$store.dispatch("theme", {
         isDark: false,
         name: "morning",
       });
+    },
+    setLang(item) {
+      this.$store.dispatch("lang", item);
     },
   },
   watch: {
@@ -335,6 +462,9 @@ a {
 }
 .media-body:hover > .dropdown-menu-inner {
   display: block;
+}
+.navbar-nav {
+  margin-right: 10px;
 }
 @media only screen and (max-width: 960px) {
   .navbar-nav {

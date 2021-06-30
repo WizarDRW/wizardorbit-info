@@ -22,7 +22,7 @@ export default {
   },
   metaInfo() {
     return {
-      title: "Wizard Orbit",
+      title: `${this.$i18n.t("title")}`,
       meta: [
         {
           name: "description",

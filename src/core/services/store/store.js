@@ -11,6 +11,7 @@ import option from "./option.module.js";
 import category from "./category.module.js";
 import userOption from './useroption.module.js'
 import content from './content.module.js'
+import i18n from './i18n.module.js'
 
 Vue.use(Vuex);
 
@@ -28,6 +29,7 @@ export default new Vuex.Store({
     forum,
     category,
     userOption,
-    content
+    content,
+    i18n
   }
 });

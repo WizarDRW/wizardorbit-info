@@ -9,6 +9,7 @@ import ApiService from "./core/services/api.service";
 import Katex from 'vue-katex-auto-render'
 import { VueMasonryPlugin } from "vue-masonry";
 import * as VueGoogleMaps from 'vue2-google-maps'
+import { i18n } from './core/i18n'
 
 Vue.use(VueGoogleMaps, {
   load: {
@@ -41,5 +42,6 @@ new Vue({
   store,
   router,
   vuetify,
+  i18n,
   render: h => h(App)
 }).$mount('#app')

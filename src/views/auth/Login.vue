@@ -7,7 +7,7 @@
             prepend-icon="mdi-account"
             v-model="user.email"
             name="login"
-            label="Email Adresi"
+            :label="$t('message.login.email')"
             type="text"
           ></v-text-field>
           <v-text-field
@@ -15,7 +15,7 @@
             v-model="user.password"
             prepend-icon="mdi-lock"
             name="password"
-            label="Şifre"
+            :label="$t('message.login.password')"
             type="password"
           ></v-text-field>
         </v-form>
@@ -36,7 +36,7 @@
             color="white"
             indeterminate
           ></v-progress-circular>
-          Giriş
+          {{ $t("message.headerSetting.loginButton") }}
         </v-btn>
       </v-card-actions>
     </v-card>

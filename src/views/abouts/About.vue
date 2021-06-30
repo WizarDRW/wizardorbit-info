@@ -6,7 +6,7 @@
           <v-list-item>
             <v-list-item-content>
               <v-list-item-title class="text-h6">
-                {{ $route.meta.description }}
+                {{ title }}
               </v-list-item-title>
             </v-list-item-content>
           </v-list-item>
@@ -14,18 +14,44 @@
           <v-divider></v-divider>
 
           <v-list dense nav>
-            <v-list-item
-              v-for="item in items"
-              :key="item.title"
-              @click="$router.push(item.path)"
-              link
-            >
+            <v-list-item @click="$router.push({ path: '/about/who-we-are' })" link>
               <v-list-item-icon>
-                <v-icon>{{ item.icon }}</v-icon>
+                <v-icon> mdi-account-group </v-icon>
               </v-list-item-icon>
-
               <v-list-item-content>
-                <v-list-item-title>{{ item.title }}</v-list-item-title>
+                <v-list-item-title>{{ $t('message.aboutMenu.whoWeAre') }}</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+            <v-list-item @click="$router.push({ path: '/about/ourhistory' })" link>
+              <v-list-item-icon>
+                <v-icon> mdi-history </v-icon>
+              </v-list-item-icon>
+              <v-list-item-content>
+                <v-list-item-title>{{ $t('message.aboutMenu.ourHistory') }}</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+            <v-list-item @click="$router.push({ path: '/about/ourplan' })" link>
+              <v-list-item-icon>
+                <v-icon> mdi-floor-plan </v-icon>
+              </v-list-item-icon>
+              <v-list-item-content>
+                <v-list-item-title>{{ $t('message.aboutMenu.ourPlan') }}</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+            <v-list-item @click="$router.push({ path: '/about/contact' })" link>
+              <v-list-item-icon>
+                <v-icon> mdi-human-greeting-proximity </v-icon>
+              </v-list-item-icon>
+              <v-list-item-content>
+                <v-list-item-title>{{ $t('message.aboutMenu.contact') }}</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+            <v-list-item @click="$router.push({ path: '/about/release' })" link>
+              <v-list-item-icon>
+                <v-icon> mdi-note-text-outline </v-icon>
+              </v-list-item-icon>
+              <v-list-item-content>
+                <v-list-item-title>{{ $t('message.aboutMenu.release') }}</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
           </v-list>
@@ -42,30 +68,21 @@
 export default {
   data() {
     return {
-      items: [
-        {
-          title: "Biz Kimiz",
-          icon: "mdi-account-group",
-          path: "/about/who-we-are",
-        },
-        {
-          title: "Hikayemiz",
-          icon: "mdi-history",
-          path: "/about/ourhistory",
-        },
-        { title: "Planlarımız", icon: "mdi-floor-plan", path: "/about/ourplan" },
-        { title: "İletişim", icon: "mdi-human-greeting-proximity", path: "/about/contact" },
-        { title: "Sürüm Notları", icon: "mdi-note-text-outline", path: "/about/release" },
-      ],
       right: null,
     };
   },
   async created() {
-    if(!this.$store.getters.getAbouts) await this.$store.dispatch('getApiContent', {
+    if (!this.$store.getters.getAbouts)
+      await this.$store.dispatch("getApiContent", {
         url: `abouts`,
         content: "setAbouts",
-      })
+      });
   },
+  computed: {
+    title() {
+      return this.$i18n.t(this.$route.meta.i18n)
+    }
+  }
 };
 </script>
 
