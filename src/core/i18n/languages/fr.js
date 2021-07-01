@@ -7,6 +7,10 @@ const fr = {
             inOneMonth: 'en 1 mois',
             inOneYear: 'en 1 an',
         },
+        libraries: {
+            mostPopularBooks: "Livres les plus populaires",
+            mostReadThisWeek: "Le plus lu cette semaine"
+        },
         headerMenus: {
             chapter: {
                 main: 'Chapitres',
@@ -59,6 +63,13 @@ const fr = {
                     topic: 'Sujet'
                 }
             }
+        },
+        contents: {
+            chapters: 'Chapitres',
+            chapter: 'Chapitre',
+            news: 'Nouvelles',
+            forums: 'Forum',
+            libraries: 'Bibliothèques',
         }
     }
 }

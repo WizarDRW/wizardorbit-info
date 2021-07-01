@@ -7,6 +7,10 @@ const en = {
             inOneMonth: 'in 1 Month',
             inOneYear: 'in 1 Year',
         },
+        libraries: {
+            mostPopularBooks: "Most popular books",
+            mostReadThisWeek: "Most read this week"
+        },
         headerMenus: {
             chapter: {
                 main: 'Chapters',
@@ -43,6 +47,7 @@ const en = {
             confirmEmail: 'Confirm Email Address',
             password: 'Password',
             confirmPassword: 'Confirm Password',
+            agree: "Do you agree? PDPL {pdpl}",
             sendBtn: 'Send'
         },
         aboutMenu: {
@@ -59,6 +64,13 @@ const en = {
                     topic: 'Topic'
                 }
             }
+        },
+        contents: {
+            chapters: 'Chapters',
+            chapter: 'Chapter',
+            news: 'News',
+            forums: 'Forums',
+            libraries: 'Libraries',
         }
     }
 }

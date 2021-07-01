@@ -5,11 +5,11 @@
     </div>
     <v-row v-else>
       <v-col cols="12" sm="12" md="6" lg="6">
-        <h2>En popüler kitaplar</h2>
+        <h2>{{ $t("message.libraries.mostPopularBooks") }}</h2>
         <top :_libraries="libraries"></top>
       </v-col>
       <v-col cols="12" sm="12" md="6" lg="6">
-        <h2>Bu hafta en çok okunanlar</h2>
+        <h2>{{ $t("message.libraries.mostReadThisWeek") }}</h2>
         <top :_libraries="libraries"></top>
       </v-col>
     </v-row>
@@ -39,7 +39,7 @@ export default {
   },
   methods: {
     toContent(content) {
-      this.$store.commit('setLibrary', content);
+      this.$store.commit("setLibrary", content);
       this.$router.push({
         name: "LibraryContent",
         params: { id: content._id },

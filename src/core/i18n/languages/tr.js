@@ -7,6 +7,10 @@ const tr = {
             inOneMonth: '1 Ay içerisinde',
             inOneYear: '1 yıl içerisinde',
         },
+        libraries: {
+            mostPopularBooks: "En popüler kitaplar",
+            mostReadThisWeek: "Bu hafta en çok okunanlar"
+        },
         headerMenus: {
             chapter: {
                 main: 'Bölümler',
@@ -43,6 +47,7 @@ const tr = {
             confirmEmail: 'Email Adresinizi Doğrulayın',
             password: 'Şifreniz',
             confirmPassword: 'Şifrenizi Doğrulayın',
+            agree: "Kişisel Verileri Koruma Kanununu {pdpl} kabul ediyor musunuz?",
             sendBtn: 'Gonder'
         },
         aboutMenu: {
@@ -59,6 +64,13 @@ const tr = {
                     topic: 'Konu'
                 }
             }
+        },
+        contents: {
+            chapters: 'Bölümler',
+            chapter: 'Bölüm',
+            news: 'Haberler',
+            forums: 'Forumlar',
+            libraries: 'Kütüphane',
         }
     }
 }

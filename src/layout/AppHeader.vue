@@ -229,7 +229,7 @@
         <v-menu
           v-model="menu"
           :close-on-content-click="false"
-          :nudge-width="200"
+          :nudge-width="500"
           offset-y
         >
           <template v-slot:activator="{ on, attrs }">

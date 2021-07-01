@@ -64,6 +64,12 @@
             outlined
             dense
           ></v-text-field>
+          <v-checkbox
+            v-model="checkbox"
+            :rules="[(v) => !!v || 'You must agree to continue!']"
+            :label="$t('message.register.agree')"
+            required
+          ></v-checkbox>
         </v-form>
       </v-card-text>
       <v-card-actions>
