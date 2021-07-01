@@ -51,6 +51,14 @@ const en = {
             ourPlan: 'Our Plans',
             contact: 'Contact',
             release: 'Release',
+        },
+        forum: {
+            showcase: {
+                category: {
+                    title: 'Title',
+                    topic: 'Topic'
+                }
+            }
         }
     }
 }

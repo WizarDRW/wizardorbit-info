@@ -51,6 +51,14 @@ const fr = {
             ourPlan: 'Nos plans',
             contact: 'Contacter',
             release: 'Notes de version',
+        },
+        forum: {
+            showcase: {
+                category: {
+                    title: 'Capuche',
+                    topic: 'Sujet'
+                }
+            }
         }
     }
 }

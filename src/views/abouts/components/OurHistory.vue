@@ -1,7 +1,7 @@
 <template>
   <v-container fluid v-if="content">
     <v-card color="v_card_background">
-      <div v-for="(item, index) in content.descriptions" :key="index">
+      <div v-for="(item, index) in content.descriptions[$store.getters.getLangName]" :key="index">
         <v-card-title v-if="item.type == 'v-card-title'">
           {{ item.val }}
         </v-card-title>

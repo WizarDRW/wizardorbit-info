@@ -7,6 +7,12 @@
     hide-default-footer
     @click:row="(item) => clicked(item)"
   >
+    <template #[`header.label`]="">
+      {{ $t("message.forum.showcase.category.title") }}
+    </template>
+    <template #[`header.count`]="">
+      {{ $t("message.forum.showcase.category.topic") }}
+    </template>
     <template #[`item.icon`]="{ item }">
       <v-icon color="v_card_title_color">
         {{ item.icon }}
@@ -14,7 +20,7 @@
     </template>
     <template #[`item.label`]="{ item }">
       <div>
-        {{ item.label }}
+        {{ item.label[$store.getters.getLangName] }}
       </div>
     </template>
     <template #[`item.count`]="{ item }">
@@ -41,12 +47,12 @@ export default {
           value: "icon",
         },
         {
-          text: "Başlıklar",
+          text: "Title",
           value: "label",
           width: "auto",
         },
         {
-          text: "Konular",
+          text: "Topic",
           align: "end",
           value: "count",
         },

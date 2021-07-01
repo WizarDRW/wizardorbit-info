@@ -10,7 +10,7 @@
         solo
         background-color="header"
       ></v-select>
-      <div v-for="(item, index) in release.descriptions" :key="index">
+      <div v-for="(item, index) in release.descriptions[$store.getters.getLangName]" :key="index">
         <v-card-title v-if="item.type == 'v-card-title'">
           {{ item.val }}
         </v-card-title>

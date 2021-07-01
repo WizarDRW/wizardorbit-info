@@ -52,6 +52,14 @@ const tr = {
             contact: 'İletişim',
             release: 'Sürüm Notları',
         },
+        forum: {
+            showcase: {
+                category: {
+                    title: 'Başlık',
+                    topic: 'Konu'
+                }
+            }
+        }
     }
 }
 

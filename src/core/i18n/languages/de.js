@@ -51,6 +51,14 @@ const de = {
             ourPlan: 'Unsere Pläne',
             contact: 'Kontakt',
             release: 'Ausführung',
+        },
+        forum: {
+            showcase: {
+                category: {
+                    title: 'Kapuze',
+                    topic: 'Thema'
+                }
+            }
         }
     }
 }

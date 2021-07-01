@@ -11,7 +11,8 @@ export default {
           }
     },
     getters: {
-        getLang: (state) => state.defLang
+        getLang: (state) => state.defLang,
+        getLangName: (state) => state.defLang.name,
     },
     actions: {
         [LANG]: async (context, payload) => {
