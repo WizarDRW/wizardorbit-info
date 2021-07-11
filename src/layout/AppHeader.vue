@@ -2,8 +2,9 @@
   <div class="overflow-hidden" style="height: 90px">
     <v-app-bar color="header" app>
       <router-link to="/">
-        <img src="@/assets/sihirbazforum.png" width="150px" alt="sihirbaz" />
+        <v-img src="@/assets/logo.png" width="55px" alt="Wizard-Orbit"></v-img>
       </router-link>
+      <h2>{{ $t("title") }}</h2>
       <v-spacer></v-spacer>
       <div class="nav-close">
         <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
@@ -241,7 +242,7 @@
               v-bind="attrs"
               v-on="on"
             >
-              {{ $t('message.headerSetting.loginButton') }}
+              {{ $t("message.headerSetting.loginButton") }}
             </v-btn>
           </template>
           <v-card>
@@ -252,8 +253,10 @@
               color="purple"
             >
               <v-tabs-slider color="yellow"></v-tabs-slider>
-              <v-tab href="#login"> {{ $t('message.login.title') }} </v-tab>
-              <v-tab href="#register"> {{ $t('message.register.title') }} </v-tab>
+              <v-tab href="#login"> {{ $t("message.login.title") }} </v-tab>
+              <v-tab href="#register">
+                {{ $t("message.register.title") }}
+              </v-tab>
             </v-tabs>
             <v-tabs-items v-model="tab">
               <v-tab-item value="login">
