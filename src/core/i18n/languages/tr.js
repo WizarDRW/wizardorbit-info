@@ -18,7 +18,7 @@ const tr = {
                 childrenDescriptions: 'Showcase | Category',
             },
             news: {
-                main: 'Haperler',
+                main: 'Haberler',
                 children: 'Vitrin | Kategori',
                 childrenDescriptions: 'Showcase | Category',
             },
