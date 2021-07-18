@@ -2,7 +2,7 @@
   <div id="inspire">
     <v-card>
       <v-card-text>
-        <v-form>
+        <v-form @input="validate">
           <v-text-field
             v-model="user.first_name"
             :label="$t('message.register.firstName')"
@@ -21,8 +21,9 @@
             prepend-inner-icon="mdi-at"
             v-model="user.email"
             :label="$t('message.register.email')"
-            type="text"
+            type="email"
             outlined
+            :rules="[$options.rules.required, $options.rules.isEmail]"
             dense
           ></v-text-field>
           <v-text-field
@@ -32,6 +33,11 @@
             :label="$t('message.register.confirmEmail')"
             type="text"
             outlined
+            :rules="[
+              $options.rules.required,
+              $options.rules.isEmail,
+              $options.rules.isEqualEmail(user.email, user.confirm_email),
+            ]"
             dense
           ></v-text-field>
           <v-text-field
@@ -40,28 +46,54 @@
             :label="$t('message.register.username')"
             type="text"
             outlined
+            :rules="[
+              $options.rules.required,
+              $options.rules.minUsername,
+              $options.rules.maxUsername,
+            ]"
             dense
           ></v-text-field>
-          <v-text-field
-            id="password"
-            v-model="user.password"
-            prepend-inner-icon="mdi-lock"
-            name="password"
-            @paste.prevent
-            :label="$t('message.register.password')"
-            type="password"
-            outlined
-            dense
-          ></v-text-field>
+          <div>
+            <password
+              v-model="user.password"
+              :secureLength="8"
+              :userInputs="[]"
+              strength-meter-only
+              @score="pScore"
+            ></password>
+            <v-text-field
+              id="password"
+              v-model="password"
+              prepend-inner-icon="mdi-lock"
+              name="password"
+              @paste.prevent
+              :label="$t('message.register.password')"
+              type="password"
+              outlined
+              dense
+              :rules="[
+                $options.rules.required,
+                $options.rules.minPass,
+                $options.rules.maxPass,
+                $options.rules.isPasswordStrong(score),
+              ]"
+            ></v-text-field>
+          </div>
           <v-text-field
             id="confirm_password"
-            v-model="user.confirm_password"
+            v-model="confirm_password"
             prepend-inner-icon="mdi-lock"
             name="confirm_password"
             @paste.prevent
             :label="$t('message.register.confirmPassword')"
             type="password"
             outlined
+            :rules="[
+              $options.rules.required,
+              $options.rules.minPass,
+              $options.rules.maxPass,
+              $options.rules.isEqualPass(password, confirm_password),
+            ]"
             dense
           ></v-text-field>
           <v-checkbox
@@ -74,7 +106,7 @@
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn @click="login()" color="primary" :disabled="loading">
+        <v-btn @click="login()" color="primary" :disabled="disable_btn || loading">
           <v-progress-circular
             v-if="loading"
             :width="7"
@@ -89,8 +121,11 @@
 </template>
 
 <script>
-import { REGISTER } from "@/core/services/store/auth.module";
+import Password from "vue-password-strength-meter";
+import rules from "@/utils/rules/register.rule";
 export default {
+  components: { Password },
+  rules,
   data() {
     return {
       user: {
@@ -100,22 +135,30 @@ export default {
         last_name: "",
         password: "",
         confirm_password: "",
-        role: "Client",
         status: true,
         image_path: "",
         title: "",
       },
       loading: false,
+      disable_btn: true,
+      score: 0,
     };
   },
   methods: {
+    pScore(score) {
+      this.score = score;
+    },
     login() {
-      this.$store.dispatch(REGISTER, { ...this.user }).then((x) => {
-        if (x) {
-          this.$store.dispatch("currentUser");
-          this.reset();
-        }
-      });
+      if (this.score >= 3) {
+        this.loading = true;
+        this.$store.dispatch('register', { ...this.user }).then((x) => {
+          if (x) {
+            this.$store.dispatch("currentUser");
+            this.reset();
+          }
+          this.loading = false;
+        });
+      }
     },
     reset() {
       this.user = {
@@ -124,15 +167,38 @@ export default {
         last_name: "",
         password: "",
         confirm_password: "",
-        role: "Client",
         status: true,
         image_path: "",
         title: "",
       };
+    },
+    validate(v){
+      this.disable_btn = !v;
+    }
+  },
+  computed: {
+    password: {
+      get() {
+        return this.user.password;
+      },
+      set(value) {
+        this.user.password = value;
+      },
+    },
+    confirm_password: {
+      get() {
+        return this.user.confirm_password;
+      },
+      set(value) {
+        this.user.confirm_password = value;
+      },
     },
   },
 };
 </script>
 
 <style lang="scss" scoped>
+.Password {
+  max-width: 100%;
+}
 </style>
