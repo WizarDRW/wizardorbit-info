@@ -2,13 +2,15 @@
   <div>
     <h3 class="secondary--text">
       {{
-        $t("message.impression.def", {
-          in:
+        $t("phrases.most_read_in", {
+          time:
             _ly == "daily"
-              ? $t("message.impression.inDaily")
+              ? $t("keywords.today")
               : _ly == "monthly"
-              ? $t("message.impression.inOneMonth")
-              : $t("message.impression.inOneYear"),
+              ? $t("keywords.month")
+              : $t("keywords.year"),
+          n: _ly != "daily" ? 1:null,
+          in: $t("keywords.in").toLowerCase()
         })
       }}
     </h3>

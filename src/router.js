@@ -194,7 +194,7 @@ export default new Router({
       children: [{
         path: "/about/who-we-are",
         name: "WhoWeAre",
-        meta: { i18n: "message.aboutMenu.whoWeAre" },
+        meta: { i18n: "phrases.who_we_are" },
         beforeEnter: (to, from, next) => {
           currentRouteName = "WhoWeAre";
           next();
@@ -203,7 +203,7 @@ export default new Router({
       },{
         path: "/about/ourhistory",
         name: "ourhistory",
-        meta: { i18n: "message.aboutMenu.ourHistory" },
+        meta: { i18n: "phrases.our_history" },
         beforeEnter: (to, from, next) => {
           currentRouteName = "ourhistory";
           next();
@@ -212,7 +212,7 @@ export default new Router({
       },{
         path: "/about/ourplan",
         name: "ourplan",
-        meta: { i18n: "message.aboutMenu.ourPlan" },
+        meta: { i18n: "phrases.our_plan" },
         beforeEnter: (to, from, next) => {
           currentRouteName = "ourplan";
           next();
@@ -221,7 +221,7 @@ export default new Router({
       },{
         path: "/about/contact",
         name: "contact",
-        meta: { i18n: "message.aboutMenu.contact" },
+        meta: { i18n: "keywords.contact" },
         beforeEnter: (to, from, next) => {
           currentRouteName = "contact";
           next();
@@ -230,7 +230,7 @@ export default new Router({
       },{
         path: "/about/release",
         name: "Release",
-        meta: { i18n: "message.aboutMenu.release" },
+        meta: { i18n: "phrases.release_notes" },
         beforeEnter: (to, from, next) => {
           currentRouteName = "Release";
           next();

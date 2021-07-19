@@ -14,6 +14,7 @@
             <v-img
               :src="item.image_path"
               cover
+              aspect-ratio="2.475"
             >
               <template #placeholder>
                 <v-row class="fill-height ma-0" align="center" justify="center">

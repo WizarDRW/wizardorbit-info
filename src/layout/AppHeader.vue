@@ -13,7 +13,7 @@
         <v-menu tile open-on-hover offset-y>
           <template v-slot:activator="{ on, attrs }">
             <a :class="`router-parent`" v-bind="attrs" v-on="on">
-              {{ $t("message.headerMenus.chapter.main") }}
+              {{ $t("menus.chapter") }}
             </a>
           </template>
 
@@ -21,20 +21,14 @@
             <v-list-item>
               <v-list-item-title>
                 <router-link to="/chapter/showcase">
-                  {{ $tc("message.headerMenus.chapter.children", 1) }} <br />
-                  <span>{{
-                    $tc("message.headerMenus.chapter.childrenDescriptions", 1)
-                  }}</span>
+                  {{ $tc("keywords.showcase") }} <br />
                 </router-link>
               </v-list-item-title>
             </v-list-item>
             <v-list-item>
               <v-list-item-title>
                 <router-link to="/chapter/category">
-                  {{ $tc("message.headerMenus.chapter.children", 2) }} <br />
-                  <span>{{
-                    $tc("message.headerMenus.chapter.childrenDescriptions", 2)
-                  }}</span>
+                  {{ $tc("keywords.category") }} <br />
                 </router-link>
               </v-list-item-title>
             </v-list-item>
@@ -43,7 +37,7 @@
         <v-menu tile open-on-hover offset-y>
           <template v-slot:activator="{ on, attrs }">
             <a :class="`router-parent`" v-bind="attrs" v-on="on">
-              {{ $t("message.headerMenus.news.main") }}
+              {{ $t("menus.news") }}
             </a>
           </template>
 
@@ -51,20 +45,14 @@
             <v-list-item>
               <v-list-item-title>
                 <router-link to="/news/showcase">
-                  {{ $tc("message.headerMenus.news.children", 1) }} <br />
-                  <span>{{
-                    $tc("message.headerMenus.news.childrenDescriptions", 1)
-                  }}</span>
+                  {{ $tc("keywords.showcase") }} <br />
                 </router-link>
               </v-list-item-title>
             </v-list-item>
             <v-list-item>
               <v-list-item-title>
                 <router-link to="/news/category">
-                  {{ $tc("message.headerMenus.news.children", 2) }} <br />
-                  <span>{{
-                    $tc("message.headerMenus.news.childrenDescriptions", 2)
-                  }}</span>
+                  {{ $tc("keywords.category") }} <br />
                 </router-link>
               </v-list-item-title>
             </v-list-item>
@@ -73,7 +61,7 @@
         <v-menu tile open-on-hover offset-y>
           <template v-slot:activator="{ on, attrs }">
             <a :class="`router-parent`" v-bind="attrs" v-on="on">
-              {{ $t("message.headerMenus.forum.main") }}
+              {{ $t("menus.forum") }}
             </a>
           </template>
 
@@ -81,20 +69,14 @@
             <v-list-item>
               <v-list-item-title>
                 <router-link to="/forum/showcase">
-                  {{ $tc("message.headerMenus.forum.children", 1) }} <br />
-                  <span>{{
-                    $tc("message.headerMenus.forum.childrenDescriptions", 1)
-                  }}</span>
+                  {{ $tc("keywords.showcase") }} <br />
                 </router-link>
               </v-list-item-title>
             </v-list-item>
             <v-list-item>
               <v-list-item-title>
                 <router-link to="/forum/category">
-                  {{ $tc("message.headerMenus.forum.children", 2) }} <br />
-                  <span>{{
-                    $tc("message.headerMenus.forum.childrenDescriptions", 2)
-                  }}</span>
+                  {{ $tc("keywords.category") }} <br />
                 </router-link>
               </v-list-item-title>
             </v-list-item>
@@ -106,7 +88,7 @@
           v-bind="attrs"
           v-on="on"
         >
-          {{ $t("message.headerMenus.about") }}
+          {{ $t("menus.about") }}
         </router-link>
       </div>
       <div class="theme-mode navbar-nav">
@@ -157,7 +139,7 @@
           outlined
           dense
           color=""
-          :placeholder="$t('message.headerSetting.findText')"
+          :placeholder="$t('keywords.find')"
           @keypress.enter="search()"
           prepend-inner-icon="mdi-magnify"
         ></v-text-field>
@@ -189,20 +171,19 @@
             </v-avatar>
           </template>
           <v-list>
-            <v-list-item @click="open('https://panel.sihirbazforum.com')">
+            <v-list-item @click="open('https://panel.wizardorbit.com')">
               <v-list-item-title
-                ><v-icon>mdi-solar-panel</v-icon>&nbsp;Panele
-                Git</v-list-item-title
+                ><v-icon>mdi-solar-panel</v-icon>&nbsp;{{$t('phrases.to_panel')}}</v-list-item-title
               >
             </v-list-item>
             <v-list-item @click="() => {}">
               <v-list-item-title
-                ><v-icon>mdi-message</v-icon>&nbsp; Mesajlar</v-list-item-title
+                ><v-icon>mdi-message</v-icon>&nbsp; {{$t('keywords.messages')}}</v-list-item-title
               >
             </v-list-item>
             <v-list-item @click="toProfile()">
               <v-list-item-title
-                ><v-icon>mdi-account</v-icon>&nbsp; Profilim</v-list-item-title
+                ><v-icon>mdi-account</v-icon>&nbsp; {{$t('phrases.my_profile')}}</v-list-item-title
               >
             </v-list-item>
             <v-list-item
@@ -213,14 +194,13 @@
               "
             >
               <v-list-item-title
-                ><v-icon>mdi-lock-reset</v-icon>&nbsp; Şifre
-                Değiştir</v-list-item-title
+                ><v-icon>mdi-lock-reset</v-icon>&nbsp; {{$t('phrases.reset_password')}}</v-list-item-title
               >
             </v-list-item>
             <v-divider></v-divider>
             <v-list-item @click="logout()">
               <v-list-item-title
-                ><v-icon>mdi-lock</v-icon>&nbsp;Çıkış</v-list-item-title
+                ><v-icon>mdi-lock</v-icon>&nbsp;{{$t('keywords.logout')}}</v-list-item-title
               >
             </v-list-item>
           </v-list>
@@ -242,7 +222,7 @@
               v-bind="attrs"
               v-on="on"
             >
-              {{ $t("message.headerSetting.loginButton") }}
+              {{ $t("keywords.login") }}
             </v-btn>
           </template>
           <v-card>
@@ -253,9 +233,9 @@
               color="purple"
             >
               <v-tabs-slider color="yellow"></v-tabs-slider>
-              <v-tab href="#login"> {{ $t("message.login.title") }} </v-tab>
+              <v-tab href="#login"> {{ $t("phrases.signin") }} </v-tab>
               <v-tab href="#register">
-                {{ $t("message.register.title") }}
+                {{ $t("phrases.signup") }}
               </v-tab>
             </v-tabs>
             <v-tabs-items v-model="tab">
@@ -320,7 +300,7 @@
           outlined
           dense
           dark
-          :placeholder="$t('message.headerSetting.findText')"
+          :placeholder="$t('keywords.find')"
           @keypress.enter="search()"
           prepend-inner-icon="mdi-magnify"
         ></v-text-field>

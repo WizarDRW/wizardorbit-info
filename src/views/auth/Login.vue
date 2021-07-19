@@ -7,7 +7,7 @@
             prepend-icon="mdi-account"
             v-model="user.email"
             name="login"
-            :label="$t('message.login.email')"
+            :label="$t('keywords.email')"
             type="text"
             :rules="[$options.rules.required, $options.rules.isEmail]"
           ></v-text-field>
@@ -16,7 +16,7 @@
             v-model="user.password"
             prepend-icon="mdi-lock"
             name="password"
-            :label="$t('message.login.password')"
+            :label="$t('keywords.password')"
             type="password"
             :rules="[
               $options.rules.required,
@@ -42,7 +42,7 @@
             color="white"
             indeterminate
           ></v-progress-circular>
-          {{ $t("message.headerSetting.loginButton") }}
+          {{ $t("keywords.login") }}
         </v-btn>
       </v-card-actions>
     </v-card>

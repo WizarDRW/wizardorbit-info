@@ -5,14 +5,14 @@
         <v-form @input="validate">
           <v-text-field
             v-model="user.first_name"
-            :label="$t('message.register.firstName')"
+            :label="$t('keywords.first_name')"
             type="text"
             outlined
             dense
           ></v-text-field>
           <v-text-field
             v-model="user.last_name"
-            :label="$t('message.register.lastName')"
+            :label="$t('keywords.last_name')"
             type="text"
             outlined
             dense
@@ -20,7 +20,7 @@
           <v-text-field
             prepend-inner-icon="mdi-at"
             v-model="user.email"
-            :label="$t('message.register.email')"
+            :label="$t('keywords.email')"
             type="email"
             outlined
             :rules="[$options.rules.required, $options.rules.isEmail]"
@@ -30,7 +30,7 @@
             prepend-inner-icon="mdi-at"
             v-model="user.confirm_email"
             @paste.prevent
-            :label="$t('message.register.confirmEmail')"
+            :label="$t('phrases.confirm_email')"
             type="text"
             outlined
             :rules="[
@@ -43,7 +43,7 @@
           <v-text-field
             prepend-inner-icon="mdi-at"
             v-model="user.username"
-            :label="$t('message.register.username')"
+            :label="$t('keywords.username')"
             type="text"
             outlined
             :rules="[
@@ -67,7 +67,7 @@
               prepend-inner-icon="mdi-lock"
               name="password"
               @paste.prevent
-              :label="$t('message.register.password')"
+              :label="$t('keywords.password')"
               type="password"
               outlined
               dense
@@ -85,7 +85,7 @@
             prepend-inner-icon="mdi-lock"
             name="confirm_password"
             @paste.prevent
-            :label="$t('message.register.confirmPassword')"
+            :label="$t('phrases.confirm_password')"
             type="password"
             outlined
             :rules="[
@@ -99,7 +99,7 @@
           <v-checkbox
             v-model="checkbox"
             :rules="[(v) => !!v || 'You must agree to continue!']"
-            :label="$t('message.register.agree')"
+            :label="$t('phrases.pdpl_agree')"
             required
           ></v-checkbox>
         </v-form>
@@ -113,7 +113,7 @@
             color="white"
             indeterminate
           ></v-progress-circular>
-          {{ $t("message.register.sendBtn") }}
+          {{ $t("keywords.send") }}
         </v-btn>
       </v-card-actions>
     </v-card>

@@ -1,11 +1,15 @@
 <template>
-  <tiptap-vuetify
-    v-model="_content.description"
-    placeholder="Yazınız…"
-    :extensions="extensions"
-    :toolbar-attributes="{ color: 'tiptaptoolbar' }"
-  >
-  </tiptap-vuetify>
+  <div>
+    <slot v-bind:extensions="extensions">
+      <tiptap-vuetify
+        v-model="_content.description"
+        :placeholder="`${$t('keywords.write')}…`"
+        :extensions="extensions"
+        :toolbar-attributes="{ color: 'tiptaptoolbar' }"
+      >
+      </tiptap-vuetify>
+    </slot>
+  </div>
 </template>
 
 <script>
@@ -39,7 +43,6 @@ export default {
   },
   data() {
     return {
-      // declare extensions you want to use
       extensions: [
         History,
         Blockquote,

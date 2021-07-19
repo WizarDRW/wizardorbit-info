@@ -55,7 +55,7 @@
           <v-col cols="12" sm="10" md="10" lg="10" xl="11">
             <v-card-actions>
               <v-list-item class="grow">
-                {{ forum.create_date | moment("DD MMMM YYYY HH:mm") }}
+                {{ moment(forum.create_date) }}
 
                 <v-row align="center" justify="end">
                   <i v-if="forum.user_data.email" class="mr-2">
@@ -75,7 +75,7 @@
                           <v-icon class="mr-1"> mdi-share-variant </v-icon>
                         </v-btn>
                       </template>
-                      <span>Paylaş</span>
+                      <span>{{ $t("keywords.share") }}</span>
                     </v-tooltip>
                     <span class="mr-1">·</span>
                     <v-tooltip color="blue" top>
@@ -84,7 +84,7 @@
                           <v-icon class="mr-1"> mdi-cogs </v-icon>
                         </v-btn>
                       </template>
-                      <span>Seçenekler</span>
+                      <span>{{ $t("keywords.options") }}</span>
                     </v-tooltip>
                   </div>
                 </v-row>
@@ -171,7 +171,7 @@
                 <v-col cols="12" sm="10" md="10" lg="10" xl="11">
                   <v-card-actions>
                     <v-list-item class="grow">
-                      {{ item.create_date | moment("DD MMMM YYYY HH:mm") }}
+                      {{ moment(item.create_date) }}
 
                       <v-row align="center" justify="end">
                         <i class="mr-2">
@@ -316,6 +316,7 @@
 
 <script>
 import ObjectId from "bson-objectid";
+import moment from "moment";
 export default {
   name: "ForumContent",
   components: {
@@ -439,6 +440,11 @@ export default {
             });
           });
       }
+    },
+    moment(date) {
+      return moment(date)
+        .locale(this.$store.getters.getLangName)
+        .format("DD MMMM YYYY HH:mm");
     },
   },
   metaInfo() {

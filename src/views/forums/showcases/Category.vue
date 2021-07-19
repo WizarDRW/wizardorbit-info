@@ -8,10 +8,10 @@
     @click:row="(item) => clicked(item)"
   >
     <template #[`header.label`]="">
-      {{ $t("message.forum.showcase.category.title") }}
+      {{ $t("keywords.title") }}
     </template>
     <template #[`header.count`]="">
-      {{ $t("message.forum.showcase.category.topic") }}
+      {{ $t("keywords.topic") }}
     </template>
     <template #[`item.icon`]="{ item }">
       <v-icon color="v_card_title_color">

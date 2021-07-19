@@ -14,9 +14,7 @@
             </v-card-title>
             <slot :item="item"></slot>
             <v-card-subtitle
-              ><strong>{{
-                item.create_date | moment()
-              }}</strong></v-card-subtitle
+              ><strong>{{ moment(item.create_date) }}</strong></v-card-subtitle
             >
             <v-card-actions class="caption">
               <ul>
@@ -31,7 +29,9 @@
                         {{ category.icon }}
                       </v-icon>
                     </template>
-                    <span>{{ category.label }}</span>
+                    <span>{{
+                      category.label[$store.getters.getLangName]
+                    }}</span>
                   </v-tooltip>
                 </li>
               </ul>
@@ -111,8 +111,8 @@
 </template>
 
 <script>
-import moment from 'moment'
-require('moment/locale/tr')
+import moment from "moment";
+require("moment/locale/tr");
 export default {
   props: {
     _contents: {
@@ -142,12 +142,10 @@ export default {
     toContent(item) {
       this.$emit("content", item);
     },
+    moment: function (date) {
+      return moment(date).locale(this.$store.getters.getLangName).fromNow();
+    },
   },
-  filters: {
-    moment: function(date){
-      return moment(date).fromNow()
-    }
-  }
 };
 </script>
 

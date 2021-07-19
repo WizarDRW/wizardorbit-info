@@ -19,7 +19,7 @@
                 <v-icon> mdi-account-group </v-icon>
               </v-list-item-icon>
               <v-list-item-content>
-                <v-list-item-title>{{ $t('message.aboutMenu.whoWeAre') }}</v-list-item-title>
+                <v-list-item-title>{{ $t('phrases.who_we_are') }}</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
             <v-list-item @click="$router.push({ path: '/about/ourhistory' })" link>
@@ -27,7 +27,7 @@
                 <v-icon> mdi-history </v-icon>
               </v-list-item-icon>
               <v-list-item-content>
-                <v-list-item-title>{{ $t('message.aboutMenu.ourHistory') }}</v-list-item-title>
+                <v-list-item-title>{{ $t('phrases.our_history') }}</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
             <v-list-item @click="$router.push({ path: '/about/ourplan' })" link>
@@ -35,7 +35,7 @@
                 <v-icon> mdi-floor-plan </v-icon>
               </v-list-item-icon>
               <v-list-item-content>
-                <v-list-item-title>{{ $t('message.aboutMenu.ourPlan') }}</v-list-item-title>
+                <v-list-item-title>{{ $t('phrases.our_plan') }}</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
             <v-list-item @click="$router.push({ path: '/about/contact' })" link>
@@ -43,7 +43,7 @@
                 <v-icon> mdi-human-greeting-proximity </v-icon>
               </v-list-item-icon>
               <v-list-item-content>
-                <v-list-item-title>{{ $t('message.aboutMenu.contact') }}</v-list-item-title>
+                <v-list-item-title>{{ $t('keywords.contact') }}</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
             <v-list-item @click="$router.push({ path: '/about/release' })" link>
@@ -51,7 +51,7 @@
                 <v-icon> mdi-note-text-outline </v-icon>
               </v-list-item-icon>
               <v-list-item-content>
-                <v-list-item-title>{{ $t('message.aboutMenu.release') }}</v-list-item-title>
+                <v-list-item-title>{{ $t('phrases.release_notes') }}</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
           </v-list>
