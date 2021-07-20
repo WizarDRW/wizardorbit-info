@@ -21,6 +21,7 @@ export default {
     },
     header_theme_btn: colorset.c0,
     header_login_btn: colorset.c0,
+    header_auth_panel: colorset.c2,
 
     //form -> showcase -> top
     form_showcase_top_table_hover_background: colorset.c4,
@@ -41,7 +42,7 @@ export default {
     v_timeline_card_color: colorset.c2,
 
     // v-tooltip colors
-    v_tooltip_success_color: colorset.c1,
+    v_tooltip_success_color: colorset.c2,
 
     // contents
     descriptions: colorset.c6

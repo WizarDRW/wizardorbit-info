@@ -4,7 +4,9 @@
       <router-link to="/">
         <v-img src="@/assets/logo.png" width="55px" alt="Wizard-Orbit"></v-img>
       </router-link>
-      <h2>{{ $t("title") }}</h2>
+      <router-link to="/">
+        <h2 class="header_theme_btn--text">{{ $t("title") }}</h2>
+      </router-link>
       <v-spacer></v-spacer>
       <div class="nav-close">
         <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
@@ -170,7 +172,7 @@
               }}</span>
             </v-avatar>
           </template>
-          <v-list>
+          <v-list color="header_auth_panel">
             <v-list-item @click="open('https://panel.wizardorbit.com')">
               <v-list-item-title
                 ><v-icon>mdi-solar-panel</v-icon>&nbsp;{{
@@ -315,7 +317,7 @@
         ></v-text-field>
       </div>
       <!-- Menus -->
-      <v-list>
+      <v-list color="header">
         <v-list-group :value="false">
           <template v-slot:activator>
             <v-list-item-title>{{ $t("menus.chapter") }}</v-list-item-title>
@@ -518,13 +520,23 @@ ul li {
   right: 10px;
   z-index: 9;
 }
-.v-menu__content{
+.v-menu__content {
   box-shadow: none !important;
 }
-.v-menu__content .v-btn--is-elevated.v-btn--fab{
+.v-menu__content .v-btn--is-elevated.v-btn--fab {
   box-shadow: none !important;
 }
-.v-menu__content .theme--dark.v-btn.v-btn--has-bg{
+.v-menu__content .theme--dark.v-btn.v-btn--has-bg {
   background-color: transparent;
+}
+.theme--light.v-list-item:not(.v-list-item--active):not(.v-list-item--disabled) {
+  color: var(--v-header-lighten5) !important;
+}
+.v-list-item .v-list-item__title,
+.v-list-item .v-list-item__subtitle {
+  color: var(--v-header-lighten5) !important;
+}
+.v-icon.v-icon {
+  color: var(--v-header-lighten5) !important;
 }
 </style>
