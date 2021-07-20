@@ -23,6 +23,7 @@
       <v-col v-if="!loading" md="10">
         <v-row v-masonry>
           <v-col
+            v-masonry-tile
             v-for="item in filterNewsList"
             :key="item._id"
             cols="12"
@@ -94,9 +95,9 @@ export default {
   },
   methods: {
     filter() {
-      var start,
-        end = null;
-      if (this.dates) {
+      let start = new Date("1971-06-20").toString();
+      let end = new Date().toString();
+      if (this.dates.length > 0) {
         if (new Date(this.dates[0]) < new Date(this.dates[1])) {
           start = this.dates[0];
           end = this.dates[1];
