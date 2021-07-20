@@ -10,12 +10,18 @@
             dense
             v-model="search"
           ></v-text-field>
-          <v-date-picker v-model="dates" range full-width></v-date-picker>
+          <v-date-picker
+            v-model="dates"
+            :events="arrayEvents"
+            event-color="green lighten-1"
+            range
+            full-width
+          ></v-date-picker>
           <br /><br />
         </v-card>
       </v-col>
       <v-col v-if="!loading" md="10">
-        <v-row v-masonry>
+        <v-row>
           <v-col
             v-for="item in filterChapterList"
             :key="item._id"
@@ -58,16 +64,24 @@ export default {
       search: "",
       categories: [],
       dates: [],
+      arrayEvents: null,
     };
   },
   async mounted() {
     await this.$store.dispatch("getApiCategory", "chapter");
     this.chaptercategories = this.$store.getters.getCategories;
     if (!this.$store.getters.getChapters)
-      await this.$store.dispatch('getApiContent', {url: 'chapters', content: 'setChapters'});
+      await this.$store.dispatch("getApiContent", {
+        url: "chapters",
+        content: "setChapters",
+      });
     this.chapters = this.$store.getters.getChapters;
     this.filterChapterList = this.chapters;
     if (this.chapters) this.loading = false;
+    this.arrayEvents = this.chapters.map((x) => {
+      const date = new Date(x.create_date);
+      return date.toISOString().substr(0, 10);
+    });
   },
   computed: {
     filterChapterList: {
@@ -81,14 +95,28 @@ export default {
   },
   methods: {
     filter() {
+      var start,
+        end = null;
+      if (this.dates) {
+        if (new Date(this.dates[0]) < new Date(this.dates[1])) {
+          start = this.dates[0];
+          end = this.dates[1];
+        } else {
+          start = this.dates[1];
+          end = this.dates[0];
+        }
+      }
       this.filterChapterList = this.chapters.filter((x) => {
         return (
-          moment(x.create_date).format("YYYY-MM-DD") >= moment(this.dates[0]) &&
-          moment(x.create_date).format("YYYY-MM-DD") <= moment(this.dates[1]) &&
+          moment(x.create_date).format("YYYY-MM-DD") >=
+            moment(start).format("YYYY-MM-DD") &&
+          moment(x.create_date).format("YYYY-MM-DD") <=
+            moment(end).format("YYYY-MM-DD") &&
           x.name.toLowerCase().includes(this.search.toLowerCase()) &&
           this.filter_category(x)
         );
       });
+      console.log(this.filterChapterList);
     },
     filter_category(x) {
       var data = true;
