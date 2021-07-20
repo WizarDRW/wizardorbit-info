@@ -1,5 +1,6 @@
 <template>
   <v-container>
+    <br /><br /><br />
     <user-header :_user="user"></user-header>
     <v-tabs
       background-color="v_tabs_header_background"
@@ -13,7 +14,7 @@
         :key="index"
         :href="`#item-${index}`"
       >
-        {{ $t(`message.contents.${item.name}`) }}
+        {{ $t(`keywords.${item.name}`) }}
       </v-tab>
     </v-tabs>
     <br />

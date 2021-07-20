@@ -1,5 +1,5 @@
 <template>
-  <div class="overflow-hidden" style="height: 90px">
+  <div class="overflow-hidden">
     <v-app-bar color="header" app>
       <router-link to="/">
         <v-img src="@/assets/logo.png" width="55px" alt="Wizard-Orbit"></v-img>

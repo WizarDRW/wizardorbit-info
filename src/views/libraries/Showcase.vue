@@ -5,11 +5,22 @@
     </div>
     <v-row v-else>
       <v-col cols="12" sm="12" md="6" lg="6">
-        <h2>{{ $t("message.libraries.mostPopularBooks") }}</h2>
+        <h2>{{ $t("phrases.most_popular_books") }}</h2>
         <top :_libraries="libraries"></top>
       </v-col>
       <v-col cols="12" sm="12" md="6" lg="6">
-        <h2>{{ $t("message.libraries.mostReadThisWeek") }}</h2>
+        <h2>
+          {{
+            $tc("phrases.most_read_in", 2, {
+              x:
+                $store.getters.getLangName != "tr"
+                  ? $t("keywords.this").toLowerCase()
+                  : $t("keywords.this"),
+              time: $t("keywords.week").toLowerCase(),
+              keyword: $t("keywords.books").toLowerCase(),
+            })
+          }}
+        </h2>
         <top :_libraries="libraries"></top>
       </v-col>
     </v-row>

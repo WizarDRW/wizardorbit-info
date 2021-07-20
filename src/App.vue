@@ -2,9 +2,7 @@
   <v-app>
     <router-view name="header"></router-view>
     <v-main>
-      <div class="content">
-        <router-view :key="$route.path"></router-view>
-      </div>
+      <router-view :key="$route.path"></router-view>
     </v-main>
     <router-view name="footer"></router-view>
   </v-app>
@@ -46,9 +44,6 @@ export default {
 #app {
   font-family: "Montserrat", sans-serif;
   background-color: var(--v-background-base);
-}
-.content {
-  margin-top: 30px;
 }
 .v-tabs-slider-wrapper {
   height: 5px !important;

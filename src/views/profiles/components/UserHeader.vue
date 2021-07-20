@@ -27,8 +27,12 @@
           lg="4"
           xl="2"
         >
-          <v-btn text color="header_theme_btn">Takip Et</v-btn>
-          <v-btn text color="header_theme_btn">Mesaj Gönder</v-btn>
+          <v-btn text color="header_theme_btn">{{
+            $t("actions.follow")
+          }}</v-btn>
+          <v-btn text color="header_theme_btn">{{
+            $t("actions.send_message")
+          }}</v-btn>
         </v-col>
         <v-col
           v-else-if="$store.getters.currentUser._id == _user._id"
@@ -43,7 +47,7 @@
           <v-btn
             fab
             icon
-            @click="open('http://panel.sihirbazforum.com/useroptions')"
+            @click="open('http://panel.wizardorbit.com/useroptions')"
           >
             <v-icon>mdi-pencil</v-icon>
           </v-btn>

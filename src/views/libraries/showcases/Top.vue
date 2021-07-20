@@ -1,6 +1,7 @@
 <template>
   <v-row v-masonry>
     <v-col
+      v-masonry-tile
       v-for="(item, index) in _libraries"
       :key="index"
       cols="12"
@@ -10,14 +11,34 @@
       xl="4"
     >
       <v-card hover tile outlined>
-        <v-img
-          height="150"
-          :src="
-            item.image_path
-              ? item.image_path
-              : require('@/assets/vendor/img/old_book.jpeg')
-          "
-        ></v-img>
+        <v-carousel
+          vertical
+          touchless
+          cycle
+          :show-arrows="false"
+          hide-delimiters
+          hide-delimiter-background
+          show-arrows-on-hover
+          delimiter-icon="mdi-minus"
+          height="auto"
+          :interval="getRandomArbitrary(4000, 10000)"
+        >
+          <v-carousel-item
+            v-for="(content_item, content_index) in [
+              ...item.chapters.slice(0, 7),
+              ...item.news.slice(0, 7),
+            ]"
+            :key="content_index"
+          >
+            <v-img
+              aspect-ratio="2"
+              gradient="to top, rgba(0,0,0,0), rgba(0,0,0,0.3)"
+              :src="content_item.image_path"
+            >
+              <v-card-title> {{ content_item.name }} </v-card-title>
+            </v-img>
+          </v-carousel-item>
+        </v-carousel>
         <v-card-title> {{ item.name }} </v-card-title>
         <v-card-text> {{ item.description }} </v-card-text>
         <v-card-actions>
@@ -40,7 +61,7 @@
                     </v-avatar>
                   </v-btn>
                 </template>
-                <span>{{item.user_data.username}}</span>
+                <span>{{ item.user_data.username }}</span>
               </v-tooltip>
             </template>
             <v-tooltip bottom>
@@ -49,7 +70,7 @@
                   @click="
                     $router.push({
                       name: 'Profile',
-                      params: { id: item.user_data._id },
+                      params: { username: item.user_data.username },
                     })
                   "
                   fab
@@ -62,7 +83,7 @@
                   <v-icon>mdi-account</v-icon>
                 </v-btn>
               </template>
-              <span>Profile Git</span>
+              <span>{{ $t("phrases.go_to_profile") }}</span>
             </v-tooltip>
             <v-tooltip bottom>
               <template v-slot:activator="{ on, attrs }">
@@ -70,7 +91,7 @@
                   <v-icon>mdi-book</v-icon>
                 </v-btn>
               </template>
-              <span>Kitap detaylarına git</span>
+              <span>{{ $t("phrases.go_to_book_details") }}</span>
             </v-tooltip>
           </v-speed-dial>
         </v-card-actions>
@@ -99,6 +120,11 @@ export default {
       left: false,
       transition: "slide-x-reverse-transition",
     };
+  },
+  methods: {
+    getRandomArbitrary(min, max) {
+      return Math.random() * (max - min) + min;
+    },
   },
 };
 </script>
