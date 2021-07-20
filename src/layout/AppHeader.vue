@@ -173,17 +173,21 @@
           <v-list>
             <v-list-item @click="open('https://panel.wizardorbit.com')">
               <v-list-item-title
-                ><v-icon>mdi-solar-panel</v-icon>&nbsp;{{$t('phrases.to_panel')}}</v-list-item-title
+                ><v-icon>mdi-solar-panel</v-icon>&nbsp;{{
+                  $t("phrases.to_panel")
+                }}</v-list-item-title
               >
             </v-list-item>
             <v-list-item @click="() => {}">
               <v-list-item-title
-                ><v-icon>mdi-message</v-icon>&nbsp; {{$t('keywords.messages')}}</v-list-item-title
+                ><v-icon>mdi-message</v-icon>&nbsp;
+                {{ $t("keywords.messages") }}</v-list-item-title
               >
             </v-list-item>
             <v-list-item @click="toProfile()">
               <v-list-item-title
-                ><v-icon>mdi-account</v-icon>&nbsp; {{$t('phrases.my_profile')}}</v-list-item-title
+                ><v-icon>mdi-account</v-icon>&nbsp;
+                {{ $t("phrases.my_profile") }}</v-list-item-title
               >
             </v-list-item>
             <v-list-item
@@ -194,13 +198,16 @@
               "
             >
               <v-list-item-title
-                ><v-icon>mdi-lock-reset</v-icon>&nbsp; {{$t('phrases.reset_password')}}</v-list-item-title
+                ><v-icon>mdi-lock-reset</v-icon>&nbsp;
+                {{ $t("phrases.reset_password") }}</v-list-item-title
               >
             </v-list-item>
             <v-divider></v-divider>
             <v-list-item @click="logout()">
               <v-list-item-title
-                ><v-icon>mdi-lock</v-icon>&nbsp;{{$t('keywords.logout')}}</v-list-item-title
+                ><v-icon>mdi-lock</v-icon>&nbsp;{{
+                  $t("keywords.logout")
+                }}</v-list-item-title
               >
             </v-list-item>
           </v-list>
@@ -259,52 +266,96 @@
         <v-btn
           name="themeBtn"
           color="header_theme_btn"
-          @click="themeMode()"
+          @click="themeMode(!$store.getters.getTheme.isDark)"
           icon
         >
           <v-icon>{{
-            $store.getters.getTheme.dark
+            $store.getters.getTheme.isDark
               ? "mdi-weather-sunny"
               : "mdi-weather-night"
           }}</v-icon>
         </v-btn>
-      </div>
-      <!-- I18N -->
-      <v-menu offset-y>
-        <template v-slot:activator="{ on, attrs }">
-          <v-btn fab x-small dark v-bind="attrs" v-on="on">
-            <v-img width="0px" :src="$store.getters.getLang.icon"></v-img>
-          </v-btn>
-        </template>
-        <div
-          v-for="(item, index) in languages.filter(
-            (x) => x.name != $store.getters.getLang.name
-          )"
-          :key="index"
-        >
-          <v-btn
-            fab
-            x-small
-            dark
-            v-bind="attrs"
-            v-on="on"
-            @click="setLang(item)"
+        <!-- I18N -->
+        <v-menu right offset-y>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn fab x-small dark v-bind="attrs" v-on="on">
+              <v-img width="0px" :src="$store.getters.getLang.icon"></v-img>
+            </v-btn>
+          </template>
+          <div
+            v-for="(item, index) in languages.filter(
+              (x) => x.name != $store.getters.getLang.name
+            )"
+            :key="index"
+            style="margin-top: 10px"
           >
-            <v-img width="0px" :src="item.icon"></v-img>
-          </v-btn>
-        </div>
-      </v-menu>
+            <v-btn
+              fab
+              x-small
+              dark
+              v-bind="attrs"
+              v-on="on"
+              @click="setLang(item)"
+            >
+              <v-img width="0px" :src="item.icon"></v-img>
+            </v-btn>
+          </div>
+        </v-menu>
+      </div>
       <div class="search">
         <v-text-field
           v-model="find"
           outlined
           dense
           dark
+          hide-details
           :placeholder="$t('keywords.find')"
           @keypress.enter="search()"
           prepend-inner-icon="mdi-magnify"
         ></v-text-field>
       </div>
+      <!-- Menus -->
+      <v-list>
+        <v-list-group :value="false">
+          <template v-slot:activator>
+            <v-list-item-title>{{ $t("menus.chapter") }}</v-list-item-title>
+          </template>
+
+          <v-list-item to="/chapter/showcase" link>
+            <v-list-item-title>{{ $t("keywords.showcase") }}</v-list-item-title>
+          </v-list-item>
+          <v-list-item to="/chapter/category" link>
+            <v-list-item-title>{{ $t("keywords.category") }}</v-list-item-title>
+          </v-list-item>
+        </v-list-group>
+        <v-list-group :value="false">
+          <template v-slot:activator>
+            <v-list-item-title>{{ $t("menus.news") }}</v-list-item-title>
+          </template>
+
+          <v-list-item to="/news/showcase" link>
+            <v-list-item-title>{{ $t("keywords.showcase") }}</v-list-item-title>
+          </v-list-item>
+          <v-list-item to="/news/category" link>
+            <v-list-item-title>{{ $t("keywords.category") }}</v-list-item-title>
+          </v-list-item>
+        </v-list-group>
+        <v-list-group :value="false">
+          <template v-slot:activator>
+            <v-list-item-title>{{ $t("menus.forum") }}</v-list-item-title>
+          </template>
+
+          <v-list-item to="/forum/showcase" link>
+            <v-list-item-title>{{ $t("keywords.showcase") }}</v-list-item-title>
+          </v-list-item>
+          <v-list-item to="/forum/category" link>
+            <v-list-item-title>{{ $t("keywords.category") }}</v-list-item-title>
+          </v-list-item>
+        </v-list-group>
+        <v-list-item link>
+          <v-list-item-title>{{ $t("menus.about") }}</v-list-item-title>
+        </v-list-item>
+      </v-list>
     </v-navigation-drawer>
   </div>
 </template>
@@ -466,5 +517,14 @@ ul li {
   bottom: 0;
   right: 10px;
   z-index: 9;
+}
+.v-menu__content{
+  box-shadow: none !important;
+}
+.v-menu__content .v-btn--is-elevated.v-btn--fab{
+  box-shadow: none !important;
+}
+.v-menu__content .theme--dark.v-btn.v-btn--has-bg{
+  background-color: transparent;
 }
 </style>

@@ -11,11 +11,7 @@
               <h3>{{ item.name }}</h3>
               <span>{{ item.short_description }}</span>
             </div>
-            <v-img
-              :src="item.image_path"
-              cover
-              aspect-ratio="2.475"
-            >
+            <v-img :src="item.image_path" height="75.5%">
               <template #placeholder>
                 <v-row class="fill-height ma-0" align="center" justify="center">
                   <v-progress-circular
