@@ -105,6 +105,7 @@ const en = {
     message: {
         add_content: 'Adding content titled "{name}".',
         add_content_success: '"Content titled "{name}" has been successfully added',
+        cookie_policy: "We position cookies limited to the purposes in the cookie policy and in accordance with the law. You can review our cookie policy for details.",
         delete_content: 'Content with ID {id} is being deleted.',
         delete_content_success: 'Content with ID {id} has been deleted successfully.',
         delete_message: `If you confirm the deletion, you have done a transaction to be reverse
@@ -125,11 +126,13 @@ const en = {
         confirm_email: 'Confirm Email',
         confirm_password: 'Confirm Password',
         content_markdown: 'Content(Markdown)',
+        cookie_policy: 'Cookie Policy',
         create_date: 'Create Date',
         create_user: 'Forming User',
         deleteImage: "Delete Picture",
         go_to_book_details: "Go to Book Details",
         go_to_profile: "Go to Profile",
+        i_understand: "I understand",
         loading: 'Loading',
         moderatorApproval: 'Moderator Approval',
         most_read_in: 'Most read {in} {n} {time} {keyword}. | Most read {keyword} {in} {x} {time}.',

@@ -11,6 +11,7 @@ const de = {
     message: {
         add_content: 'Inhalt mit der ID-Nummer {id} wird hinzugefügt.',
         add_content_success: '"Inhalt Titel "{name}" wurde erfolgreich hinzugefügt',
+        cookie_policy: "Wir positionieren Cookies auf die Zwecke in der Cookie-Politik und in Übereinstimmung mit dem Gesetz.Für Details können Sie unsere Cookie-Richtlinien überprüfen.",
         delete_content: 'Inhalt mit ID {ID} wird gelöscht.',
         delete_content_success: 'Inhalt mit ID {ID} wurde erfolgreich gelöscht.',
         delete_message: `Wenn Sie den Löschvorgang bestätigen, haben Sie eine Transaktion durchgeführt, um umgekehrt zu sein
@@ -125,11 +126,13 @@ const de = {
         confirm_email: 'Bestätigungs-E-Mail',
         confirm_password: 'Kennwort bestätigen',
         content_markdown: 'Inhalt(Markdown)',
+        cookie_policy: 'Cookie-Politik.',
         create_date: 'Erstellungsdatum',
         create_user: 'Benutzer bilden',
         deleteImage: "Foto Löschen",
         go_to_book_details: "Zu den Buchungsdetails gehen",
         go_to_profile: "Gehe zu Profil",
+        i_understand: "Ich verstehe",
         loading: 'Wird geladen',
         moderatorApproval: 'Moderatorgenehmigung.',
         most_read_in: 'Meist gelesen {in} {n} {time} {keyword}. | Meist gelesen {in} {x} {time} {keyword}.',

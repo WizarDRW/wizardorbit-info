@@ -102,9 +102,10 @@ const tr = {
         width: 'Genişlik',
         write: 'Yaz',
     },
-    messages: {
+    message: {
         add_content: '"{name}" başlıklı içerik ekleniyor.',
         add_content_success: '"{name}" başlıklı içerik başarı ile eklenmiştir.',
+        cookie_policy: "Çerez politikasındaki amaçlarla sınırlı ve yasaya uygun şekilde çerez konumlandırmaktayız. Detaylar için çerez politikamızı inceleyebilirsiniz.",
         delete_content: '{id} ID numaralı içerik siliniyor.',
         delete_content_success: '{id} ID numaralı içerik başarı ile silinmiştir.',
         delete_message: `Silme işlemini onaylarsanız geriye dönüşü olmana bir işlem yapmış
@@ -125,11 +126,13 @@ const tr = {
         confirm_email: 'E-postanızı Onaylayın',
         confirm_password: 'Şifreyi Onayla',
         content_markdown: 'İçerik(Markdown)',
+        cookie_policy: 'Çerez Politikası',
         create_date: 'Oluşturma Tarihi',
         create_user: 'Oluşturan Kullanıcı',
         deleteImage: "Resmi Sil",
         go_to_book_details: "Kitap Detaylarına Git",
         go_to_profile: "Profile Git",
+        i_understand: "Anladım",
         loading: 'Yükleniyor',
         moderatorApproval: 'Moderatör Onayında',
         most_read_in: '{n} {time} {in} en çok okunanlar. | {x} {time} {in} en çok okunan {keyword}.',

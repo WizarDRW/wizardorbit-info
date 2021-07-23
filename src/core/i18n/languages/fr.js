@@ -105,6 +105,7 @@ const fr = {
     message: {
         add_content: 'Ajout de contenu intitulé "{name}".',
         add_content_success: 'Le contenu intitulé "{name}" a été ajouté avec succès.',
+        cookie_policy: "Nous positionnons des cookies limités aux fins de la politique de cookie et conformément à la loi.Vous pouvez consulter notre politique de cookie pour plus de détails.",
         delete_content: "Le contenu avec l'ID {id} est en cours de suppression.",
         delete_content_success: "Le contenu avec l'ID {id} a été supprimé avec succès.",
         delete_message: `Si vous confirmez la suppression, vous avez effectué une transaction à inverser
@@ -125,11 +126,13 @@ const fr = {
         confirm_email: 'Confirmez votre e-mail',
         confirm_password: 'Confirmez le mot de passe',
         content_markdown: 'Contenu(Markdown)',
+        cookie_policy: 'Politique de cookie',
         create_date: 'Créer un rendez-vous',
         create_user: "Former l'utilisateur",
         deleteImage: "Supprimer l'image",
         go_to_book_details: "Aller aux détails du livre",
         go_to_profile: "Aller au profil",
+        i_understand: "je comprends",
         loading: 'Chargement',
         moderatorApproval: 'Approbation du modérateur',
         most_read_in: 'Le plus lu {in} {n} {time} {keyword}. | Le plus lu {in} {x} {time} {keyword}.',
