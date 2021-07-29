@@ -10,6 +10,7 @@
             :label="$t('keywords.email')"
             type="text"
             :rules="[$options.rules.required, $options.rules.isEmail]"
+            @keypress.enter="login()"
           ></v-text-field>
           <v-text-field
             id="password"
@@ -23,6 +24,7 @@
               $options.rules.minPass,
               $options.rules.maxPass,
             ]"
+            @keypress.enter="login()"
           ></v-text-field>
         </v-form>
       </v-card-text>
