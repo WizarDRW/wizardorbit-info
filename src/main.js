@@ -10,6 +10,7 @@ import Katex from 'vue-katex-auto-render'
 import { VueMasonryPlugin } from "vue-masonry";
 import * as VueGoogleMaps from 'vue2-google-maps'
 import { i18n } from './core/i18n'
+import browserDetect from "vue-browser-detect-plugin";
 
 Vue.use(VueGoogleMaps, {
   load: {
@@ -25,6 +26,7 @@ Vue.use(VueGtag, {
 Vue.use(VueMeta, {
   refreshOnceOnNavigation: true
 })
+Vue.use(browserDetect);
 
 Vue.directive('katex', Katex);
 
