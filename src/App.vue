@@ -11,13 +11,12 @@
 <script>
 export default {
   async beforeCreate() {
-    if (this.$store.getters["isAuthenticated"]) {
-      await this.$store.dispatch("currentUser");
+    await this.$store.dispatch("currentUser");
+    if (this.$store.getters["isAuthenticated"])
       await this.$store.dispatch("getApiContent", {
         url: `useroptions/theme/${this.$store.getters.currentUser._id}`,
         content: "setUserTheme",
       });
-    }
   },
   metaInfo() {
     return {

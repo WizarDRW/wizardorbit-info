@@ -36,8 +36,7 @@ Vue.config.devtools = false;
 ApiService.init();
 
 router.beforeEach((to, from, next) => {
-  if (store.getters.isAuthenticated)
-    store.dispatch('verifyAuth')
+  store.dispatch('verifyAuth')
   next();
 })
 

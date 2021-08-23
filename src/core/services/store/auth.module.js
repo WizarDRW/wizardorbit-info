@@ -93,7 +93,7 @@ const actions = {
     });
   },
   [VERIFY_AUTH](context) {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve,reject) => {
       ApiService.get("auth/verify")
         .then((x) => {
           if (x.data) {
@@ -101,20 +101,20 @@ const actions = {
           }
           resolve(x)
         })
-        .catch((err) => {
+        .catch(({response}) => {
           context.commit(PURGE_AUTH);
-          reject(err)
+          reject(response)
         });
     })
   },
   [CURRENT_USER](context) {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve,reject) => {
       ApiService.get("users/whoami")
         .then(({ data }) => {
           context.commit(SET_CURRENT_USER, data);
           resolve(data);
         })
-        .catch((response) => {
+        .catch(({response}) => {
           context.commit(PURGE_AUTH);
           reject(response);
         });
