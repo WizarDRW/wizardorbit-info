@@ -30,9 +30,7 @@ const ApiService = {
    * @returns {*}
    */
   async get(resource, slug = "") {
-    return await Vue.axios.get(`${resource}/${slug}`, this.setHeader()).catch(error => {
-      throw new Error(`ApiService ${error}`);
-    });
+    return await Vue.axios.get(`${resource}/${slug}`, this.setHeader());
   },
 
   /**

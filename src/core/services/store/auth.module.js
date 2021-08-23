@@ -93,15 +93,19 @@ const actions = {
     });
   },
   [VERIFY_AUTH](context) {
-    ApiService.get("auth/verify")
-      .then((x) => {
-        if (x.data) {
-          context.commit(SET_AUTH);
-        }
-      })
-      .catch(() => {
-        context.commit(PURGE_AUTH);
-      });
+    return new Promise((resolve, reject) => {
+      ApiService.get("auth/verify")
+        .then((x) => {
+          if (x.data) {
+            context.commit(SET_AUTH);
+          }
+          resolve(x)
+        })
+        .catch((err) => {
+          context.commit(PURGE_AUTH);
+          reject(err)
+        });
+    })
   },
   [CURRENT_USER](context) {
     return new Promise((resolve, reject) => {

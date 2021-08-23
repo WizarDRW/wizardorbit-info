@@ -403,9 +403,6 @@ export default {
   },
   async created() {
     window.addEventListener("scroll", this.onScroll);
-    this.categories = this.$store.getters.getMenus
-      .filter((y) => y.status)
-      .sort((a, b) => a.sort - b.sort);
     var result = JSON.parse(localStorage.getItem("option"));
     var json = result.find((x) => x.key == "header").json;
     this.logo = json.header_logo;
