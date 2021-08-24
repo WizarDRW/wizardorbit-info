@@ -40,7 +40,7 @@ const actions = {
         .then((x) => {
           if (x.status == 200) {
             context.commit(SET_AUTH);
-            context.commit(CURRENT_USER);
+            context.dispatch(CURRENT_USER);
             context.dispatch("getApiContent", {
               url: `useroptions/theme/${context.getters.currentUser._id}`,
               content: "setUserTheme",

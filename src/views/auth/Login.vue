@@ -52,7 +52,7 @@
 </template>
 
 <script>
-import { LOGIN, CURRENT_USER } from "@/core/services/store/auth.module";
+import { LOGIN } from "@/core/services/store/auth.module";
 import rules from "@/utils/rules/login.rule";
 export default {
   name: "Login",
@@ -83,7 +83,6 @@ export default {
         .dispatch(LOGIN, { email, password })
         .then((x) => {
           if (x.status == 200) {
-            this.$store.dispatch(CURRENT_USER);
             this.loading = false;
           }
         })
