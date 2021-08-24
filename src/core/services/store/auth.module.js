@@ -93,28 +93,36 @@ const actions = {
     });
   },
   [VERIFY_AUTH](context) {
-    return new Promise((resolve,reject) => {
+    return new Promise((resolve, reject) => {
       ApiService.get("auth/verify")
         .then((x) => {
           if (x.data) {
             context.commit(SET_AUTH);
+            resolve(x)
+          } else {
+            context.commit(PURGE_AUTH);
+            resolve(x.data);
           }
-          resolve(x)
         })
-        .catch(({response}) => {
+        .catch(({ response }) => {
           context.commit(PURGE_AUTH);
           reject(response)
         });
     })
   },
   [CURRENT_USER](context) {
-    return new Promise((resolve,reject) => {
-      ApiService.get("users/whoami")
+    return new Promise((resolve, reject) => {
+      ApiService.get("auth/whoami")
         .then(({ data }) => {
-          context.commit(SET_CURRENT_USER, data);
-          resolve(data);
+          if (data) {
+            context.commit(SET_CURRENT_USER, data);
+            resolve(data);
+          } else {
+            context.commit(PURGE_AUTH);
+            resolve(data);
+          }
         })
-        .catch(({response}) => {
+        .catch(({ response }) => {
           context.commit(PURGE_AUTH);
           reject(response);
         });
