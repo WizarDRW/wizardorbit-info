@@ -76,10 +76,7 @@ export default {
   },
   async created() {
     if (!this.$store.getters.getChapters)
-      await this.$store.dispatch("getApiContent", {
-        url: "chapters/client",
-        content: "setChapters",
-      });
+      await this.$store.dispatch("clientChapters");
     this.chapters = this.$store.getters.getChapters;
     if (this.chapters) this.loading = false;
   },

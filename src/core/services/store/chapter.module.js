@@ -1,3 +1,5 @@
+export const CLIENT_CHAPTERS = 'clientChapters'
+
 // mutation types
 export const SET_CHAPTER = "setChapter"
 export const SET_CHAPTERS = "setChapters"
@@ -13,6 +15,12 @@ export default {
     getChapter: (state) => state.chapter,
     getChapters: (state) => state.chapters,
     getUserChapters: (state) => state.user_chapters,
+  },
+  actions: {
+    [CLIENT_CHAPTERS]: (context) => context.dispatch('getApiContent', {
+      url: "chapters/client",
+      content: SET_CHAPTERS,
+    })
   },
   mutations: {
     [SET_CHAPTER]: (state, payload) => state.chapter = payload,
