@@ -135,7 +135,7 @@ const de = {
         i_understand: "Ich verstehe",
         loading: 'Wird geladen',
         moderatorApproval: 'Moderatorgenehmigung.',
-        most_read_in: 'Meist gelesen {in} {n} {time} {keyword}. | Meist gelesen {in} {x} {time} {keyword}.',
+        most_read_in: 'Meist gelesen {in} {n} {time} {keyword}.',
         most_popular_books: 'Am beliebtesten Thema.',
         my_profile: 'Mein Profil',
         noDataAvailable: 'Keine Daten verfügbar',

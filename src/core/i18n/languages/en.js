@@ -135,7 +135,7 @@ const en = {
         i_understand: "I understand",
         loading: 'Loading',
         moderatorApproval: 'Moderator Approval',
-        most_read_in: 'Most read {in} {n} {time} {keyword}. | Most read {keyword} {in} {x} {time}.',
+        most_read_in: 'Most read {in} {n} {time} {keyword}.',
         most_popular_books: 'Most popular topic.',
         my_profile: 'My profile',
         noDataAvailable: 'No data available',

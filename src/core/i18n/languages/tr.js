@@ -135,7 +135,7 @@ const tr = {
         i_understand: "Anladım",
         loading: 'Yükleniyor',
         moderatorApproval: 'Moderatör Onayında',
-        most_read_in: '{n} {time} {in} en çok okunanlar. | {x} {time} {in} en çok okunan {keyword}.',
+        most_read_in: '{n} {time} {in} en çok okunanlar.',
         most_popular_books: 'En pupüler konular',
         my_profile: 'Profilim',
         noDataAvailable: 'Veri yok',
